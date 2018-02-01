@@ -3,6 +3,7 @@
 // this.props.dispatch(Notification.success("message"))
 // this.props.dispatch(Notification.error("message"))
 // export default connect()(Container)
+
 import {
   success as successNotification,
   error as errorNotification,
@@ -12,7 +13,7 @@ import {
 
 export default {
 
-  success(message) {
+  success(message: string) {
     return successNotification({
       message,
       position: "br",
@@ -20,7 +21,7 @@ export default {
     })
   },
 
-  warning(message) {
+  warning(message: string) {
     return warningNotification({
       message,
       position: "br",
@@ -28,7 +29,7 @@ export default {
     })
   },
 
-  info(message) {
+  info(message: string) {
     return infoNotification({
       message,
       position: "br",
@@ -36,7 +37,7 @@ export default {
     })
   },
 
-  error(message) {
+  error(message: string) {
     return errorNotification({
       message,
       position: "br",
@@ -44,16 +45,16 @@ export default {
     })
   },
 
-  errors(errors = []) {
-    if (errors.length === 1) {
-      this.error(errors[0])
-      return
-    }
+  // errors(errors: Array = []) {
+  //   if (errors.length === 1) {
+  //     this.error(errors[0])
+  //     return
+  //   }
 
-    errors = errors.reduce((message, error) => {
-      return message + error
-    }, '')
+  //   errors = errors.reduce((message, error) => {
+  //     return message + error
+  //   }, '')
 
-    this.error(errors)
-  }
+  //   this.error(errors)
+  // }
 }

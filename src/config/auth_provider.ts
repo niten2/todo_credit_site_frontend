@@ -1,43 +1,43 @@
-import settings from "config/settings"
+// import settings from "config/settings"
 
-class AuthProvider {
+// class AuthProvider {
 
-  constructor() {
-    this.storage = this._supportsHtml5Storage() ? localStorage : null
-  }
+//   constructor() {
+//     this.storage = this._supportsHtml5Storage() ? localStorage : null
+//   }
 
-  _supportsHtml5Storage() {
-    try {
-      return 'localStorage' in window && window['localStorage'] !== null
-    } catch (e) {
-      return false
-    }
-  }
+//   _supportsHtml5Storage() {
+//     try {
+//       return 'localStorage' in window && window['localStorage'] !== null
+//     } catch (e) {
+//       return false
+//     }
+//   }
 
-  fetchToken() {
-    const token = this.storage && this.storage.getItem(settings.auth_session_storage_key)
-    return `Bearer ${token}`
-  }
+//   fetchToken() {
+//     const token = this.storage && this.storage.getItem(settings.auth_session_storage_key)
+//     return `Bearer ${token}`
+//   }
 
-  token() {
-    const token = this.storage && this.storage.getItem(settings.auth_session_storage_key)
-    return token
-  }
+//   token() {
+//     const token = this.storage && this.storage.getItem(settings.auth_session_storage_key)
+//     return token
+//   }
 
-  saveToken(token) {
-    if (!this.storage || !token) { return null }
-    this.storage.setItem(settings.auth_session_storage_key, token)
-  }
+//   saveToken(token) {
+//     if (!this.storage || !token) { return null }
+//     this.storage.setItem(settings.auth_session_storage_key, token)
+//   }
 
-  removeToken() {
-    if (!this.storage) return null
-    this.storage.removeItem(settings.auth_session_storage_key)
-  }
+//   removeToken() {
+//     if (!this.storage) return null
+//     this.storage.removeItem(settings.auth_session_storage_key)
+//   }
 
-  hasLogin() {
-    return this.token() != null
-  }
+//   hasLogin() {
+//     return this.token() != null
+//   }
 
-}
+// }
 
-export default new AuthProvider()
+// export default new AuthProvider()

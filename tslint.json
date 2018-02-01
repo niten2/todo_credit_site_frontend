@@ -16,7 +16,10 @@
         "curly": true,
         "eofline": false,
         "forin": true,
-        "indent": [ true, "spaces" ],
+        "indent": [
+          true,
+          "spaces"
+        ],
         "interface-name": [true, "never-prefix"],
         "jsdoc-format": true,
         "jsx-no-lambda": false,
@@ -33,7 +36,7 @@
         "no-arg": true,
         "no-bitwise": true,
         "no-console": [
-            true,
+            false,
             "log",
             "error",
             "debug",
@@ -42,7 +45,7 @@
             "timeEnd",
             "trace"
         ],
-        "no-consecutive-blank-lines": true,
+        "no-consecutive-blank-lines": false,
         "no-construct": true,
         "no-debugger": true,
         "no-duplicate-variable": true,
@@ -62,7 +65,7 @@
             "check-whitespace"
         ],
         "quotemark": [
-          true,
+          false,
           "single",
           "jsx-double"
         ],
