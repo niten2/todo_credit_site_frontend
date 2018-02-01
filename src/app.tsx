@@ -1,11 +1,10 @@
 import * as React from 'react'
+import Routes from 'config/routes'
 
 class App extends React.Component {
   render() {
     return (
-      <div className="App">
-        test
-      </div>
+      <Routes />
     )
   }
 }

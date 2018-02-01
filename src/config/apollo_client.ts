@@ -1,6 +1,6 @@
 import { ApolloClient, createNetworkInterface } from 'react-apollo'
-import settings from "lib/settings"
-import authProvider from 'lib/auth_provider'
+import settings from "config/settings"
+import authProvider from 'config/auth_provider'
 
 const addToken = {
   applyMiddleware(req, next) {
@@ -31,5 +31,4 @@ export const configureClient = () => {
     networkInterface: networkInterface,
     dataIdFromObject: o => o.id,
   })
-
 }
