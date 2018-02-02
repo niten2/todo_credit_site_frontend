@@ -1,7 +1,7 @@
 // import { combineReducers } from 'redux'
 // import { reducer as notifications } from 'react-notification-system-redux'
 // import { routerReducer as router } from 'react-router-redux'
-// import settings from 'config/settings'
+// import settings from 'src/config/settings'
 
 // const reducers = combineReducers({
 //   settings,

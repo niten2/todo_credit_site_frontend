@@ -1,23 +1,51 @@
 import * as React from 'react'
-// import { Provider } from 'react-redux'
-// import { ApolloProvider } from 'react-apollo'
-// import { history, configureStore } from 'store'
-// import { Route, Redirect, Switch } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { configureStore } from 'src/store'
+
+import { ApolloProvider } from 'react-apollo'
+// import * as reactApollo from 'react-apollo'
+
 // import { ConnectedRouter } from 'react-router-redux'
-// import { configureClient } from 'config/apollo_client'
+// import { history, configureStore } from 'src/store'
+// import { configureStore } from 'src/store'
+// import { Route, Redirect, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Switch } from 'react-router-dom'
+import { client } from 'src/config/apollo_client'
+
+
 // import { loadConfig } from "actions/auth"
 
 // shared
-// import Layout from 'components/shared/layout'
-// import Page404 from 'components/shared/page404'
+import Layout from 'src/components/shared/layout'
+import Dashboard from 'src/components/dashboard'
+import Page404 from 'src/components/shared/page404'
+// interface test extends IntrinsicAttributes {
+
+
+
+
 
 export default () => {
-  // const store = configureStore()
+  const store: any = configureStore()
+
+
+
+
   // const client = configureClient()
   // store.dispatch(loadConfig())
 
   return (
-    <div> rrr </div>
+    <Provider store={store}>
+			<ApolloProvider client={client}>
+				<Router>
+          <Switch>
+						<Layout path="/" name="Dashboard" component={Dashboard}/>
+						<Layout path="/dashboard" name="Dashboard" component={Dashboard}/>
+            <Layout path="*" component={Page404}/>
+          </Switch>
+				</Router>
+			</ApolloProvider>
+    </Provider>
   )
 }
 
