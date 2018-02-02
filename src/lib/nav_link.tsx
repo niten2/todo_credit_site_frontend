@@ -8,30 +8,33 @@
 //     return (
 //       <LinkRouter
 //         className={className}
-//         to={ href ? href : "" }
 //       >{children}</LinkRouter>
 //     )
 //   }
 // }
 
+// // to={ href ? href : "" }
+
+
 // export const NavLink = ({ href, children, active }) => {
 //   return (
 //     <LinkRouter
 //       className={ active ? "active nav-link" : "nav-link" }
-//       to={ href ? href : "" }
 //     >
 //       {children}
 //     </LinkRouter>
 //   )
 // }
 
+//       // to={ href ? href : "" }
+
 // export const NavbarBrand = ({ href, children, active }) => {
 //   return (
 //     <LinkRouter
 //       className={ active ? "active navbar-brand" : "navbar-brand" }
-//       to={ href ? href : "" }
 //     >
 //       {children}
 //     </LinkRouter>
 //   )
 // }
+//       // to={ href ? href : "" }

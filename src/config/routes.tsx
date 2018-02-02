@@ -19,6 +19,9 @@ import { client } from 'src/config/apollo_client'
 import Layout from 'src/components/shared/layout'
 import Dashboard from 'src/components/dashboard'
 import Page404 from 'src/components/shared/page404'
+
+
+import Login from 'src/components/auth/login'
 // interface test extends IntrinsicAttributes {
 
 
@@ -39,6 +42,8 @@ export default () => {
 			<ApolloProvider client={client}>
 				<Router>
           <Switch>
+            <Layout exact={true} path="/login" component={Login}/>
+
 						<Layout path="/" name="Dashboard" component={Dashboard}/>
 						<Layout path="/dashboard" name="Dashboard" component={Dashboard}/>
             <Layout path="*" component={Page404}/>
