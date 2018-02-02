@@ -1,17 +1,12 @@
 import * as React from 'react'
-// import Routes from 'src/config/routes'
-
-// console.log(Routes)
-console.log(process.env.NODE_PATH)
+import Routes from 'src/config/routes'
 
 class App extends React.Component {
   render() {
     return (
-      <div> dsfsdf </div>
+			<Routes />
     )
   }
 }
 
 export default App
-
-// <Routes />

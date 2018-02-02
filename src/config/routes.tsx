@@ -17,7 +17,7 @@ export default () => {
   // store.dispatch(loadConfig())
 
   return (
-    <div> dsfsdf </div>
+    <div> rrr </div>
   )
 }
 

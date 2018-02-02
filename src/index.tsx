@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import App from './app'
+import App from 'src/app'
 
 const rootEl = document.getElementById('root') as HTMLElement
 
@@ -10,8 +10,8 @@ ReactDOM.render(
 )
 
 if (module.hot) {
-  module.hot.accept('./app', () => {
-    const NextApp = require('./app').default
+  module.hot.accept('src/app', () => {
+    const NextApp = require('src/app').default
 
     ReactDOM.render(
       <NextApp />,

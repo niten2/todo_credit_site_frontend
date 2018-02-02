@@ -19,7 +19,11 @@
     "noUnusedLocals": true,
     "jsx": "react",
     "moduleResolution": "node",
-    "rootDir": "src"
+    "rootDir": "src",
+		"baseUrl": ".",
+    "paths": {
+			 "src/*": ["src/*"]
+    }
   },
   "exclude": [
     "node_modules",
