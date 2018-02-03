@@ -1,4 +1,4 @@
-// import Notification from 'actions/notification'
+// import Notification from 'src/actions/notification'
 // import authProvider from "config/auth_provider"
 // import { push } from 'react-router-redux'
 // import { userQuery } from 'components/auth/graphql/querues'
@@ -7,19 +7,19 @@
 // export const CONST = {
 //   LOGOUT: "LOGOUT",
 //   LOGIN: "LOGIN",
-//   CHANGE_PER_PAGE: "CHANGE_PER_PAGE",
-//   UPDATE_PROFILE: "UPDATE_PROFILE",
+//   // CHANGE_PER_PAGE: "CHANGE_PER_PAGE",
+//   // UPDATE_PROFILE: "UPDATE_PROFILE",
 // }
 
-// export const changePerPage = (perPage) => ({
-//   type: CONST.CHANGE_PER_PAGE,
-//   perPage: perPage,
-// })
+// // export const changePerPage = (perPage) => ({
+// //   type: CONST.CHANGE_PER_PAGE,
+// //   perPage: perPage,
+// // })
 
-// export const updateProfile = (options) => ({
-//   type: CONST.UPDATE_PROFILE,
-//   payload: options,
-// })
+// // export const updateProfile = (options) => ({
+// //   type: CONST.UPDATE_PROFILE,
+// //   payload: options,
+// // })
 
 // export const handleLogout = () => {
 //   return (dispatch) => {
@@ -36,29 +36,29 @@
 //     dispatch(Notification.success("Get token"))
 //     dispatch(push('/dashboard'))
 //     dispatch({ type: CONST.LOGIN })
-//     await loadConfig()(dispatch)
+//     // await loadConfig()(dispatch)
 //   }
 // }
 
-// export const loadConfig = () => {
-//   return async(dispatch) => {
-//     if (authProvider.hasLogin()) {
-//       const result = await apolloFetch({ query: userQuery })
+// // export const loadConfig = () => {
+// //   return async(dispatch) => {
+// //     if (authProvider.hasLogin()) {
+// //       const result = await apolloFetch({ query: userQuery })
 
-//       if (result.data.user) {
-//         const args = {
-//           payload: {
-//             name: result.data.user.name,
-//             email: result.data.user.email,
-//           },
-//           type: CONST.UPDATE_PROFILE,
-//         }
-//         dispatch(args)
-//       } else {
-//         dispatch(Notification.error("Token Invalid"))
-//         authProvider.removeToken()
-//         dispatch(push('/login'))
-//       }
-//     }
-//   }
-// }
+// //       if (result.data.user) {
+// //         const args = {
+// //           payload: {
+// //             name: result.data.user.name,
+// //             email: result.data.user.email,
+// //           },
+// //           type: CONST.UPDATE_PROFILE,
+// //         }
+// //         dispatch(args)
+// //       } else {
+// //         dispatch(Notification.error("Token Invalid"))
+// //         authProvider.removeToken()
+// //         dispatch(push('/login'))
+// //       }
+// //     }
+// //   }
+// // }

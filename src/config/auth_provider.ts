@@ -1,43 +1,61 @@
-// import settings from "config/settings"
+import settings from "src/config/settings"
 
-// class AuthProvider {
+// interface AuthProviderType {
+//   // storage: any
 
-//   constructor() {
-//     this.storage = this._supportsHtml5Storage() ? localStorage : null
-//   }
-
-//   _supportsHtml5Storage() {
-//     try {
-//       return 'localStorage' in window && window['localStorage'] !== null
-//     } catch (e) {
-//       return false
-//     }
-//   }
-
-//   fetchToken() {
-//     const token = this.storage && this.storage.getItem(settings.auth_session_storage_key)
-//     return `Bearer ${token}`
-//   }
-
-//   token() {
-//     const token = this.storage && this.storage.getItem(settings.auth_session_storage_key)
-//     return token
-//   }
-
-//   saveToken(token) {
-//     if (!this.storage || !token) { return null }
-//     this.storage.setItem(settings.auth_session_storage_key, token)
-//   }
-
-//   removeToken() {
-//     if (!this.storage) return null
-//     this.storage.removeItem(settings.auth_session_storage_key)
-//   }
-
-//   hasLogin() {
-//     return this.token() != null
-//   }
+//   supportsHtml5Storage: () => boolean
+//   fetchToken: () => string
+//   token: () => string
+//   saveToken: (token: string) => boolean
+//   hasLogin: () => boolean
 
 // }
 
-// export default new AuthProvider()
+// class AuthProvider implements AuthProviderType {
+class AuthProvider  {
+  public storage: any
+
+  constructor() {
+    this.storage = localStorage
+    // this.storage = this.supportsHtml5Storage() ? localStorage : null
+  }
+
+  // supportsHtml5Storage(): any {
+  //   try {
+  //     return 'localStorage' in window && window['localStorage'] !== null
+  //   } catch (e) {
+  //     return null
+  //   }
+  // }
+
+  fetchToken(): string {
+    const token = this.storage && this.storage.getItem(settings.auth_session_storage_key)
+    return `Bearer ${token}`
+  }
+
+  token(): string {
+    const token = this.storage && this.storage.getItem(settings.auth_session_storage_key)
+    return token
+  }
+
+  saveToken(token: string): boolean {
+    if (!this.storage || !token) { return false }
+
+    this.storage.setItem(settings.auth_session_storage_key, token)
+    return true
+  }
+
+  removeToken(): boolean {
+    if (!this.storage) { return false }
+
+    this.storage.removeItem(settings.auth_session_storage_key)
+    return true
+  }
+
+  hasLogin(): boolean {
+    return this.token() != null
+  }
+
+}
+
+export default new AuthProvider()
