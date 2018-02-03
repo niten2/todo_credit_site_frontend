@@ -31,6 +31,7 @@
     "graphql-tools": "^2.19.0",
     "history": "^4.7.2",
     "lodash": "^4.17.4",
+    "ramda": "^0.25.0",
     "react": "^16.2.0",
     "react-apollo": "^2.0.4",
     "react-dom": "^16.2.0",
