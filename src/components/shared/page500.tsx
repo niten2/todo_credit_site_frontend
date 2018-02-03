@@ -1,4 +1,3 @@
-// import Page500 from 'src/components/shared/page500'
 import * as React from "react"
 
 class Page500 extends React.Component<{}, {}> {
@@ -27,7 +26,7 @@ class Page500 extends React.Component<{}, {}> {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 

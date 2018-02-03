@@ -20,9 +20,9 @@
     "jsx": "react",
     "moduleResolution": "node",
     "rootDir": "src",
-		"baseUrl": ".",
+    "baseUrl": ".",
     "paths": {
-			 "src/*": ["src/*"]
+       "src/*": ["src/*"]
     }
   },
   "exclude": [

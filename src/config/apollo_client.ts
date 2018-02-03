@@ -12,8 +12,7 @@ const httpLink = createHttpLink({
 })
 
 const errorLink = onError(({ networkError, graphQLErrors }) => {
-
-  console.log(111111111111111, "after error")
+  // TODO
 
   // if (networkError && networkError.statusCode === 401) {
   //   console.log(111111111111111, "after error")
@@ -32,42 +31,3 @@ export const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: link,
 })
-
-// const httpLink = createHttpLink({ uri: '/graphql' });
-
-
-// use with apollo-client
-
-
-
-// const addToken = {
-//   applyMiddleware(req, next) {
-//     if (!req.options.headers) {
-//       req.options.headers = {}
-//     }
-//     req.options.headers.authorization = authProvider.fetchToken()
-//     next()
-//   }
-// }
-
-// const removeToken = {
-//   applyAfterware({ response }, next) {
-//     if (response.status === 401) {
-//       authProvider.removeToken()
-//     }
-//     next()
-//   }
-// }
-
-// export const configureClient = () => {
-//   const networkInterface = createNetworkInterface({ uri: settings.urlBackend })
-
-//   networkInterface.use([ addToken ])
-//   networkInterface.useAfter([ removeToken ])
-
-//   return new ApolloClient({
-//     networkInterface: networkInterface,
-//     dataIdFromObject: o => o.id,
-//   })
-// }
-

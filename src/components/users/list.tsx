@@ -7,13 +7,13 @@ import Page500 from 'src/components/shared/page500'
 
 const usersQuery = gql`
   query {
-		users {
-			id
+    users {
+      id
 
-			email
-			login
-			role
-		}
+      email
+      login
+      role
+    }
   }
 `
 
@@ -85,5 +85,5 @@ class UserList extends React.Component<P, S> {
 }
 
 export default graphql<any, any, any>(
-	usersQuery, {name: "usersQuery"}
+  usersQuery, {name: "usersQuery"}
 )(UserList)
