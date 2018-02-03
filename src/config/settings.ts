@@ -1,13 +1,13 @@
-// import Settings from "lib/settings"
-
 interface Settings {
-  readonly env: string
-  readonly url_backend: string
+  readonly env: string | undefined
+  readonly backend_url: string | undefined
+  readonly auth_session_storage_key: string | undefined
 }
 
 const settings: Settings = {
   env: process.env.NODE_ENV,
-  url_backend: process.env.REACT_APP_URL_BACKEND,
+  backend_url: process.env.REACT_APP_BACKEND_URL,
+  auth_session_storage_key: process.env.REACT_APP_AUTH_SESSION_STORAGE_KEY,
 }
 
 export default settings
