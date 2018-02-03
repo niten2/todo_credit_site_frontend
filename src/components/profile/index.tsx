@@ -1,7 +1,6 @@
 import * as React from 'react'
 import gql from "graphql-tag"
 import { graphql, compose } from "react-apollo"
-// import UserView from './view'
 import { set, lensProp } from 'ramda'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
@@ -32,9 +31,23 @@ const updateMeQuery = gql`
   }
 `
 
+const ErrorMessage = (
+  <div>
+    <div className="text-danger text-center">
+      Password and Password confirmation must match
+    </div>
+    <br />
+  </div>
+)
+
 interface P {
   meQuery: {
-    me: [object]
+    me: {
+      name: string
+      email: string
+      password: string
+      confirmPassword: string
+    }
     loading: any
     error: any
   }
@@ -45,21 +58,82 @@ interface P {
 }
 
 interface S {
+  me: {
+    name: string
+  }
+  errorPassword: boolean
 }
 
 class Profile extends React.Component<P, S> {
+  // public state: S
+
+  // constructor (props: any) {
+  //   super(props)
+  //   // this.state = { name: this.props.defaultName };
+  // }
+
+  state: {
+    me: {
+      name: ""
+    },
+    errorPassword: false,
+  }
+
+  componentWillReceiveProps(props: any) {
+    const { me } = props.meQuery
+    this.setState({ me })
+
+    // let error = props.userQuery.error
+    // if (error) { props.dispatch(Notification.error(error.message)) }
+  }
+
 
   handleSetState = (e) => {
     const { name, value } = e.target
 
     this.setState({
-      user: set(lensProp(name), value, this.state.user),
+      me: set(lensProp(name), value, this.state.me),
       errorPassword: false,
     })
   }
 
+  updateUser = async () => {
+    console.log(111)
+    // const { user } = this.state
+    // const { dispatch, updateUserQuery } = this.props
+
+    // // if (user.password !== user.confirmPassword) {
+    // //   this.setState({ errorPassword: true })
+    // //   return null
+    // // }
+
+    // try {
+    //   let result = await updateUserQuery({
+    //     variables: {
+    //       input: {
+    //         name: user.name,
+    //         email: user.email,
+    //         password: user.password,
+    //       }
+    //     }
+    //   })
+    //   let { name, email } = result.data.updateUser
+    //   dispatch(updateProfile({ name, email }))
+    //   dispatch(Notification.success("update profile"))
+    // } catch(error) {
+    //   dispatch(Notification.error(error))
+    // }
+  }
+
   render() {
     let { me, loading, error } = this.props.meQuery
+    // let { errorPassword } = this.state
+
+    // console.log(errorPassword)
+
+    let errorPassword = false
+
+    // console.log(error)
 
     if (loading ) {
       return <Spinner />
@@ -89,8 +163,8 @@ class Profile extends React.Component<P, S> {
                         className="form-control"
                         name="name"
                         placeholder="Name"
-                        value={user.name || ""}
-                        onChange={ this.handleSetState }
+                        value={me.name || ""}
+                        onChange={this.handleSetState}
                       />
                     </div>
                   </div>
@@ -103,8 +177,8 @@ class Profile extends React.Component<P, S> {
                         className="form-control"
                         name="email"
                         placeholder="Email"
-                        value={user.email || ""}
-                        onChange={ this.handleSetState }
+                        value={me.email || ""}
+                        onChange={this.handleSetState}
                       />
                     </div>
                   </div>
@@ -117,8 +191,8 @@ class Profile extends React.Component<P, S> {
                         className="form-control"
                         name="password"
                         placeholder="Password"
-                        value={user.password || ""}
-                        onChange={ this.handleSetState }
+                        value={me.password || ""}
+                        onChange={this.handleSetState}
                       />
                     </div>
                   </div>
@@ -131,20 +205,20 @@ class Profile extends React.Component<P, S> {
                         className="form-control"
                         name="passwordConfirmation"
                         placeholder="Password Confirmation"
-                        value={user.confirmPassword || ""}
-                        onChange={ this.handleSetState }
+                        value={me.confirmPassword || ""}
+                        onChange={this.handleSetState}
                       />
                     </div>
                   </div>
 
-                  { errorPassword ? ErrorMessage : null }
+                  {errorPassword ? ErrorMessage : null}
 
                 </form>
               </div>
 
               <div className="card-footer">
                 <button
-                  onClick={ this.updateUser }
+                  onClick={this.updateUser}
                   type="button"
                   className="btn btn-sm btn-primary"
                 >
@@ -161,8 +235,6 @@ class Profile extends React.Component<P, S> {
 }
 
 export default compose(
-  graphql<any, any, any>(
-    meQuery, {name: "meQuery"},
-    updateMeQuery, {name: "updateMeQuery"},
-  )(Profile)
-)
+  graphql<any, any, any>(meQuery, {name: "meQuery"}),
+  graphql<any, any, any>(updateMeQuery, {name: "updateMeQuery"}),
+)(Profile)
