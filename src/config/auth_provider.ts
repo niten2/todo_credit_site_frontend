@@ -1,25 +1,15 @@
 import settings from "src/config/settings"
 
-// interface AuthProviderType {
-//   // storage: any
-
-//   supportsHtml5Storage: () => boolean
-//   fetchToken: () => string
-//   token: () => string
-//   saveToken: (token: string) => boolean
-//   hasLogin: () => boolean
-
-// }
-
-// class AuthProvider implements AuthProviderType {
 class AuthProvider  {
   public storage: any
 
   constructor() {
     this.storage = localStorage
+    // TODO
     // this.storage = this.supportsHtml5Storage() ? localStorage : null
   }
 
+  // TODO
   // supportsHtml5Storage(): any {
   //   try {
   //     return 'localStorage' in window && window['localStorage'] !== null
