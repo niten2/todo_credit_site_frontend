@@ -1,15 +1,14 @@
 import * as React from 'react'
 import gql from "graphql-tag"
-import { graphql, compose } from "react-apollo"
-import { set, lensProp } from 'ramda'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
+import { graphql, compose } from "react-apollo"
+import { set, lensProp } from 'ramda'
 
 const meQuery = gql`
   query {
     me {
       id
-
       full_name
       email
       login
@@ -22,118 +21,102 @@ const meQuery = gql`
 `
 
 const updateMeQuery = gql`
-  mutation updateUser($input: MeUpdateInput!) {
-    updateUser(input: $input) {
+  mutation updateMe($input: MeUpdateInput!) {
+    updateMe(input: $input) {
       id
-      name
+      full_name
       email
+      login
+      password
+      role
+      phone
+      territory
     }
   }
 `
 
-const ErrorMessage = (
-  <div>
-    <div className="text-danger text-center">
-      Password and Password confirmation must match
-    </div>
-    <br />
-  </div>
-)
-
 interface P {
   meQuery: {
     me: {
-      name: string
+      full_name: string
       email: string
+      login: string
       password: string
-      confirmPassword: string
+      role: string
+      phone: string
+      territory: string
     }
     loading: any
     error: any
   }
 
-  updateMeQuery: {
-
-  }
+  updateMeQuery: any
 }
 
 interface S {
   me: {
-    name: string
+    full_name: string
+    email: string
+    login: string
+    password: string
+    role: string
+    phone: string
+    territory: string
   }
-  errorPassword: boolean
 }
 
 class Profile extends React.Component<P, S> {
-  // public state: S
-
-  // constructor (props: any) {
-  //   super(props)
-  //   // this.state = { name: this.props.defaultName };
-  // }
-
-  state: {
+  public state: S = {
     me: {
-      name: ""
+      full_name: "",
+      email: "",
+      login: "",
+      password: "",
+      role: "",
+      phone: "",
+      territory: "",
     },
-    errorPassword: false,
   }
 
-  componentWillReceiveProps(props: any) {
-    const { me } = props.meQuery
-    this.setState({ me })
-
-    // let error = props.userQuery.error
-    // if (error) { props.dispatch(Notification.error(error.message)) }
+  componentWillReceiveProps(props: P) {
+    this.setState({ me: props.meQuery.me })
   }
-
 
   handleSetState = (e) => {
     const { name, value } = e.target
-
     this.setState({
-      me: set(lensProp(name), value, this.state.me),
-      errorPassword: false,
+      me: set(lensProp(name), value, this.state.me)
     })
   }
 
   updateUser = async () => {
-    console.log(111)
-    // const { user } = this.state
-    // const { dispatch, updateUserQuery } = this.props
+    const { me } = this.state
 
-    // // if (user.password !== user.confirmPassword) {
-    // //   this.setState({ errorPassword: true })
-    // //   return null
-    // // }
+    const options = {
+      variables: {
+        input: {
+          full_name: me.full_name,
+          email: me.email,
+          login: me.login,
+          role: me.role,
+          phone: me.phone,
+          territory: me.territory,
+        }
+      }
+    }
 
-    // try {
-    //   let result = await updateUserQuery({
-    //     variables: {
-    //       input: {
-    //         name: user.name,
-    //         email: user.email,
-    //         password: user.password,
-    //       }
-    //     }
-    //   })
-    //   let { name, email } = result.data.updateUser
-    //   dispatch(updateProfile({ name, email }))
-    //   dispatch(Notification.success("update profile"))
-    // } catch(error) {
-    //   dispatch(Notification.error(error))
-    // }
+    try {
+      let res = await this.props.updateMeQuery(options)
+
+      console.log(res.data.updateMe)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   render() {
-    let { me, loading, error } = this.props.meQuery
-    // let { errorPassword } = this.state
-
-    // console.log(errorPassword)
-
-    let errorPassword = false
-
-    // console.log(error)
+    let { loading, error } = this.props.meQuery
+    let { me } = this.state
 
     if (loading ) {
       return <Spinner />
@@ -156,14 +139,28 @@ class Profile extends React.Component<P, S> {
                 <form action="" method="post" encType="multipart/form-data" className="form-horizontal">
 
                   <div className="form-group row">
-                    <label className="col-md-3 form-control-label">Name</label>
+                    <label className="col-md-3 form-control-label">Full name</label>
                     <div className="col-md-9">
                       <input
                         type="text"
                         className="form-control"
-                        name="name"
-                        placeholder="Name"
-                        value={me.name || ""}
+                        name="full_name"
+                        placeholder="full_name"
+                        value={me.full_name || ""}
+                        onChange={this.handleSetState}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <label className="col-md-3 form-control-label">Login</label>
+                    <div className="col-md-9">
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="login"
+                        placeholder="login"
+                        value={me.login || ""}
                         onChange={this.handleSetState}
                       />
                     </div>
@@ -184,34 +181,18 @@ class Profile extends React.Component<P, S> {
                   </div>
 
                   <div className="form-group row">
-                    <label className="col-md-3 form-control-label">Password</label>
+                    <label className="col-md-3 form-control-label">Phone</label>
                     <div className="col-md-9">
                       <input
-                        type="password"
+                        type="text"
                         className="form-control"
-                        name="password"
-                        placeholder="Password"
-                        value={me.password || ""}
+                        name="phone"
+                        placeholder="phone"
+                        value={me.phone || ""}
                         onChange={this.handleSetState}
                       />
                     </div>
                   </div>
-
-                  <div className="form-group row">
-                    <label className="col-md-3 form-control-label">Password Confirmation</label>
-                    <div className="col-md-9">
-                      <input
-                        type="password"
-                        className="form-control"
-                        name="passwordConfirmation"
-                        placeholder="Password Confirmation"
-                        value={me.confirmPassword || ""}
-                        onChange={this.handleSetState}
-                      />
-                    </div>
-                  </div>
-
-                  {errorPassword ? ErrorMessage : null}
 
                 </form>
               </div>

@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { ApolloProvider } from 'react-apollo'
-import { BrowserRouter as Router, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { client } from 'src/config/apollo_client'
 
-import Layout from 'src/components/shared/layout'
+import { PrivateLayout } from 'src/components/shared/layout'
 import Page404 from 'src/components/shared/page404'
 import Dashboard from 'src/components/dashboard'
 
@@ -17,16 +17,16 @@ export default () => {
     <ApolloProvider client={client}>
       <Router>
         <Switch>
-          <Layout exact={true} path="/login" component={Login}/>
+          <Route exact={true} path="/login" component={Login}/>
 
-          <Layout exact={true} path="/users" component={User}/>
-          <Layout exact={true} path="/clients" component={Client}/>
-          <Layout exact={true} path="/profile" component={Profile}/>
+          <PrivateLayout exact={true} path="/users" component={User}/>
+          <PrivateLayout exact={true} path="/clients" component={Client}/>
+          <PrivateLayout exact={true} path="/profile" component={Profile}/>
 
-          <Layout path="/" name="Dashboard" component={Dashboard}/>
-          <Layout path="/dashboard" name="Dashboard" component={Dashboard}/>
+          <PrivateLayout exact={true} path="/" name="Dashboard" component={Dashboard} />
+          <PrivateLayout exact={true} path="/dashboard" name="Dashboard" component={Dashboard}/>
 
-          <Layout path="*" component={Page404}/>
+          <Route path="*" component={Page404}/>
         </Switch>
       </Router>
     </ApolloProvider>

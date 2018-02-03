@@ -6,9 +6,7 @@ import authProvider from "src/config/auth_provider"
 const createToken = gql`
   mutation createToken($input: TokenCreateInput!) {
     createToken(input: $input) {
-      id
-      email
-      value
+      token
     }
   }
 `
@@ -57,7 +55,7 @@ class Login extends React.Component<P, S> {
     try {
       let response = await this.props.createToken(options)
 
-      const token = response.data.createToken.value
+      const token = response.data.createToken.token
 
       authProvider.saveToken(token)
       this.props.history.push('/dashboard')
