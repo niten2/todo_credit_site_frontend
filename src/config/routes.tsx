@@ -1,11 +1,11 @@
 import * as React from 'react'
-// import { Provider } from 'react-redux'
-// import { configureStore } from 'src/store'
 
 import { ApolloProvider } from 'react-apollo'
 import { BrowserRouter as Router, Switch } from 'react-router-dom'
 import { client } from 'src/config/apollo_client'
 
+// import { Provider } from 'react-redux'
+// import { configureStore } from 'src/store'
 // import * as reactApollo from 'react-apollo'
 
 // import { ConnectedRouter } from 'react-router-redux'
@@ -21,18 +21,9 @@ import Dashboard from 'src/components/dashboard'
 import Page404 from 'src/components/shared/page404'
 
 import Login from 'src/components/auth/login'
-// interface test extends IntrinsicAttributes {
-
-
-
-
 
 export default () => {
   // const store: any = configureStore()
-
-
-
-
   // const client = configureClient()
   // store.dispatch(loadConfig())
 
