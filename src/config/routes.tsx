@@ -1,25 +1,24 @@
 import * as React from 'react'
-import { Provider } from 'react-redux'
-import { configureStore } from 'src/store'
+// import { Provider } from 'react-redux'
+// import { configureStore } from 'src/store'
 
 import { ApolloProvider } from 'react-apollo'
+import { BrowserRouter as Router, Switch } from 'react-router-dom'
+import { client } from 'src/config/apollo_client'
+
 // import * as reactApollo from 'react-apollo'
 
 // import { ConnectedRouter } from 'react-router-redux'
 // import { history, configureStore } from 'src/store'
 // import { configureStore } from 'src/store'
 // import { Route, Redirect, Switch } from 'react-router-dom'
-import { BrowserRouter as Router, Switch } from 'react-router-dom'
-import { client } from 'src/config/apollo_client'
-
 
 // import { loadConfig } from "actions/auth"
 
-// shared
+// NOTE shared
 import Layout from 'src/components/shared/layout'
 import Dashboard from 'src/components/dashboard'
 import Page404 from 'src/components/shared/page404'
-
 
 import Login from 'src/components/auth/login'
 // interface test extends IntrinsicAttributes {
@@ -29,7 +28,7 @@ import Login from 'src/components/auth/login'
 
 
 export default () => {
-  const store: any = configureStore()
+  // const store: any = configureStore()
 
 
 
@@ -38,19 +37,17 @@ export default () => {
   // store.dispatch(loadConfig())
 
   return (
-    <Provider store={store}>
-			<ApolloProvider client={client}>
-				<Router>
-          <Switch>
-            <Layout exact={true} path="/login" component={Login}/>
+    <ApolloProvider client={client}>
+      <Router>
+        <Switch>
+          <Layout exact={true} path="/login" component={Login}/>
 
-						<Layout path="/" name="Dashboard" component={Dashboard}/>
-						<Layout path="/dashboard" name="Dashboard" component={Dashboard}/>
-            <Layout path="*" component={Page404}/>
-          </Switch>
-				</Router>
-			</ApolloProvider>
-    </Provider>
+          <Layout path="/" name="Dashboard" component={Dashboard}/>
+          <Layout path="/dashboard" name="Dashboard" component={Dashboard}/>
+          <Layout path="*" component={Page404}/>
+        </Switch>
+      </Router>
+    </ApolloProvider>
   )
 }
 
