@@ -1,35 +1,38 @@
 import * as React from 'react'
-// import { Component } from 'react'
 import { Route } from 'react-router-dom'
+// import { Component } from 'react'
 // import { connect } from 'react-redux'
 
 // import Notifications from 'react-notification-system-redux'
-// import Header from 'components/shared/header'
-// import Sidebar from 'components/shared/sidebar'
 // import Aside from 'components/shared/aside'
 
-// class Layout extends React.Component {
-//   render() {
-//     const { notifications } = this.props
+import Header from 'src/components/shared/header'
+import Sidebar from 'src/components/shared/sidebar'
 
-//     return (
-//       <div className="app">
-//         <Notifications notifications={notifications || []} />
+class Layout extends React.Component<any, any> {
+  render() {
+    return (
+      <div className="app">
+        <Header {...this.props}/>
 
-//         <Header {...this.props}/>
-//         <div className="app-body">
-//           <Sidebar {...this.props}/>
-//           <main className="main">
-//             <div className="container-fluid">
-//               { this.props.children }
-//             </div>
-//           </main>
-//           <Aside />
-//         </div>
-//       </div>
-//     )
-//   }
-// }
+        <div className="app-body">
+          <Sidebar {...this.props}/>
+
+          <main className="main">
+            <div className="container-fluid">
+
+              {this.props.children}
+
+            </div>
+          </main>
+        </div>
+
+      </div>
+    )
+  }
+}
+
+
 
 // class Layout extends React.Component {
 //   render() {
@@ -71,6 +74,8 @@ import { Route } from 'react-router-dom'
 
 export default ({component: Component, ...rest}) => {
   return (
-    <Route {...rest} render={(matchProps) => (<Component {...matchProps} />)} />
+    <Layout>
+      <Route {...rest} render={(matchProps) => (<Component {...matchProps} />)} />
+    </Layout>
   )
 }

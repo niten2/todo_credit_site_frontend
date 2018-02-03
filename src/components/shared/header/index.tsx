@@ -1,83 +1,72 @@
-// import React, { Component } from 'react'
-// import { connect } from 'react-redux'
-// import Login from "./login"
+import * as React from 'react'
 // import AuthUser from "./auth_user"
 
-// class Header extends Component {
+class Header extends React.Component<any, any> {
 
-//   state = {
-//     dropdownOpen: false
-//   }
+  state = {
+    dropdownOpen: false
+  }
 
-//   toggle = () => {
-//     this.setState({
-//       dropdownOpen: !this.state.dropdownOpen
-//     })
-//   }
+  toggle = () => {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    })
+  }
 
-//   sidebarToggle = (e) => {
-//     e.preventDefault()
-//     document.body.classList.toggle('sidebar-hidden')
-//   }
+  sidebarToggle = (e) => {
+    e.preventDefault()
+    document.body.classList.toggle('sidebar-hidden')
+  }
 
-//   mobileSidebarToggle = (e) => {
-//     e.preventDefault()
-//     document.body.classList.toggle('sidebar-mobile-show')
-//   }
+  mobileSidebarToggle = (e) => {
+    e.preventDefault()
+    document.body.classList.toggle('sidebar-mobile-show')
+  }
 
-//   asideToggle = (e) => {
-//     e.preventDefault()
-//     document.body.classList.toggle('aside-menu-hidden')
-//   }
+  asideToggle = (e) => {
+    e.preventDefault()
+    document.body.classList.toggle('aside-menu-hidden')
+  }
 
-//   render() {
-//     const { login } = this.props
+  render() {
+    return (
+      <header className="app-header navbar">
+        <button
+          className="navbar-toggler mobile-sidebar-toggler d-lg-none"
+          type="button"
+          onClick={this.mobileSidebarToggle}
+        >
+          &#9776;
+        </button>
 
-//     return (
-//       <header className="app-header navbar">
-//         <button
-//           className="navbar-toggler mobile-sidebar-toggler d-lg-none"
-//           type="button"
-//           onClick={this.mobileSidebarToggle}
-//         >
-//           &#9776;
-//         </button>
+        <a className="navbar-brand">Credit Site</a>
 
-//         <a className="navbar-brand">&nbsp;</a>
+        <ul className="nav navbar-nav d-md-down-none">
+          <li className="nav-item">
+            <button className="nav-link navbar-toggler sidebar-toggler" type="button" onClick={this.sidebarToggle}>
+              &#9776;
+            </button>
+          </li>
+        </ul>
 
-//         <ul className="nav navbar-nav d-md-down-none">
+        <ul className="nav navbar-nav ml-auto">
+          <li className="nav-item">
+            User name &nbsp;
+          </li>
 
-//           <li className="nav-item">
-//             <button className="nav-link navbar-toggler sidebar-toggler" type="button" onClick={this.sidebarToggle}>
-//               &#9776;
-//             </button>
-//           </li>
+          <li className="nav-item">
+            User role &nbsp;
+          </li>
 
-//           <li className="nav-item px-3">
-//           </li>
-//         </ul>
+          <li className="nav-item">
+            Logout &nbsp;
+          </li>
 
-//         <ul className="nav navbar-nav ml-auto">
+        </ul>
 
-//           { login ?  <AuthUser {...this.props} /> : <Login {...this.props} /> }
+      </header>
+    )
+  }
+}
 
-//           <li className="nav-item d-md-down-none">
-//             <button className="nav-link navbar-toggler aside-menu-toggler" type="button" onClick={this.asideToggle}>
-//               &#9776;
-//             </button>
-//           </li>
-
-//         </ul>
-//       </header>
-//     )
-//   }
-// }
-
-// const mapStateToProps = (props) => {
-//   return {
-//     login: props.settings.login,
-//     name: props.settings.name,
-//   }
-// }
-
-// export default connect(mapStateToProps)(Header)
+export default Header
