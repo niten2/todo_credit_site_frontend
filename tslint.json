@@ -4,7 +4,7 @@
 			"no-unsafe-any": false,
 			"no-any": false,
 			"align": [
-					true,
+					false,
 					"parameters",
 					"arguments",
 					"statements"

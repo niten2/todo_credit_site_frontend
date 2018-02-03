@@ -1,67 +1,45 @@
 import * as React from 'react'
-// import { Link } from 'lib/nav_link'
-// import { graphql } from 'react-apollo'
-// import { clientsQuery } from 'components/crm/graphql/querues'
-// import Notification from 'actions/notification'
-// import ClientView from './view'
-// import Spinner from 'components/shared/spinner'
-// import Page500 from 'components/shared/page500'
-// import Pagination from 'components/shared/pagination'
+import gql from "graphql-tag"
+import { graphql } from "react-apollo"
+import UserView from './view'
+import Spinner from 'src/components/shared/spinner'
+import Page500 from 'src/components/shared/page500'
 
-// const Buttons = (props) => {
-//   return(
-//     <div className="row">
-//       <div className="col-lg-12">
-//         <div className="card">
-//           <div className="card-header">
-//             <strong>Options</strong>
-//           </div>
-//           <div className="card-block">
+const usersQuery = gql`
+  query {
+		users {
+			id
 
-//             <Link href={`/crm/clients/new`}>
-//               <button type="button" className="btn btn-primary">
-//                 New Contact
-//               </button>
-//             </Link>
+			email
+			login
+			role
+		}
+  }
+`
 
-//             <button
-//               type="button"
-//               className="btn btn-secondary"
-//               onClick={() => { props.refetch() }}
-//             >Reload</button>
+interface P {
+  usersQuery: {
+    users: [object]
+    loading: any
+    error: any
+  }
+}
 
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   )
-// }
+interface S {
+}
 
-class UserList extends React.Component<any, any> {
-
-  // static propTypes = {
-  //   clientsQuery: PropTypes.object.isRequired,
-  // }
-
-  // state = {
-  // }
-
-  // componentWillReceiveProps(props) {
-  //   let error = props.clientsQuery.error
-  //   if (error) { Notification.error(error.message) }
-  // }
+class UserList extends React.Component<P, S> {
 
   render() {
-    // const { page } = this.props.match.params
-    // let { loading, error, clients, refetch, meta } = this.props.clientsQuery
+    let { users, loading, error } = this.props.usersQuery
 
-    // if (loading ) {
-    //   return <Spinner />
-    // }
+    if (loading ) {
+      return <Spinner />
+    }
 
-    // if (error) {
-    //   return <Page500 />
-    // }
+    if (error) {
+      return <Page500 />
+    }
 
     return (
       <div className="animated fadeIn">
@@ -79,17 +57,21 @@ class UserList extends React.Component<any, any> {
                   <thead>
                     <tr>
                       <th className="text-center">Id</th>
-                      <th className="text-center">Name</th>
-                      <th className="text-center">Number</th>
-                      <th className="text-center">Phone</th>
-                      <th className="text-center">Note</th>
-                      <th className="text-center">Date birth</th>
-                      <th className="text-center">Destroy</th>
-                      <th className="text-center">Status</th>
-                      <th className="text-center">Edit</th>
+                      <th className="text-center">Email</th>
+                      <th className="text-center">Login</th>
+                      <th className="text-center">Role</th>
                     </tr>
                   </thead>
+                  <tbody>
 
+                    { users.map((object, index) =>
+                      <UserView
+                        key={index}
+                        object={object}
+                      />
+                    )}
+
+                  </tbody>
                 </table>
               </div>
 
@@ -102,22 +84,6 @@ class UserList extends React.Component<any, any> {
   }
 }
 
-export default UserList
-
-// const PER_PAGE = 10
-
-// export default graphql(clientsQuery, {
-//   name: "clientsQuery",
-//   options: (props) => {
-
-//     const limit = PER_PAGE
-//     const page = parseInt(props.match.params.page, 10)
-//     const offset = (page - 1) * limit
-
-//     return {
-//       variables: {
-//         pagination: { limit, offset }
-//       }
-//     }
-//   }
-// })(Clients)
+export default graphql<any, any, any>(
+	usersQuery, {name: "usersQuery"}
+)(UserList)
