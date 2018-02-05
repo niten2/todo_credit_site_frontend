@@ -6,22 +6,28 @@ import authProvider from "src/config/auth_provider"
 const createToken = gql`
   mutation createToken($input: TokenCreateInput!) {
     createToken(input: $input) {
-      id
-      email
-      value
+      token
+      user {
+        role
+      }
     }
   }
 `
 
-const ErrorMessage = (
-  <div>
-    <div className="text-danger text-center">
-      Email or Password incorrect
-    </div>
-    <br />
-  </div>
-)
-
+const ErrorMessage = (props: any) => {
+  if (props.error) {
+    return(
+      <div>
+        <div className="text-danger text-center">
+          {props.error}
+        </div>
+        <br />
+      </div>
+    )
+  } else {
+    return <div />
+  }
+}
 
 interface P {
   createToken: (options: object) => Promise<any>
@@ -31,7 +37,7 @@ interface P {
 interface S {
   login: string
   password: string
-  error: boolean
+  error: string | null
 }
 
 class Login extends React.Component<P, S> {
@@ -39,7 +45,7 @@ class Login extends React.Component<P, S> {
   state = {
     login: 'admin',
     password: '12345',
-    error: false,
+    error: null,
   }
 
   signinUser = async () => {
@@ -57,15 +63,16 @@ class Login extends React.Component<P, S> {
     try {
       let response = await this.props.createToken(options)
 
-      const token = response.data.createToken.value
+      const token = response.data.createToken.token
+      const role = response.data.createToken.user.role
 
       authProvider.saveToken(token)
+      authProvider.saveRole(role)
+
       this.props.history.push('/dashboard')
 
-    } catch (error) {
-      this.setState({ error: true })
-
-      console.log(error)
+    } catch (err) {
+      this.setState({ error: err.message })
     }
   }
 
@@ -108,7 +115,7 @@ class Login extends React.Component<P, S> {
 
                     </div>
 
-                    {error ? ErrorMessage : null}
+                    <ErrorMessage error={error} />
 
                     <div className="row">
 

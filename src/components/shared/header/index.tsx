@@ -1,5 +1,18 @@
 import * as React from 'react'
-// import AuthUser from "./auth_user"
+import gql from "graphql-tag"
+import { withApollo, graphql } from "react-apollo"
+import Spinner from 'src/components/shared/spinner'
+import { withRouter } from 'react-router'
+import AuthProvider from "src/config/auth_provider"
+
+const meQuery = gql`
+  query {
+    me {
+      login
+      role
+    }
+  }
+`
 
 class Header extends React.Component<any, any> {
 
@@ -28,7 +41,22 @@ class Header extends React.Component<any, any> {
     document.body.classList.toggle('aside-menu-hidden')
   }
 
+  handleLogout = () => {
+    AuthProvider.removeToken()
+
+    this.props.client.resetStore()
+    this.props.history.push('/login')
+
+    console.log("logout")
+  }
+
   render() {
+    let { me, loading } = this.props.meQuery
+
+    if (loading ) {
+      return <Spinner />
+    }
+
     return (
       <header className="app-header navbar">
         <button
@@ -51,15 +79,15 @@ class Header extends React.Component<any, any> {
 
         <ul className="nav navbar-nav ml-auto">
           <li className="nav-item">
-            User name &nbsp;
+            {me && me.login} &nbsp;
           </li>
 
           <li className="nav-item">
-            User role &nbsp;
+            {me && me.role} &nbsp;
           </li>
 
-          <li className="nav-item">
-            Logout &nbsp;
+          <li onClick={this.handleLogout} className="nav-item pointer">
+            Logout &nbsp;&nbsp;
           </li>
 
         </ul>
@@ -69,4 +97,10 @@ class Header extends React.Component<any, any> {
   }
 }
 
-export default Header
+export default withRouter(
+  withApollo(
+    graphql<any, any, any>(
+      meQuery, {name: "meQuery"}
+    )(Header)
+  )
+)

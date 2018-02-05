@@ -1,10 +1,11 @@
 import * as React from 'react'
-import { Route } from 'react-router-dom'
+import { Redirect, Route } from 'react-router-dom'
+import AuthProvider from "src/config/auth_provider"
 
 import Header from 'src/components/shared/header'
 import Sidebar from 'src/components/shared/sidebar'
 
-class Layout extends React.Component<any, any> {
+class LayoutComponent extends React.Component<any, any> {
   render() {
     return (
       <div className="app">
@@ -27,10 +28,34 @@ class Layout extends React.Component<any, any> {
   }
 }
 
-export default ({component: Component, ...rest}) => {
+export const Layout = ({component: Component, ...rest}) => {
   return (
-    <Layout>
+    <LayoutComponent>
       <Route {...rest} render={(matchProps) => (<Component {...matchProps} />)} />
-    </Layout>
+    </LayoutComponent>
   )
+}
+
+export const PrivateLayout = ({component: Component, ...rest}) => {
+  if (AuthProvider.hasLogin()) {
+    return (
+      <LayoutComponent>
+        <Route {...rest} render={(matchProps) => (<Component {...matchProps} />)} />
+      </LayoutComponent>
+    )
+  } else {
+    return <Redirect to='/login' />
+  }
+}
+
+export const PrivateLayoutAdmin = ({component: Component, ...rest}) => {
+  if (AuthProvider.hasLogin() && AuthProvider.isAdmin()) {
+    return (
+      <LayoutComponent>
+        <Route {...rest} render={(matchProps) => (<Component {...matchProps} />)} />
+      </LayoutComponent>
+    )
+  } else {
+    return <Redirect to='/dashboard' />
+  }
 }

@@ -24,14 +24,19 @@ class AuthProvider  {
   }
 
   token(): string {
-    const token = this.storage && this.storage.getItem(settings.auth_session_storage_key)
+    const token = this.storage.getItem(settings.auth_session_storage_key)
     return token
   }
 
   saveToken(token: string): boolean {
-    if (!this.storage || !token) { return false }
+    if (!this.storage) { return false }
 
     this.storage.setItem(settings.auth_session_storage_key, token)
+    return true
+  }
+
+  saveRole(role: string): boolean {
+    this.storage.setItem(settings.auth_session_storage_key_role, role)
     return true
   }
 
@@ -39,11 +44,17 @@ class AuthProvider  {
     if (!this.storage) { return false }
 
     this.storage.removeItem(settings.auth_session_storage_key)
+    this.storage.removeItem(settings.auth_session_storage_key_role)
     return true
   }
 
   hasLogin(): boolean {
     return this.token() != null
+  }
+
+  isAdmin(): boolean {
+    const role = this.storage.getItem(settings.auth_session_storage_key_role)
+    return role === "admin"
   }
 
 }

@@ -1,10 +1,10 @@
 import { ApolloClient } from "apollo-client"
 import { setContext } from "apollo-link-context"
 import { onError } from 'apollo-link-error'
+import AuthProvider from "src/config/auth_provider"
 import { createHttpLink } from "apollo-link-http"
 import { InMemoryCache } from "apollo-cache-inmemory"
 
-import AuthProvider from "src/config/auth_provider"
 import settings from "src/config/settings"
 
 const httpLink = createHttpLink({
@@ -12,11 +12,17 @@ const httpLink = createHttpLink({
 })
 
 const errorLink = onError(({ networkError, graphQLErrors }) => {
-  // TODO
 
-  // if (networkError && networkError.statusCode === 401) {
-  //   console.log(111111111111111, "after error")
-  // }
+  if (graphQLErrors) {
+    graphQLErrors.map((error) => {
+      console.log("ERROR", error.message)
+    })
+  }
+
+  if (networkError) {
+    console.log(networkError)
+  }
+
 })
 
 const middlewareLink = setContext(() => ({
@@ -25,7 +31,7 @@ const middlewareLink = setContext(() => ({
   }
 }))
 
-const link = (middlewareLink.concat(httpLink)).concat(errorLink)
+const link = middlewareLink.concat(errorLink.concat(httpLink))
 
 export const client = new ApolloClient({
   cache: new InMemoryCache(),
