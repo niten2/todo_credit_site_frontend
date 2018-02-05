@@ -1,50 +1,45 @@
 import * as React from "react"
 import gql from "graphql-tag"
-import Select from 'react-select'
+// import Select from 'react-select'
 import { graphql } from "react-apollo"
 import { Link } from 'react-router-dom'
 import { Input } from 'reactstrap'
 import { set, lensProp } from 'ramda'
 
-const createUserQuery = gql`
-  mutation createUser($input: UserCreateInput!) {
-    createUser(input: $input) {
+const createClientQuery = gql`
+  mutation createClient($input: ClientCreateInput!) {
+    createClient(input: $input) {
       id
 
       full_name
       email
-      login
-      password
-      role
+      passport
       phone
-      territory
     }
   }
 `
 
-const usersQuery = gql`
+const clientsQuery = gql`
   query {
-    users {
+    clients {
       id
 
+      full_name
       email
-      login
-      role
+      passport
+      phone
     }
   }
 `
 
-class UserNew extends React.Component<any, any> {
+class NewClient extends React.Component<any, any> {
 
   state = {
-    user: {
-      full_name: null,
-      login: null,
-      password: null,
-      email: null,
-      role: "manager",
-      phone: null,
-      territory: null,
+    client: {
+      full_name: "",
+      email: "",
+      passport: "",
+      phone: "",
     },
     roles: [
       {value: "manager"},
@@ -54,40 +49,37 @@ class UserNew extends React.Component<any, any> {
 
   handleSetState = (e) => {
     const { name, value } = e.target
-    let { user } = this.state
+    let { client } = this.state
 
-    user[name] = value
-    this.setState({ user })
+    client[name] = value
+    this.setState({ client })
   }
 
   changeSelect = (value) => {
     let setClient = set(lensProp("role"), value.value)
-    this.setState({ user: setClient(this.state.user) })
+    this.setState({ client: setClient(this.state.client) })
   }
 
   handleCreate = async (e?: any) => {
     if (e) { e.preventDefault() }
-    const { user } = this.state
+    const { client } = this.state
 
     const options = {
       variables: {
         input: {
-          full_name: user.full_name,
-          email: user.email,
-          login: user.login,
-          password: user.password,
-          role: user.role,
-          phone: user.phone,
-          territory: user.territory,
+          full_name: client.full_name,
+          email: client.email,
+          passport: client.passport,
+          phone: client.phone,
         }
       },
       refetchQueries: [{
-        query: usersQuery,
+        query: clientsQuery,
       }],
     }
 
     try {
-      let res = await this.props.createUserQuery(options)
+      let res = await this.props.createClientQuery(options)
 
       console.log(res.data)
     } catch (err) {
@@ -102,8 +94,6 @@ class UserNew extends React.Component<any, any> {
   }
 
   render() {
-    let { user, roles } = this.state
-
     return (
       <div className="animated fadeIn">
 
@@ -113,7 +103,7 @@ class UserNew extends React.Component<any, any> {
             <div className="card">
 
               <div className="card-header">
-                <i className="fa fa-align-justify" /> Simple Table
+                <i className="fa fa-align-justify" /> New Client
               </div>
 
               <div className="card-block">
@@ -150,24 +140,10 @@ class UserNew extends React.Component<any, any> {
                   <div className="form-group row">
                     <div className="col-md-12">
                       <div className="input-group">
-                        <span className="input-group-addon">login</span>
+                        <span className="input-group-addon">passport</span>
                         <Input
-                          name="login"
-                          placeholder="login"
-                          onChange={this.handleSetState}
-                          onKeyPress={this.handleOnKeyPress}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">password</span>
-                        <Input
-                          name="password"
-                          placeholder="password"
+                          name="passport"
+                          placeholder="passport"
                           onChange={this.handleSetState}
                           onKeyPress={this.handleOnKeyPress}
                         />
@@ -189,23 +165,6 @@ class UserNew extends React.Component<any, any> {
                     </div>
                   </div>
 
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">Status</span>
-                          <Select
-                            name="role"
-                            labelKey="value"
-                            valueKey="value"
-                            className="form-control"
-                            options={roles}
-                            value={user.role}
-                            onChange={this.changeSelect}
-                          />
-                      </div>
-                    </div>
-                  </div>
-
                   <div className="form-actions">
                     <button
                       className="btn btn-primary"
@@ -216,7 +175,7 @@ class UserNew extends React.Component<any, any> {
 
                     &nbsp;
 
-                    <Link to="/users">
+                    <Link to="/clients">
                       <button
                         className="btn btn-default"
                       >
@@ -238,5 +197,5 @@ class UserNew extends React.Component<any, any> {
 }
 
 export default graphql<any, any, any>(
-  createUserQuery, { name: "createUserQuery" }
-)(UserNew)
+  createClientQuery, { name: "createClientQuery" }
+)(NewClient)

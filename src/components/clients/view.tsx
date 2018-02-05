@@ -1,12 +1,11 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
 
-class UserView extends React.Component<any, any> {
+class ViewClient extends React.Component<any, any> {
 
   state = {
     object: {},
     attributes: [
-      "id",
       "full_name",
       "email",
       "passport",
@@ -24,7 +23,7 @@ class UserView extends React.Component<any, any> {
           return (
             <td key={index}>
               <Link
-                to={`users/${object.id}`}
+                to={`clients/${object.id}`}
               >
                 {object[attribute]}
               </Link>
@@ -38,4 +37,4 @@ class UserView extends React.Component<any, any> {
 
 }
 
-export default UserView
+export default ViewClient

@@ -1,50 +1,80 @@
 import * as React from "react"
 import gql from "graphql-tag"
-import Select from 'react-select'
-import { graphql } from "react-apollo"
+// import Select from 'react-select'
+import Spinner from 'src/components/shared/spinner'
+import Page500 from 'src/components/shared/page500'
+import { compose, graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
 import { Input } from 'reactstrap'
 import { set, lensProp } from 'ramda'
 
-const createUserQuery = gql`
-  mutation createUser($input: UserCreateInput!) {
-    createUser(input: $input) {
+const clientQuery = gql`
+  query client($id: ID!) {
+    client(id: $id) {
       id
 
       full_name
       email
-      login
-      password
-      role
+      passport
       phone
       territory
+      user
+      mark_as_deleted
+      total_sum_loans
+
+      loans {
+        id
+
+        date_start
+        date_end
+
+      }
     }
   }
 `
 
-const usersQuery = gql`
+const updateClientQuery = gql`
+  mutation updateClient($input: ClientUpdateInput!) {
+    updateClient(input: $input) {
+      id
+      full_name
+      email
+      passport
+      phone
+    }
+  }
+`
+
+const deleteClientQuery = gql`
+  mutation deleteClient($input: IdInput!) {
+    deleteClient(input: $input) {
+      id
+    }
+  }
+`
+
+const clientsQuery = gql`
   query {
-    users {
+    clients {
       id
 
+      full_name
       email
-      login
-      role
+      passport
+      phone
     }
   }
 `
 
-class UserNew extends React.Component<any, any> {
+class ShowClient extends React.Component<any, any> {
 
   state = {
-    user: {
-      full_name: null,
-      login: null,
-      password: null,
-      email: null,
-      role: "manager",
-      phone: null,
-      territory: null,
+    client: {
+      id: "",
+      full_name: "",
+      email: "",
+      passport: "",
+      phone: "",
     },
     roles: [
       {value: "manager"},
@@ -52,42 +82,39 @@ class UserNew extends React.Component<any, any> {
     ]
   }
 
+  componentWillReceiveProps(props: any) {
+    this.setState({ client: props.clientQuery.client })
+  }
+
   handleSetState = (e) => {
     const { name, value } = e.target
-    let { user } = this.state
-
-    user[name] = value
-    this.setState({ user })
+    this.setState({
+      client: set(lensProp(name), value, this.state.client)
+    })
   }
 
-  changeSelect = (value) => {
-    let setClient = set(lensProp("role"), value.value)
-    this.setState({ user: setClient(this.state.user) })
-  }
-
-  handleCreate = async (e?: any) => {
+  handleUpdate = async (e?: any) => {
     if (e) { e.preventDefault() }
-    const { user } = this.state
+
+    const { client } = this.state
 
     const options = {
       variables: {
         input: {
-          full_name: user.full_name,
-          email: user.email,
-          login: user.login,
-          password: user.password,
-          role: user.role,
-          phone: user.phone,
-          territory: user.territory,
+          id: client.id,
+          full_name: client.full_name,
+          email: client.email,
+          passport: client.passport,
+          phone: client.phone,
         }
       },
       refetchQueries: [{
-        query: usersQuery,
+        query: clientsQuery,
       }],
     }
 
     try {
-      let res = await this.props.createUserQuery(options)
+      let res = await this.props.updateClientQuery(options)
 
       console.log(res.data)
     } catch (err) {
@@ -95,14 +122,52 @@ class UserNew extends React.Component<any, any> {
     }
   }
 
+  handleDelete = async (e?: any) => {
+    if (e) { e.preventDefault() }
+
+    const { client } = this.state
+
+    const options = {
+      variables: {
+        input: {
+          id: client.id
+        }
+      },
+      refetchQueries: [{
+        query: clientsQuery,
+      }],
+    }
+
+    try {
+      await this.props.deleteClientQuery(options)
+      this.props.history.push("/clients")
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  changeSelect = (value) => {
+    let setClient = set(lensProp("role"), value.value)
+    this.setState({ client: setClient(this.state.client) })
+  }
+
   handleOnKeyPress = (target: any) => {
     if (target.charCode === 13) {
-      this.handleCreate()
+      this.handleUpdate()
     }
   }
 
   render() {
-    let { user, roles } = this.state
+    let { loading, error } = this.props.clientQuery
+    let { client } = this.state
+
+    if (loading) {
+      return <Spinner />
+    }
+
+    if (error || !client) {
+      return <Page500 />
+    }
 
     return (
       <div className="animated fadeIn">
@@ -113,7 +178,7 @@ class UserNew extends React.Component<any, any> {
             <div className="card">
 
               <div className="card-header">
-                <i className="fa fa-align-justify" /> Simple Table
+                <i className="fa fa-align-justify" /> Client
               </div>
 
               <div className="card-block">
@@ -128,6 +193,7 @@ class UserNew extends React.Component<any, any> {
                           placeholder="full_name"
                           onChange={this.handleSetState}
                           onKeyPress={this.handleOnKeyPress}
+                          value={client.full_name}
                         />
                       </div>
                     </div>
@@ -142,6 +208,7 @@ class UserNew extends React.Component<any, any> {
                           placeholder="email"
                           onChange={this.handleSetState}
                           onKeyPress={this.handleOnKeyPress}
+                          value={client.email}
                         />
                       </div>
                     </div>
@@ -150,26 +217,13 @@ class UserNew extends React.Component<any, any> {
                   <div className="form-group row">
                     <div className="col-md-12">
                       <div className="input-group">
-                        <span className="input-group-addon">login</span>
+                        <span className="input-group-addon">passport</span>
                         <Input
-                          name="login"
-                          placeholder="login"
+                          name="passport"
+                          placeholder="passport"
                           onChange={this.handleSetState}
                           onKeyPress={this.handleOnKeyPress}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">password</span>
-                        <Input
-                          name="password"
-                          placeholder="password"
-                          onChange={this.handleSetState}
-                          onKeyPress={this.handleOnKeyPress}
+                          value={client.passport}
                         />
                       </div>
                     </div>
@@ -184,24 +238,8 @@ class UserNew extends React.Component<any, any> {
                           placeholder="phone"
                           onChange={this.handleSetState}
                           onKeyPress={this.handleOnKeyPress}
+                          value={client.phone}
                         />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">Status</span>
-                          <Select
-                            name="role"
-                            labelKey="value"
-                            valueKey="value"
-                            className="form-control"
-                            options={roles}
-                            value={user.role}
-                            onChange={this.changeSelect}
-                          />
                       </div>
                     </div>
                   </div>
@@ -209,20 +247,30 @@ class UserNew extends React.Component<any, any> {
                   <div className="form-actions">
                     <button
                       className="btn btn-primary"
-                      onClick={this.handleCreate}
+                      onClick={this.handleUpdate}
                     >
                       Save changes
                     </button>
 
-                    &nbsp;
+                    {" "}
 
-                    <Link to="/users">
+                    <button
+                      className="btn btn-primary"
+                      onClick={this.handleDelete}
+                    >
+                      Delete
+                    </button>
+
+                    {" "}
+
+                    <Link to="/clients">
                       <button
                         className="btn btn-default"
                       >
                         Cancel
                       </button>
                     </Link>
+
                   </div>
                 </form>
 
@@ -237,6 +285,23 @@ class UserNew extends React.Component<any, any> {
 
 }
 
-export default graphql<any, any, any>(
-  createUserQuery, { name: "createUserQuery" }
-)(UserNew)
+export default compose(
+  graphql<any, any, any>(
+    clientQuery, {
+      name: "clientQuery" ,
+      options: (props) => ({
+        variables: {id: props.match.params.id}
+      })
+    }
+  ),
+  graphql<any, any, any>(
+    updateClientQuery, {
+      name: "updateClientQuery"
+    }
+  ),
+  graphql<any, any, any>(
+    deleteClientQuery, {
+      name: "deleteClientQuery"
+    }
+  ),
+)(ShowClient)
