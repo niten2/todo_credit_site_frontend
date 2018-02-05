@@ -108,7 +108,8 @@ class Profile extends React.Component<P, S> {
     try {
       let res = await this.props.updateMeQuery(options)
 
-      console.log(res.data.updateMe)
+      console.log(res)
+
     } catch (err) {
       console.log(err)
     }

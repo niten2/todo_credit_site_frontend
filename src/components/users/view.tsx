@@ -1,13 +1,5 @@
 import * as React from 'react'
-// import gql from "graphql-tag"
-
-// const deleteUserQuery = gql`
-//   mutation deleteUser($input: IdInput!) {
-//     deleteUser(input: $input) {
-//       id
-//     }
-//   }
-// `
+import { Link } from 'react-router-dom'
 
 class UserView extends React.Component<any, any> {
 
@@ -21,32 +13,23 @@ class UserView extends React.Component<any, any> {
     ]
   }
 
-  // handleDestroy = async () => {
-  //   const { dispatch, refetch, object, deleteClientQuery } = this.props
-
-  //   try {
-  //     await deleteClientQuery({
-  //       variables: {
-  //         input: {
-  //           id: object.id
-  //         }
-  //       },
-  //     })
-  //     refetch()
-  //     dispatch(Notification.success("update"))
-  //   } catch (err) {
-  //     dispatch(Notification.error(err.message))
-  //   }
-  // }
-
   render() {
     let { object } = this.props
     let { attributes } = this.state
 
     return (
       <tr>
-        {attributes.map((attribute, index) =>
-          <td key={index}>{object[attribute]}</td>
+        {attributes.map((attribute, index) => {
+          return (
+            <td key={index}>
+              <Link
+                to={`users/${object.id}`}
+              >
+                {object[attribute]}
+              </Link>
+            </td>
+          )
+        }
         )}
       </tr>
     )
@@ -55,6 +38,3 @@ class UserView extends React.Component<any, any> {
 }
 
 export default UserView
-// export default graphql<any, any, any>(
-//   deleteClientQuery, {name: "deleteClientQuery"}
-// )(ClientView)

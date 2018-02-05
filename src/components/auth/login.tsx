@@ -11,15 +11,20 @@ const createToken = gql`
   }
 `
 
-const ErrorMessage = (
-  <div>
-    <div className="text-danger text-center">
-      Email or Password incorrect
-    </div>
-    <br />
-  </div>
-)
-
+const ErrorMessage = (props: any) => {
+  if (props.error) {
+    return(
+      <div>
+        <div className="text-danger text-center">
+          {props.error}
+        </div>
+        <br />
+      </div>
+    )
+  } else {
+    return <div />
+  }
+}
 
 interface P {
   createToken: (options: object) => Promise<any>
@@ -29,7 +34,7 @@ interface P {
 interface S {
   login: string
   password: string
-  error: boolean
+  error: string | null
 }
 
 class Login extends React.Component<P, S> {
@@ -37,7 +42,7 @@ class Login extends React.Component<P, S> {
   state = {
     login: 'admin',
     password: '12345',
-    error: false,
+    error: null,
   }
 
   signinUser = async () => {
@@ -60,10 +65,8 @@ class Login extends React.Component<P, S> {
       authProvider.saveToken(token)
       this.props.history.push('/dashboard')
 
-    } catch (error) {
-      this.setState({ error: true })
-
-      console.log(error)
+    } catch (err) {
+      this.setState({ error: err.message })
     }
   }
 
@@ -106,7 +109,7 @@ class Login extends React.Component<P, S> {
 
                     </div>
 
-                    {error ? ErrorMessage : null}
+                    <ErrorMessage error={error} />
 
                     <div className="row">
 
