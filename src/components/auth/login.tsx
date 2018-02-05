@@ -1,6 +1,7 @@
 import * as React from "react"
 import gql from "graphql-tag"
 import { graphql } from "react-apollo"
+
 import authProvider from "src/config/auth_provider"
 
 const createToken = gql`
@@ -48,7 +49,22 @@ class Login extends React.Component<P, S> {
     error: null,
   }
 
-  signinUser = async () => {
+  handleOnKeyPress = (target: any) => {
+    if (target.charCode === 13) {
+      this.handleLogin()
+    }
+  }
+
+  handleSetState = (e) => {
+    const { name, value } = e.target
+
+    let variable = {}
+    variable[name] = value
+
+    this.setState(variable)
+  }
+
+  handleLogin = async () => {
     const { login, password } = this.state
 
     const options = {
@@ -87,8 +103,32 @@ class Login extends React.Component<P, S> {
               <div className="card-group mb-0">
                 <div className="card p-4">
                   <div className="card-block">
+
                     <h1>Login</h1>
                     <p className="text-muted">Sign In to your account</p>
+
+                    <div className="row text-center">
+                      <div className="col-6">
+                        <p className="text-muted">
+                          default login admin
+                          <br />
+                          login: admin
+                          <br />
+                          password: 12345
+                        </p>
+                      </div>
+
+                      <div className="col-6">
+                        <p className="text-muted">
+                          default login manager
+                          <br />
+                          login: manager
+                          <br />
+                          password: 12345
+                        </p>
+                      </div>
+                    </div>
+
                     <div className="input-group mb-3">
                       <span className="input-group-addon">
                         <i className="icon-user" />
@@ -99,42 +139,41 @@ class Login extends React.Component<P, S> {
                         className="form-control"
                         placeholder="Login"
                         name="login"
-                        onChange={(e) => this.setState({login: e.target.value})}
+                        onChange={this.handleSetState}
+                        onKeyPress={this.handleOnKeyPress}
                         value={this.state.login}
                       />
-
                     </div>
+
                     <div className="input-group mb-4">
-                      <span className="input-group-addon"><i className="icon-lock" /></span>
+                      <span className="input-group-addon">
+                        <i className="icon-lock" />
+                      </span>
                       <input
                         type="password"
                         className="form-control"
                         placeholder="Password"
                         name="password"
+                        onChange={this.handleSetState}
+                        onKeyPress={this.handleOnKeyPress}
                         value={this.state.password}
-                        onChange={(e) => this.setState({password: e.target.value})}
                       />
-
                     </div>
 
                     <ErrorMessage error={error} />
 
                     <div className="row">
-
                       <div className="col-6">
                         <button
-                          onClick={this.signinUser}
                           type="button"
                           className="btn btn-primary px-4"
+                          onClick={this.handleLogin}
                         >
                           Login
                         </button>
                       </div>
-
-                      <div className="col-6 text-right">
-                        <button type="button" className="btn btn-link px-0">Forgot password?</button>
-                      </div>
                     </div>
+
                   </div>
                 </div>
               </div>

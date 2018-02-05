@@ -1,9 +1,11 @@
 import * as React from 'react'
 import gql from "graphql-tag"
-import Spinner from 'src/components/shared/spinner'
-import Page500 from 'src/components/shared/page500'
 import { graphql, compose } from "react-apollo"
 import { set, lensProp } from 'ramda'
+
+import Spinner from 'src/components/shared/spinner'
+import Page500 from 'src/components/shared/page500'
+import Notification from 'src/config/notification'
 
 const meQuery = gql`
   query {
@@ -106,12 +108,11 @@ class Profile extends React.Component<P, S> {
     }
 
     try {
-      let res = await this.props.updateMeQuery(options)
+      await this.props.updateMeQuery(options)
 
-      console.log(res)
-
+      Notification.success("update profile")
     } catch (err) {
-      console.log(err)
+      Notification.error(err.message)
     }
   }
 
