@@ -3,7 +3,7 @@ import { ApolloProvider } from 'react-apollo'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { client } from 'src/config/apollo_client'
 
-import { PrivateLayout } from 'src/components/shared/layout'
+import { PrivateLayout, PrivateLayoutAdmin } from 'src/components/shared/layout'
 import Page404 from 'src/components/shared/page404'
 import Dashboard from 'src/components/dashboard'
 
@@ -23,9 +23,9 @@ export default () => {
         <Switch>
           <Route exact={true} path="/login" component={Login}/>
 
-          <PrivateLayout exact={true} path="/users/new" component={NewUser}/>
-          <PrivateLayout exact={true} path="/users" component={User}/>
-          <PrivateLayout exact={true} path="/users/:id" component={ShowUser}/>
+          <PrivateLayoutAdmin exact={true} path="/users/new" component={NewUser}/>
+          <PrivateLayoutAdmin exact={true} path="/users" component={User}/>
+          <PrivateLayoutAdmin exact={true} path="/users/:id" component={ShowUser}/>
 
           <PrivateLayout exact={true} path="/clients" component={Client}/>
           <PrivateLayout exact={true} path="/profile" component={Profile}/>

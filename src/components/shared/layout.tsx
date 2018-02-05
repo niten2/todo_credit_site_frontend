@@ -47,3 +47,15 @@ export const PrivateLayout = ({component: Component, ...rest}) => {
     return <Redirect to='/login' />
   }
 }
+
+export const PrivateLayoutAdmin = ({component: Component, ...rest}) => {
+  if (AuthProvider.hasLogin() && AuthProvider.isAdmin()) {
+    return (
+      <LayoutComponent>
+        <Route {...rest} render={(matchProps) => (<Component {...matchProps} />)} />
+      </LayoutComponent>
+    )
+  } else {
+    return <Redirect to='/dashboard' />
+  }
+}

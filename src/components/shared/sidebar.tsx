@@ -1,5 +1,24 @@
 import * as React from 'react'
 import { NavLink } from 'react-router-dom'
+import AuthProvider from "src/config/auth_provider"
+
+const LinkUser = () => {
+  if (AuthProvider.isAdmin()) {
+    return (
+      <li className="nav-item">
+        <NavLink
+          to={'/users'}
+          className="nav-link"
+          activeClassName="active"
+        >
+          <i className="icon-diamond" /> Users
+        </NavLink>
+      </li>
+    )
+  } else {
+    return <div />
+  }
+}
 
 class Sidebar extends React.Component<any, any> {
   render() {
@@ -43,16 +62,7 @@ class Sidebar extends React.Component<any, any> {
               </NavLink>
             </li>
 
-            <li className="nav-item">
-              <NavLink
-                to={'/users'}
-                className="nav-link"
-                activeClassName="active"
-              >
-                <i className="icon-diamond" /> Users
-              </NavLink>
-            </li>
-
+            <LinkUser />
           </ul>
         </nav>
       </div>

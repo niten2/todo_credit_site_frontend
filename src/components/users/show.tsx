@@ -1,11 +1,12 @@
 import * as React from "react"
 import gql from "graphql-tag"
+import Select from 'react-select'
+import Spinner from 'src/components/shared/spinner'
+import Page500 from 'src/components/shared/page500'
 import { compose, graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
 import { Input } from 'reactstrap'
 import { set, lensProp } from 'ramda'
-import Spinner from 'src/components/shared/spinner'
-import Page500 from 'src/components/shared/page500'
 
 const userQuery = gql`
   query user($id: ID!) {
@@ -15,6 +16,7 @@ const userQuery = gql`
       full_name
       email
       login
+      phone
       role
     }
   }
@@ -67,10 +69,13 @@ class ShowUser extends React.Component<any, any> {
       phone: "",
       territory: "",
     },
+    roles: [
+      {value: "manager"},
+      {value: "admin"}
+    ]
   }
 
   componentWillReceiveProps(props: any) {
-    console.log(props.userQuery.user)
     this.setState({ user: props.userQuery.user })
   }
 
@@ -92,6 +97,10 @@ class ShowUser extends React.Component<any, any> {
           id: user.id,
           full_name: user.full_name,
           email: user.email,
+          login: user.login,
+          role: user.role,
+          phone: user.phone,
+          territory: user.territory,
         }
       },
       refetchQueries: [{
@@ -132,6 +141,11 @@ class ShowUser extends React.Component<any, any> {
     }
   }
 
+  changeSelect = (value) => {
+    let setClient = set(lensProp("role"), value.value)
+    this.setState({ user: setClient(this.state.user) })
+  }
+
   handleOnKeyPress = (target: any) => {
     if (target.charCode === 13) {
       this.handleUpdate()
@@ -149,7 +163,7 @@ class ShowUser extends React.Component<any, any> {
       return <Page500 />
     }
 
-    let { user } = this.state
+    let { user, roles } = this.state
 
     return (
       <div className="animated fadeIn">
@@ -160,7 +174,7 @@ class ShowUser extends React.Component<any, any> {
             <div className="card">
 
               <div className="card-header">
-                <i className="fa fa-align-justify" /> Simple Table
+                <i className="fa fa-align-justify" /> User
               </div>
 
               <div className="card-block">
@@ -191,6 +205,53 @@ class ShowUser extends React.Component<any, any> {
                           onChange={this.handleSetState}
                           onKeyPress={this.handleOnKeyPress}
                           value={user.email}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <div className="col-md-12">
+                      <div className="input-group">
+                        <span className="input-group-addon">login</span>
+                        <Input
+                          name="login"
+                          placeholder="login"
+                          onChange={this.handleSetState}
+                          onKeyPress={this.handleOnKeyPress}
+                          value={user.login}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <div className="col-md-12">
+                      <div className="input-group">
+                        <span className="input-group-addon">phone</span>
+                        <Input
+                          name="phone"
+                          placeholder="phone"
+                          onChange={this.handleSetState}
+                          onKeyPress={this.handleOnKeyPress}
+                          value={user.phone}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <div className="col-md-12">
+                      <div className="input-group">
+                        <span className="input-group-addon">Role</span>
+                        <Select
+                          name="role"
+                          labelKey="value"
+                          valueKey="value"
+                          className="form-control"
+                          options={roles}
+                          value={user.role}
+                          onChange={this.changeSelect}
                         />
                       </div>
                     </div>

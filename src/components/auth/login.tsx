@@ -7,6 +7,9 @@ const createToken = gql`
   mutation createToken($input: TokenCreateInput!) {
     createToken(input: $input) {
       token
+      user {
+        role
+      }
     }
   }
 `
@@ -61,8 +64,11 @@ class Login extends React.Component<P, S> {
       let response = await this.props.createToken(options)
 
       const token = response.data.createToken.token
+      const role = response.data.createToken.user.role
 
       authProvider.saveToken(token)
+      authProvider.saveRole(role)
+
       this.props.history.push('/dashboard')
 
     } catch (err) {
