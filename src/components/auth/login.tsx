@@ -4,6 +4,17 @@ import { graphql } from "react-apollo"
 
 import authProvider from "src/config/auth_provider"
 
+interface P {
+  createToken: (options: object) => Promise<any>
+  history: any
+}
+
+interface S {
+  login: string
+  password: string
+  error: string | null
+}
+
 const createToken = gql`
   mutation createToken($input: TokenCreateInput!) {
     createToken(input: $input) {
@@ -15,7 +26,7 @@ const createToken = gql`
   }
 `
 
-const ErrorMessage = (props: any) => {
+const ErrorMessage = (props: { error: string | null }): any => {
   if (props.error) {
     return(
       <div>
@@ -28,17 +39,6 @@ const ErrorMessage = (props: any) => {
   } else {
     return <div />
   }
-}
-
-interface P {
-  createToken: (options: object) => Promise<any>
-  history: any
-}
-
-interface S {
-  login: string
-  password: string
-  error: string | null
 }
 
 class Login extends React.Component<P, S> {
