@@ -90,7 +90,9 @@ class Login extends React.Component<P, S> {
                     <h1>Login</h1>
                     <p className="text-muted">Sign In to your account</p>
                     <div className="input-group mb-3">
-                      <span className="input-group-addon"><i className="icon-user" /></span>
+                      <span className="input-group-addon">
+                        <i className="icon-user" />
+                      </span>
 
                       <input
                         type="text"

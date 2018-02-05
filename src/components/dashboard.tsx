@@ -11,11 +11,12 @@ class Dashboard extends React.Component {
             <div className="card">
 
               <div className="card-header">
-                <i className="fa fa-align-justify" /> Description
+                <i className="fa fa-align-justify" />
+                Description
               </div>
 
               <div className="card-block">
-
+                Description
               </div>
 
             </div>

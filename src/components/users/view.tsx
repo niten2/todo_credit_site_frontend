@@ -7,10 +7,9 @@ class UserView extends React.Component<any, any> {
     object: {},
     attributes: [
       "id",
-      "full_name",
       "email",
-      "passport",
-      "phone",
+      "login",
+      "role",
     ]
   }
 
