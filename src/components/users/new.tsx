@@ -1,12 +1,10 @@
 import * as React from "react"
 import gql from "graphql-tag"
-// import { connect } from 'react-redux'
+import Select from 'react-select'
 import { graphql } from "react-apollo"
 import { Link } from 'react-router-dom'
-// import { Link } from 'lib/nav_link'
-// import Notification from 'actions/notification'
-// import { createClientQuery, clientsQuery } from 'components/crm/graphql/querues'
 import { Input } from 'reactstrap'
+import { set, lensProp } from 'ramda'
 
 const createUserQuery = gql`
   mutation createUser($input: UserCreateInput!) {
@@ -44,10 +42,14 @@ class UserNew extends React.Component<any, any> {
       login: null,
       password: null,
       email: null,
-      role: null,
+      role: "manager",
       phone: null,
       territory: null,
     },
+    roles: [
+      {value: "manager"},
+      {value: "admin"}
+    ]
   }
 
   componentWillReceiveProps(props: any) {
@@ -60,6 +62,11 @@ class UserNew extends React.Component<any, any> {
 
     user[name] = value
     this.setState({ user })
+  }
+
+  changeSelect = (value) => {
+    let setClient = set(lensProp("role"), value.value)
+    this.setState({ user: setClient(this.state.user) })
   }
 
   handleCreate = async (e?: any) => {
@@ -92,12 +99,6 @@ class UserNew extends React.Component<any, any> {
     }
   }
 
-  // handleChangeTag = (val) => {
-  //   let { group } = this.state
-  //   group.tag_id = val.id
-  //   this.setState({ group })
-  // }
-
   handleOnKeyPress = (target: any) => {
     if (target.charCode === 13) {
       this.handleCreate()
@@ -105,6 +106,7 @@ class UserNew extends React.Component<any, any> {
   }
 
   render() {
+    let { user, roles } = this.state
 
     return (
       <div className="animated fadeIn">
@@ -191,6 +193,22 @@ class UserNew extends React.Component<any, any> {
                     </div>
                   </div>
 
+                  <div className="form-group row">
+                    <div className="col-md-12">
+                      <div className="input-group">
+                        <span className="input-group-addon">Status</span>
+                          <Select
+                            name="role"
+                            labelKey="value"
+                            valueKey="value"
+                            className="form-control"
+                            options={roles}
+                            value={user.role}
+                            onChange={this.changeSelect}
+                          />
+                      </div>
+                    </div>
+                  </div>
 
                   <div className="form-actions">
                     <button
