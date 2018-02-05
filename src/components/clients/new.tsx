@@ -1,6 +1,5 @@
 import * as React from "react"
 import gql from "graphql-tag"
-// import Select from 'react-select'
 import { graphql } from "react-apollo"
 import { Link } from 'react-router-dom'
 import { Input } from 'reactstrap'

@@ -31,8 +31,6 @@ class ListClient extends React.Component<any, any> {
       return <Page500 />
     }
 
-    console.log(clients)
-
     return (
       <div className="animated fadeIn">
 

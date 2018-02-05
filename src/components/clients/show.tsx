@@ -1,6 +1,5 @@
 import * as React from "react"
 import gql from "graphql-tag"
-// import Select from 'react-select'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
 import { compose, graphql } from 'react-apollo'

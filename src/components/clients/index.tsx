@@ -7,7 +7,6 @@ class Clients extends React.Component<any, any> {
   render() {
     return (
       <div className="animated fadeIn">
-
         <div className="card">
           <div className="card-block">
             <Link to={`/clients/new`}>
@@ -17,7 +16,6 @@ class Clients extends React.Component<any, any> {
             </Link>
           </div>
         </div>
-
 
         <ListClient />
       </div>
