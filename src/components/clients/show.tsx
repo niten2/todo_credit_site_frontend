@@ -1,11 +1,13 @@
 import * as React from "react"
 import gql from "graphql-tag"
-import Spinner from 'src/components/shared/spinner'
-import Page500 from 'src/components/shared/page500'
 import { compose, graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
 import { Input } from 'reactstrap'
 import { set, lensProp } from 'ramda'
+
+import Notification from 'src/config/notification'
+import Spinner from 'src/components/shared/spinner'
+import Page500 from 'src/components/shared/page500'
 
 const clientQuery = gql`
   query client($id: ID!) {
@@ -113,11 +115,11 @@ class ShowClient extends React.Component<any, any> {
     }
 
     try {
-      let res = await this.props.updateClientQuery(options)
+      await this.props.updateClientQuery(options)
 
-      console.log(res.data)
+      Notification.success("update client")
     } catch (err) {
-      console.log(err)
+      Notification.error(err.message)
     }
   }
 

@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom'
 import { Input } from 'reactstrap'
 import { set, lensProp } from 'ramda'
 
+import Notification from 'src/config/notification'
+
 const createUserQuery = gql`
   mutation createUser($input: UserCreateInput!) {
     createUser(input: $input) {
@@ -87,11 +89,10 @@ class UserNew extends React.Component<any, any> {
     }
 
     try {
-      let res = await this.props.createUserQuery(options)
-
-      console.log(res.data)
+      await this.props.createUserQuery(options)
+      Notification.success("create user")
     } catch (err) {
-      console.log(err)
+      Notification.error(err.message)
     }
   }
 

@@ -1,12 +1,14 @@
 import * as React from "react"
 import gql from "graphql-tag"
 import Select from 'react-select'
-import Spinner from 'src/components/shared/spinner'
-import Page500 from 'src/components/shared/page500'
 import { compose, graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
 import { Input } from 'reactstrap'
 import { set, lensProp } from 'ramda'
+
+import Notification from 'src/config/notification'
+import Spinner from 'src/components/shared/spinner'
+import Page500 from 'src/components/shared/page500'
 
 const userQuery = gql`
   query user($id: ID!) {
@@ -109,11 +111,10 @@ class ShowUser extends React.Component<any, any> {
     }
 
     try {
-      let res = await this.props.updateUserQuery(options)
-
-      console.log(res.data)
+      await this.props.updateUserQuery(options)
+      Notification.success("update user")
     } catch (err) {
-      console.log(err)
+      Notification.error(err.message)
     }
   }
 

@@ -5,13 +5,13 @@ import * as React from "react"
 //   <InputField
 //     key={index}
 //     onChange={this.handleSetState.bind(this)}
-//     onKeyPress={ this.handleOnKeyPress.bind(this) }
+//     onKeyPress={this.handleOnKeyPress.bind(this)}
 //     name={attribute}
 //     value={ OBJECT[attribute] }
 //   />
 // )}
 
-export const InputField = (props: any) => {
+export const InputField = (props: any): any => {
   return (
     <div className="form-group row">
       <div className="col-md-12">

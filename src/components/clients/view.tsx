@@ -19,18 +19,32 @@ class ViewClient extends React.Component<any, any> {
 
     return (
       <tr>
-        {attributes.map((attribute, index) => {
-          return (
-            <td key={index}>
-              <Link
-                to={`clients/${object.id}`}
-              >
+        {
+          attributes.map((attribute, index) => {
+            return (
+              <td key={index}>
                 {object[attribute]}
-              </Link>
-            </td>
-          )
+              </td>
+            )
+          })
         }
-        )}
+
+        <td>
+          <Link
+            to={`clients/edit/${object.id}`}
+          >
+            edit
+          </Link>
+        </td>
+
+        <td>
+          <Link
+            to={`clients/${object.id}/lend`}
+          >
+            lend
+          </Link>
+        </td>
+
       </tr>
     )
   }

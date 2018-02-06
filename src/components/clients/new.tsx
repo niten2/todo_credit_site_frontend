@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom'
 import { Input } from 'reactstrap'
 import { set, lensProp } from 'ramda'
 
+import Notification from 'src/config/notification'
+
 const createClientQuery = gql`
   mutation createClient($input: ClientCreateInput!) {
     createClient(input: $input) {
@@ -78,11 +80,10 @@ class NewClient extends React.Component<any, any> {
     }
 
     try {
-      let res = await this.props.createClientQuery(options)
-
-      console.log(res.data)
+      await this.props.createClientQuery(options)
+      Notification.success("update client")
     } catch (err) {
-      console.log(err)
+      Notification.error(err.message)
     }
   }
 
