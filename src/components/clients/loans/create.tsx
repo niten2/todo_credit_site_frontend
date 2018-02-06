@@ -117,10 +117,8 @@ class LendClient extends React.Component<any, any> {
   }
 
   render() {
-    // let { client } = this.props
+    let { client } = this.props
     let { loan } = this.state
-
-    // console.log(client)
 
     if (authProvider.isAdmin()) {
       return <div />
@@ -167,6 +165,7 @@ class LendClient extends React.Component<any, any> {
               <div className="col-md-12">
                 <div className="input-group">
                   <span className="input-group-addon">territory</span>
+                  {client.territory}
                 </div>
               </div>
             </div>

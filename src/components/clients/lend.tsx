@@ -41,9 +41,6 @@ class LendClient extends React.Component<any, any> {
   render() {
     let { client, loading, error } = this.props.clientQuery
 
-    console.log(client)
-
-
     if (loading) {
       return <Spinner />
     }
