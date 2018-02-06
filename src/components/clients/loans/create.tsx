@@ -10,6 +10,7 @@ import { Input } from 'reactstrap'
 import { set, lensProp } from 'ramda'
 
 import Notification from 'src/config/notification'
+import authProvider from 'src/config/auth_provider'
 
 const clientQuery = gql`
   query client($id: ID!) {
@@ -116,7 +117,12 @@ class LendClient extends React.Component<any, any> {
   }
 
   render() {
+    // let { client } = this.props
     let { loan } = this.state
+
+    if (authProvider.isAdmin()) {
+      return <div />
+    }
 
     return (
       <div className="card">
@@ -159,7 +165,6 @@ class LendClient extends React.Component<any, any> {
               <div className="col-md-12">
                 <div className="input-group">
                   <span className="input-group-addon">territory</span>
-                  territory koeff
                 </div>
               </div>
             </div>
