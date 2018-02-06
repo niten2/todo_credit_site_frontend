@@ -17,7 +17,10 @@ const clientQuery = gql`
       email
       passport
       phone
-      territory
+      territory {
+        name
+        rate
+      }
       user
       mark_as_deleted
       total_sum_loans
@@ -37,6 +40,9 @@ class LendClient extends React.Component<any, any> {
 
   render() {
     let { client, loading, error } = this.props.clientQuery
+
+    console.log(client)
+
 
     if (loading) {
       return <Spinner />

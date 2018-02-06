@@ -20,6 +20,7 @@ const userQuery = gql`
       login
       phone
       role
+      territory
     }
   }
 `
@@ -55,6 +56,16 @@ const usersQuery = gql`
       email
       login
       role
+    }
+  }
+`
+const territoriesQuery = gql`
+  query {
+    territories {
+      id
+
+      name
+      rate
     }
   }
 `
@@ -142,8 +153,14 @@ class ShowUser extends React.Component<any, any> {
     }
   }
 
-  changeSelect = (value) => {
+  changeSelectRole = (value) => {
     let setClient = set(lensProp("role"), value.value)
+    this.setState({ user: setClient(this.state.user) })
+  }
+
+  changeSelectTerritory = (value) => {
+    let setClient = set(lensProp("territory"), value.id)
+
     this.setState({ user: setClient(this.state.user) })
   }
 
@@ -155,16 +172,20 @@ class ShowUser extends React.Component<any, any> {
 
   render() {
     let { loading, error } = this.props.userQuery
+    let { territories } = this.props.territoriesQuery
 
-    if (loading) {
+
+    if (loading || this.props.territoriesQuery.loading) {
       return <Spinner />
     }
 
-    if (error) {
+    if (error || this.props.territoriesQuery.error) {
       return <Page500 />
     }
 
     let { user, roles } = this.state
+
+    console.log(this.state)
 
     return (
       <div className="animated fadeIn">
@@ -252,7 +273,24 @@ class ShowUser extends React.Component<any, any> {
                           className="form-control"
                           options={roles}
                           value={user.role}
-                          onChange={this.changeSelect}
+                          onChange={this.changeSelectRole}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <div className="col-md-12">
+                      <div className="input-group">
+                        <span className="input-group-addon">Territory</span>
+                        <Select
+                          name="role"
+                          labelKey="rate"
+                          valueKey="id"
+                          className="form-control"
+                          options={territories}
+                          value={user.territory}
+                          onChange={this.changeSelectTerritory}
                         />
                       </div>
                     </div>
@@ -303,6 +341,14 @@ export default compose(
   graphql<any, any, any>(
     userQuery, {
       name: "userQuery" ,
+      options: (props) => ({
+        variables: {id: props.match.params.id}
+      })
+    }
+  ),
+  graphql<any, any, any>(
+    territoriesQuery, {
+      name: "territoriesQuery" ,
       options: (props) => ({
         variables: {id: props.match.params.id}
       })

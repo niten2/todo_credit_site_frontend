@@ -120,6 +120,8 @@ class LendClient extends React.Component<any, any> {
     // let { client } = this.props
     let { loan } = this.state
 
+    // console.log(client)
+
     if (authProvider.isAdmin()) {
       return <div />
     }
