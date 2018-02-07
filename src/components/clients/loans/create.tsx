@@ -21,7 +21,10 @@ const clientQuery = gql`
       email
       passport
       phone
-      territory
+      territory {
+        name
+        rate
+      }
       user
       mark_as_deleted
       total_sum_loans
@@ -30,6 +33,7 @@ const clientQuery = gql`
         id
 
         sum
+        total
         date_start
         date_end
       }
@@ -41,10 +45,14 @@ const createLoanQuery = gql`
   mutation createLoan($input: LoanCreateInput!) {
     createLoan(input: $input) {
       id
-      sum
-      date_start
-      date_end
-      client
+    }
+  }
+`
+
+const calculateLoanQuery = gql`
+  mutation calculateLoan($input: LoanCalculateInput!) {
+    calculateLoan(input: $input) {
+      total
     }
   }
 `
@@ -57,14 +65,17 @@ class LendClient extends React.Component<any, any> {
       date_start: moment(),
       date_end: moment().add(30, "days"),
       client: "",
+      total: 0,
     },
   }
 
-  handleSetState = (e) => {
+  handleSetState = async (e) => {
     const { name, value } = e.target
-    this.setState({
-      loan: set(lensProp(name), value, this.state.loan)
-    })
+
+    let loan = set(lensProp(name), value, this.state.loan)
+    let calculateLoan = await this.handleCaclulateLoan(loan)
+
+    this.setState({ loan: calculateLoan })
   }
 
   handleCreate = async (e?: any) => {
@@ -98,22 +109,55 @@ class LendClient extends React.Component<any, any> {
     }
   }
 
+  handleCaclulateLoan = async (loan: any) => {
+    let loanRes
+
+    if (loan.sum === 0 || loan.sum === undefined || loan.sum === "") {
+      loanRes = set(lensProp("total"), 0, loan)
+      return loanRes
+    }
+
+    const options = {
+      variables: {
+        input: {
+          sum: loan.sum,
+          date_start: loan.date_start,
+          date_end: loan.date_end,
+          client: this.props.client.id,
+        }
+      }
+    }
+
+    try {
+      let res = await this.props.calculateLoanQuery(options)
+      const total = res.data.calculateLoan.total
+
+      loanRes = set(lensProp("total"), total, loan)
+    } catch (err) {
+      Notification.error(err.message)
+    }
+
+    return loanRes
+  }
+
   handleOnKeyPress = (target: any) => {
     if (target.charCode === 13) {
       this.handleCreate()
     }
   }
 
-  handleDatePickerDateStart = (value: any): void => {
-    this.setState({
-      loan: set(lensProp("date_start"), value, this.state.loan)
-    })
+  handleDatePickerDateStart = async (value: any) => {
+    let loan = set(lensProp("date_start"), value, this.state.loan)
+    let calculateLoan = await this.handleCaclulateLoan(loan)
+
+    this.setState({ loan: calculateLoan })
   }
 
-  handleDatePickerDateEnd = (value: any): void => {
-    this.setState({
-      loan: set(lensProp("date_end"), value, this.state.loan)
-    })
+  handleDatePickerDateEnd = async (value: any) => {
+    let loan = set(lensProp("date_end"), value, this.state.loan)
+    let calculateLoan = await this.handleCaclulateLoan(loan)
+
+    this.setState({ loan: calculateLoan })
   }
 
   render() {
@@ -123,6 +167,9 @@ class LendClient extends React.Component<any, any> {
     if (authProvider.isAdmin()) {
       return <div />
     }
+
+    let rate = client.territory ? client.territory.rate : "territory not found"
+    let total = loan.total === 0 || loan.total === undefined ? "total not calculate" : loan.total
 
     return (
       <div className="card">
@@ -141,6 +188,7 @@ class LendClient extends React.Component<any, any> {
                   <Input
                     name="sum"
                     placeholder="sum"
+                    type="number"
                     onChange={this.handleSetState}
                     onKeyPress={this.handleOnKeyPress}
                     value={loan.sum}
@@ -165,7 +213,7 @@ class LendClient extends React.Component<any, any> {
               <div className="col-md-12">
                 <div className="input-group">
                   <span className="input-group-addon">territory</span>
-                  {client.territory}
+                  {rate}
                 </div>
               </div>
             </div>
@@ -186,7 +234,7 @@ class LendClient extends React.Component<any, any> {
               <div className="col-md-12">
                 <div className="input-group">
                   <span className="input-group-addon">summary</span>
-                  summary (calculate value)
+                  {total}
                 </div>
               </div>
             </div>
@@ -209,8 +257,8 @@ class LendClient extends React.Component<any, any> {
                   Cancel
                 </button>
               </Link>
-            </div>
 
+            </div>
 
           </form>
         </div>
@@ -225,6 +273,11 @@ export default compose(
   graphql<any, any, any>(
     createLoanQuery, {
       name: "createLoanQuery"
+    }
+  ),
+  graphql<any, any, any>(
+    calculateLoanQuery, {
+      name: "calculateLoanQuery"
     }
   ),
 )(LendClient)
