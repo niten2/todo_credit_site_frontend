@@ -9,6 +9,7 @@ import { set, lensProp } from 'ramda'
 import Notification from 'src/config/notification'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
+import ChangePasswordUser from 'src/components/users/show/change_password'
 
 const userQuery = gql`
   query user($id: ID!) {
@@ -21,6 +22,7 @@ const userQuery = gql`
       phone
       role
       territory
+      blocked
     }
   }
 `
@@ -36,6 +38,7 @@ const updateUserQuery = gql`
       role
       phone
       territory
+      blocked
     }
   }
 `
@@ -81,10 +84,15 @@ class ShowUser extends React.Component<any, any> {
       role: "",
       phone: "",
       territory: "",
+      blocked: false,
     },
     roles: [
       {value: "manager"},
       {value: "admin"}
+    ],
+    blockedOptions: [
+      {label: "true", value: true},
+      {label: "false", value: false},
     ]
   }
 
@@ -114,6 +122,7 @@ class ShowUser extends React.Component<any, any> {
           role: user.role,
           phone: user.phone,
           territory: user.territory,
+          blocked: user.blocked,
         }
       },
       refetchQueries: [{
@@ -164,6 +173,12 @@ class ShowUser extends React.Component<any, any> {
     this.setState({ user: setClient(this.state.user) })
   }
 
+  changeSelectBlocked = (value) => {
+    let setClient = set(lensProp("blocked"), value.value)
+
+    this.setState({ user: setClient(this.state.user) })
+  }
+
   handleOnKeyPress = (target: any) => {
     if (target.charCode === 13) {
       this.handleUpdate()
@@ -183,9 +198,10 @@ class ShowUser extends React.Component<any, any> {
       return <Page500 />
     }
 
-    let { user, roles } = this.state
+    let { user, roles, blockedOptions } = this.state
 
-    console.log(this.state)
+    console.log(user)
+    console.log(user.login)
 
     return (
       <div className="animated fadeIn">
@@ -296,6 +312,23 @@ class ShowUser extends React.Component<any, any> {
                     </div>
                   </div>
 
+                  <div className="form-group row">
+                    <div className="col-md-12">
+                      <div className="input-group">
+                        <span className="input-group-addon">Blocked</span>
+                        <Select
+                          name="blocked"
+                          labelKey="label"
+                          valueKey="value"
+                          className="form-control"
+                          options={blockedOptions}
+                          value={user.blocked}
+                          onChange={this.changeSelectBlocked}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="form-actions">
                     <button
                       className="btn btn-primary"
@@ -327,6 +360,8 @@ class ShowUser extends React.Component<any, any> {
                 </form>
 
               </div>
+
+              <ChangePasswordUser userId={this.props.match.params.id} />
 
             </div>
           </div>
