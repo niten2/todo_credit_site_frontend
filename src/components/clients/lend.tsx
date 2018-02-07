@@ -47,7 +47,6 @@ class LendClient extends React.Component<any, any> {
     }
 
     if (error || !client) {
-      console.log(1111, error, client)
       return <Page500 />
     }
 
