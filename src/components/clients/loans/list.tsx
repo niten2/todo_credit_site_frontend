@@ -31,15 +31,16 @@ class ListLoan extends React.Component<any, any> {
                 <thead>
                   <tr>
                     <th className="text-center">Sum</th>
+                    <th className="text-center">Total</th>
                     <th className="text-center">Date end</th>
                   </tr>
                 </thead>
                 <tbody>
 
-                  { client.loans.map((object, index) =>
+                  { client.loans.map((loan, index) =>
                     <ViewLoan
                       key={index}
-                      object={object}
+                      loan={loan}
                     />
                   )}
 

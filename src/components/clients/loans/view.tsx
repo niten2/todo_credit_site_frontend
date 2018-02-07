@@ -5,12 +5,13 @@ class ViewLoan extends React.Component<any, any> {
   state = {
     attributes: [
       "sum",
+      "total",
       "date_end",
     ]
   }
 
   render() {
-    let { object } = this.props
+    let { loan } = this.props
     let { attributes } = this.state
 
     return (
@@ -19,7 +20,7 @@ class ViewLoan extends React.Component<any, any> {
           attributes.map((attribute, index) => {
             return (
               <td key={index}>
-                {object[attribute]}
+                {loan[attribute]}
               </td>
             )
           })
