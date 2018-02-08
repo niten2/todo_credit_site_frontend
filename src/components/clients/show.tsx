@@ -148,8 +148,10 @@ class ShowClient extends React.Component<any, any> {
     try {
       await this.props.deleteClientQuery(options)
       this.props.history.push("/clients")
+
+      Notification.success("delete client")
     } catch (err) {
-      console.log(err)
+      Notification.error(err.message)
     }
   }
 
@@ -192,8 +194,6 @@ class ShowClient extends React.Component<any, any> {
     if (error || !client) {
       return <Page500 />
     }
-
-    console.log(client)
 
     return (
       <div className="animated fadeIn">
