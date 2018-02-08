@@ -1,22 +1,26 @@
 import * as React from 'react'
+import * as moment from "moment"
+
 import AuthProvider from 'src/config/auth_provider'
 import { Link } from 'react-router-dom'
 
 const EditLoanLink = (props) => {
   if (AuthProvider.isAdmin()) {
     return (
-      <div className="card">
-        <div className="card-block">
-          <Link to={`/clients/${props.loanId}/lend/edit`}>
-            <button type="button" className="btn btn-primary">
-              edit
-            </button>
-          </Link>
+      <td>
+        <div className="card">
+          <div className="card-block">
+            <Link to={`/clients/${props.clientId}/loans/${props.loan.id}`}>
+              <button type="button" className="btn btn-primary">
+                edit
+              </button>
+            </Link>
+          </div>
         </div>
-      </div>
+      </td>
     )
   } else {
-    return <div />
+    return <td />
   }
 }
 
@@ -30,14 +34,26 @@ class ViewLoan extends React.Component<any, any> {
     ]
   }
 
+  formatDate = (date: string) => {
+    return moment(new Date(date)).format("MM/DD/YYYY")
+  }
+
   render() {
-    let { loan } = this.props
+    let { loan, clientId } = this.props
     let { attributes } = this.state
 
     return (
       <tr>
         {
           attributes.map((attribute, index) => {
+            if (attribute === "date_end") {
+              return (
+                <td key={index}>
+                  {this.formatDate(loan[attribute])}
+                </td>
+              )
+            }
+
             return (
               <td key={index}>
                 {loan[attribute]}
@@ -45,7 +61,7 @@ class ViewLoan extends React.Component<any, any> {
             )
           })
         }
-        <EditLoanLink loanId={loan.id}/>
+        <EditLoanLink loan={loan} clientId={clientId} />
       </tr>
     )
   }

@@ -18,7 +18,6 @@ const clientQuery = gql`
       email
       passport
       phone
-      territory
       user
       mark_as_deleted
       total_sum_loans
@@ -76,6 +75,7 @@ class ShowClient extends React.Component<any, any> {
       email: "",
       passport: "",
       phone: "",
+      total_sum_loans: null,
     },
     roles: [
       {value: "manager"},
@@ -245,6 +245,15 @@ class ShowClient extends React.Component<any, any> {
                     </div>
                   </div>
 
+                  <div className="form-group row">
+                    <div className="col-md-12">
+                      <div className="input-group">
+                        <span className="input-group-addon">total_sum_loans</span>
+                        {client.total_sum_loans}
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="form-actions">
                     <button
                       className="btn btn-primary"
@@ -261,6 +270,16 @@ class ShowClient extends React.Component<any, any> {
                     >
                       Delete
                     </button>
+
+                    {" "}
+
+                    <Link to={`/clients/${client.id}/loans`}>
+                      <button
+                        className="btn btn-default"
+                      >
+                        loans
+                      </button>
+                    </Link>
 
                     {" "}
 

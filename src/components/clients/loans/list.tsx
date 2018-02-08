@@ -1,31 +1,47 @@
 import * as React from 'react'
-import ViewLoan from "src/components/clients/loans/view"
+import gql from "graphql-tag"
+import { graphql } from 'react-apollo'
+
+import Spinner from 'src/components/shared/spinner'
+import Page500 from 'src/components/shared/page500'
+
 import AuthProvider from 'src/config/auth_provider'
+import ViewLoan from "src/components/clients/loans/view"
+
+const loansQuery = gql`
+  query loans($input: LoansInput) {
+    loans(input: $input) {
+      id
+      sum
+      date_start
+      date_end
+      total
+    }
+  }
+`
 
 class ListLoan extends React.Component<any, any> {
 
   render() {
-    let { client } = this.props
+    let { loans, loading, error } = this.props.loansQuery
+
+    if (loading) {
+      return <Spinner />
+    }
+
+    if (error) {
+      return <Page500 />
+    }
 
     return (
       <div className="card">
 
         <div className="card-header">
-          <i className="fa fa-align-justify" /> Client
+          <i className="fa fa-align-justify" /> Loans
         </div>
-
 
         <div className="card-block">
           <form className="form-2orizontal">
-
-            <div className="form-group row">
-              <div className="col-md-12">
-                <div className="input-group">
-                  <span className="input-group-addon">full_name</span>
-                  {client.full_name}
-                </div>
-              </div>
-            </div>
 
             <div className="card-block">
               <table className="table text-center">
@@ -38,16 +54,15 @@ class ListLoan extends React.Component<any, any> {
                   </tr>
                 </thead>
                 <tbody>
-
                   {
-                    client.loans.map((loan, index) =>
+                    loans.map((loan, index) =>
                       <ViewLoan
                         key={index}
                         loan={loan}
+                        clientId={this.props.match.params.id}
                       />
                     )
                   }
-
                 </tbody>
               </table>
             </div>
@@ -61,4 +76,15 @@ class ListLoan extends React.Component<any, any> {
 
 }
 
-export default ListLoan
+export default graphql<any, any, any>(
+  loansQuery, {
+    name: "loansQuery" ,
+    options: (props) => ({
+      variables: {
+        input: {
+          client: props.match.params.id
+        }
+      }
+    })
+  }
+)(ListLoan)

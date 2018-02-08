@@ -14,6 +14,7 @@ const clientsQuery = gql`
       email
       passport
       phone
+      total_sum_loans
     }
   }
 `
@@ -51,7 +52,6 @@ class ListClient extends React.Component<any, any> {
                       <th className="text-center">Passport</th>
                       <th className="text-center">Phone</th>
                       <th className="text-center">Edit</th>
-                      <th className="text-center">Lend</th>
                     </tr>
                   </thead>
                   <tbody>
