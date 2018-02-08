@@ -3,6 +3,8 @@ import * as React from "react"
 import ListLoans from 'src/components/clients/loans/list'
 import NewLoan from 'src/components/clients/loans/new'
 
+import AuthProvider from 'src/config/auth_provider'
+
 class LoanClient extends React.Component<any, any> {
 
   render() {
@@ -13,7 +15,7 @@ class LoanClient extends React.Component<any, any> {
           <div className="col-lg-12">
 
             <ListLoans {...this.props} />
-            <NewLoan />
+            {!AuthProvider.isAdmin() ? <NewLoan {...this.props} /> : null}
 
           </div>
         </div>
