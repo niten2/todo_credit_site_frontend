@@ -2,10 +2,9 @@ import * as React from 'react'
 import gql from "graphql-tag"
 import { graphql } from 'react-apollo'
 
+import AuthProvider from 'src/config/auth_provider'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
-
-import AuthProvider from 'src/config/auth_provider'
 import ViewLoan from "src/components/clients/loans/view"
 
 const loansQuery = gql`

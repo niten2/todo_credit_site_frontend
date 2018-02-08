@@ -2,9 +2,10 @@ import * as React from "react"
 import gql from "graphql-tag"
 import { compose, graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
-import { Input } from 'reactstrap'
+import { Input, Label } from 'reactstrap'
 import { set, lensProp } from 'ramda'
 
+import AuthProvider from 'src/config/auth_provider'
 import Notification from 'src/config/notification'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
@@ -21,6 +22,11 @@ const clientQuery = gql`
       user
       mark_as_deleted
       total_sum_loans
+
+      territory {
+        name
+        rate
+      }
 
       loans {
         id
@@ -76,6 +82,11 @@ class ShowClient extends React.Component<any, any> {
       passport: "",
       phone: "",
       total_sum_loans: null,
+      mark_as_deleted: false,
+      territory: {
+        name: "",
+        rate: "",
+      },
     },
     roles: [
       {value: "manager"},
@@ -87,12 +98,6 @@ class ShowClient extends React.Component<any, any> {
     this.setState({ client: props.clientQuery.client })
   }
 
-  handleSetState = (e) => {
-    const { name, value } = e.target
-    this.setState({
-      client: set(lensProp(name), value, this.state.client)
-    })
-  }
 
   handleUpdate = async (e?: any) => {
     if (e) { e.preventDefault() }
@@ -107,6 +112,7 @@ class ShowClient extends React.Component<any, any> {
           email: client.email,
           passport: client.passport,
           phone: client.phone,
+          mark_as_deleted: client.mark_as_deleted,
         }
       },
       refetchQueries: [{
@@ -147,6 +153,23 @@ class ShowClient extends React.Component<any, any> {
     }
   }
 
+  handleSetState = (e) => {
+    const { name, value } = e.target
+    this.setState({
+      client: set(lensProp(name), value, this.state.client)
+    })
+  }
+
+  handleSetStateCheckbox = (e) => {
+    this.setState({
+      client: set(
+        lensProp("mark_as_deleted"),
+        !this.state.client.mark_as_deleted,
+        this.state.client
+      )
+    })
+  }
+
   changeSelect = (value) => {
     let setClient = set(lensProp("role"), value.value)
     this.setState({ client: setClient(this.state.client) })
@@ -169,6 +192,8 @@ class ShowClient extends React.Component<any, any> {
     if (error || !client) {
       return <Page500 />
     }
+
+    console.log(client)
 
     return (
       <div className="animated fadeIn">
@@ -248,8 +273,43 @@ class ShowClient extends React.Component<any, any> {
                   <div className="form-group row">
                     <div className="col-md-12">
                       <div className="input-group">
+                        <span className="input-group-addon">mark_as_deleted</span>
+                        <Label check={true}>
+                          <Input
+                            name="mark_as_deleted"
+                            placeholder="mark_as_deleted"
+                            type="checkbox"
+                            onChange={this.handleSetStateCheckbox}
+                            checked={client.mark_as_deleted}
+                          />
+                        </Label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <div className="col-md-12">
+                      <div className="input-group">
                         <span className="input-group-addon">total_sum_loans</span>
                         {client.total_sum_loans}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <div className="col-md-12">
+                      <div className="input-group">
+                        <span className="input-group-addon">territory name</span>
+                        {client.territory.name}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <div className="col-md-12">
+                      <div className="input-group">
+                        <span className="input-group-addon">territory rate</span>
+                        {client.territory.rate}
                       </div>
                     </div>
                   </div>
@@ -264,12 +324,20 @@ class ShowClient extends React.Component<any, any> {
 
                     {" "}
 
-                    <button
-                      className="btn btn-primary"
-                      onClick={this.handleDelete}
-                    >
-                      Delete
-                    </button>
+                    {
+                      AuthProvider.isAdmin() ?
+                        <div>
+                          {" "}
+
+                          <button
+                            className="btn btn-primary"
+                            onClick={this.handleDelete}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      : null
+                    }
 
                     {" "}
 

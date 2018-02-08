@@ -10,33 +10,29 @@ import { Input } from 'reactstrap'
 import { set, lensProp } from 'ramda'
 
 import Notification from 'src/config/notification'
-import authProvider from 'src/config/auth_provider'
+import Spinner from 'src/components/shared/spinner'
+import Page500 from 'src/components/shared/page500'
 
 const clientQuery = gql`
   query client($id: ID!) {
     client(id: $id) {
       id
 
-      full_name
-      email
-      passport
-      phone
       territory {
         name
         rate
       }
-      user
-      mark_as_deleted
-      total_sum_loans
-
-      loans {
-        id
-
-        sum
-        total
-        date_start
-        date_end
-      }
+    }
+  }
+`
+const loansQuery = gql`
+  query loans($input: LoansInput) {
+    loans(input: $input) {
+      id
+      sum
+      date_start
+      date_end
+      total
     }
   }
 `
@@ -82,6 +78,7 @@ class LendClient extends React.Component<any, any> {
     if (e) { e.preventDefault() }
 
     const { loan } = this.state
+    let { client } = this.props.clientQuery
 
     const options = {
       variables: {
@@ -89,14 +86,16 @@ class LendClient extends React.Component<any, any> {
           sum: loan.sum,
           date_start: loan.date_start,
           date_end: loan.date_end,
-          client: this.props.client.id,
+          client: client.id,
         }
       },
       refetchQueries: [{
-        query: clientQuery,
+        query: loansQuery,
         variables: {
-          id: this.props.client.id
-        },
+          input: {
+            client: client.id,
+          }
+        }
       }],
     }
 
@@ -110,6 +109,7 @@ class LendClient extends React.Component<any, any> {
   }
 
   handleCaclulateLoan = async (loan: any) => {
+    let { client } = this.props.clientQuery
     let loanRes
 
     if (loan.sum === 0 || loan.sum === undefined || loan.sum === "") {
@@ -123,7 +123,7 @@ class LendClient extends React.Component<any, any> {
           sum: loan.sum,
           date_start: loan.date_start,
           date_end: loan.date_end,
-          client: this.props.client.id,
+          client: client.id,
         }
       }
     }
@@ -161,11 +161,16 @@ class LendClient extends React.Component<any, any> {
   }
 
   render() {
-    let { client } = this.props
+
+    let { client, loading, error } = this.props.clientQuery
     let { loan } = this.state
 
-    if (authProvider.isAdmin()) {
-      return <div />
+    if (loading) {
+      return <Spinner />
+    }
+
+    if (error) {
+      return <Page500 />
     }
 
     let rate = client.territory ? client.territory.rate : "territory not found"
@@ -270,6 +275,16 @@ class LendClient extends React.Component<any, any> {
 }
 
 export default compose(
+  graphql<any, any, any>(
+    clientQuery, {
+      name: "clientQuery" ,
+      options: (props) => ({
+        variables: {
+          id: props.match.params.id
+        }
+      })
+    },
+  ),
   graphql<any, any, any>(
     createLoanQuery, {
       name: "createLoanQuery"

@@ -4,25 +4,19 @@ import * as moment from "moment"
 import AuthProvider from 'src/config/auth_provider'
 import { Link } from 'react-router-dom'
 
-const EditLoanLink = (props) => {
-  if (AuthProvider.isAdmin()) {
-    return (
-      <td>
-        <div className="card">
-          <div className="card-block">
-            <Link to={`/clients/${props.clientId}/loans/${props.loan.id}`}>
-              <button type="button" className="btn btn-primary">
-                edit
-              </button>
-            </Link>
-          </div>
-        </div>
-      </td>
-    )
-  } else {
-    return <td />
-  }
-}
+const EditLoanLink = (props) => (
+  <td>
+    <div className="card">
+      <div className="card-block">
+        <Link to={`/clients/${props.clientId}/loans/${props.loan.id}`}>
+          <button type="button" className="btn btn-primary">
+            edit
+          </button>
+        </Link>
+      </div>
+    </div>
+  </td>
+)
 
 class ViewLoan extends React.Component<any, any> {
 
@@ -61,7 +55,9 @@ class ViewLoan extends React.Component<any, any> {
             )
           })
         }
-        <EditLoanLink loan={loan} clientId={clientId} />
+
+        {AuthProvider.isAdmin() ? <EditLoanLink loan={loan} clientId={clientId} /> : null}
+
       </tr>
     )
   }
