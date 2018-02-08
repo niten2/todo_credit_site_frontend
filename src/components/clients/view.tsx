@@ -31,17 +31,9 @@ class ViewClient extends React.Component<any, any> {
 
         <td>
           <Link
-            to={`clients/edit/${object.id}`}
+            to={`clients/${object.id}`}
           >
             edit
-          </Link>
-        </td>
-
-        <td>
-          <Link
-            to={`clients/${object.id}/lend`}
-          >
-            lend
           </Link>
         </td>
 

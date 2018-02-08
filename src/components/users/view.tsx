@@ -19,18 +19,23 @@ class UserView extends React.Component<any, any> {
 
     return (
       <tr>
-        {attributes.map((attribute, index) => {
-          return (
-            <td key={index}>
-              <Link
-                to={`users/${object.id}`}
-              >
+        {
+          attributes.map((attribute, index) => {
+            return (
+              <td key={index}>
                 {object[attribute]}
-              </Link>
-            </td>
-          )
+              </td>
+            )
+          })
         }
-        )}
+
+        <td>
+          <Link
+            to={`users/${object.id}`}
+          >
+            edit
+          </Link>
+        </td>
       </tr>
     )
   }

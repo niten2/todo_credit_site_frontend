@@ -60,6 +60,7 @@ class UserList extends React.Component<P, S> {
                       <th className="text-center">Email</th>
                       <th className="text-center">Login</th>
                       <th className="text-center">Role</th>
+                      <th className="text-center">Edit</th>
                     </tr>
                   </thead>
                   <tbody>
