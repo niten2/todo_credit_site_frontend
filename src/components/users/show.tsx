@@ -157,8 +157,10 @@ class ShowUser extends React.Component<any, any> {
     try {
       await this.props.deleteUserQuery(options)
       this.props.history.push("/users")
+
+      Notification.success("user delete")
     } catch (err) {
-      console.log(err)
+      Notification.error(err.message)
     }
   }
 
@@ -199,9 +201,6 @@ class ShowUser extends React.Component<any, any> {
     }
 
     let { user, roles, blockedOptions } = this.state
-
-    console.log(user)
-    console.log(user.login)
 
     return (
       <div className="animated fadeIn">

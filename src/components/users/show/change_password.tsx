@@ -41,8 +41,8 @@ class ChangePasswordUser extends React.Component<any, any> {
 
   state = {
     user: {
-      password: "1",
-      confirmPassword: "2",
+      password: "",
+      confirmPassword: "",
     },
     error: null,
   }
