@@ -18,6 +18,7 @@ import Client from 'src/components/clients'
 import NewClient from 'src/components/clients/new'
 import ShowClient from 'src/components/clients/show'
 import LendClient from 'src/components/clients/lend'
+import EditLendClient from 'src/components/clients/loans/edit'
 
 export default () => {
   return (
@@ -35,6 +36,7 @@ export default () => {
           <PrivateLayoutManager exact={true} path="/clients/new" component={NewClient}/>
           <PrivateLayout exact={true} path="/clients/edit/:id" component={ShowClient}/>
           <PrivateLayout exact={true} path="/clients/:id/lend" component={LendClient}/>
+          <PrivateLayoutAdmin exact={true} path="/clients/:id/lend/edit" component={EditLendClient}/>
 
           <PrivateLayout exact={true} path="/" name="Dashboard" component={Dashboard} />
           <PrivateLayout exact={true} path="/dashboard" name="Dashboard" component={Dashboard}/>

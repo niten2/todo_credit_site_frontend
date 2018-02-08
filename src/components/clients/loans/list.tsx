@@ -1,5 +1,6 @@
 import * as React from 'react'
 import ViewLoan from "src/components/clients/loans/view"
+import AuthProvider from 'src/config/auth_provider'
 
 class ListLoan extends React.Component<any, any> {
 
@@ -33,16 +34,19 @@ class ListLoan extends React.Component<any, any> {
                     <th className="text-center">Sum</th>
                     <th className="text-center">Total</th>
                     <th className="text-center">Date end</th>
+                    {AuthProvider.isAdmin() ? <th className="text-center">Edit</th> : null}
                   </tr>
                 </thead>
                 <tbody>
 
-                  { client.loans.map((loan, index) =>
-                    <ViewLoan
-                      key={index}
-                      loan={loan}
-                    />
-                  )}
+                  {
+                    client.loans.map((loan, index) =>
+                      <ViewLoan
+                        key={index}
+                        loan={loan}
+                      />
+                    )
+                  }
 
                 </tbody>
               </table>
