@@ -26,6 +26,7 @@ const clientQuery = gql`
 
       territory {
         id
+
         name
         rate
       }

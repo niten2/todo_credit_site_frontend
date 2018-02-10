@@ -145,7 +145,6 @@ class Login extends React.Component<P, S> {
                       </div>
                     </div>
 
-
                     <div className="input-group mb-3">
                       <span className="input-group-addon">
                         <i className="icon-user" />
