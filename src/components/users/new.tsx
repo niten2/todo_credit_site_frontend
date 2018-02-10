@@ -91,6 +91,19 @@ class UserNew extends React.Component<any, any> {
     try {
       await this.props.createUserQuery(options)
       Notification.success("create user")
+
+      this.setState({
+        user: {
+          full_name: null,
+          login: null,
+          password: null,
+          email: null,
+          role: "manager",
+          phone: null,
+          territory: null,
+        }
+      })
+
     } catch (err) {
       Notification.error(err.message)
     }

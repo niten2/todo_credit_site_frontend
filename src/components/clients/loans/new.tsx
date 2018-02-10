@@ -103,6 +103,17 @@ class LendClient extends React.Component<any, any> {
       await this.props.createLoanQuery(options)
 
       Notification.success("create loan")
+
+      this.setState({
+        loan: {
+          sum: "",
+          date_start: moment(),
+          date_end: moment().add(30, "days"),
+          client: "",
+          total: 0,
+        },
+      })
+
     } catch (err) {
       Notification.error(err.message)
     }

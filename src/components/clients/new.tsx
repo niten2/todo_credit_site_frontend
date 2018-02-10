@@ -82,6 +82,15 @@ class NewClient extends React.Component<any, any> {
     try {
       await this.props.createClientQuery(options)
       Notification.success("update client")
+
+      this.setState({
+        client: {
+          full_name: "",
+          email: "",
+          passport: "",
+          phone: "",
+        }
+      })
     } catch (err) {
       Notification.error(err.message)
     }
