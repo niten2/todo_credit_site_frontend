@@ -14,18 +14,18 @@ const httpLink = createHttpLink({
 
 const errorLink = onError(({ networkError, graphQLErrors, response }) => {
   if (graphQLErrors) {
-    graphQLErrors.map(({ message, locations, path }) =>
+    graphQLErrors.map(({ message, locations, path }) => {
       console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
-    )
+
+      if (message === "user not found") {
+        history.push("/login")
+      }
+    })
   }
 
   if (networkError) {
     console.log(`[Network error]: ${networkError}`)
   }
-
-  // let z = withRouter()
-  // console.log(z)
-  history.push("/login")
 })
 
 const middlewareLink = setContext(() => ({

@@ -1,12 +1,14 @@
 import * as React from "react"
 import gql from "graphql-tag"
 import Select from 'react-select'
-import { graphql } from "react-apollo"
+import { compose, graphql } from "react-apollo"
 import { Link } from 'react-router-dom'
 import { Input } from 'reactstrap'
 import { set, lensProp } from 'ramda'
 
 import Notification from 'src/config/notification'
+import Spinner from 'src/components/shared/spinner'
+import Page500 from 'src/components/shared/page500'
 
 const createUserQuery = gql`
   mutation createUser($input: UserCreateInput!) {
@@ -36,17 +38,28 @@ const usersQuery = gql`
   }
 `
 
+const territoriesQuery = gql`
+  query {
+    territories {
+      id
+
+      name
+      rate
+    }
+  }
+`
+
 class UserNew extends React.Component<any, any> {
 
   state = {
     user: {
-      full_name: null,
-      login: null,
-      password: null,
-      email: null,
+      full_name: "",
+      login: "",
+      password: "",
+      email: "",
       role: "manager",
-      phone: null,
-      territory: null,
+      phone: "",
+      territory: "",
     },
     roles: [
       {value: "manager"},
@@ -65,6 +78,18 @@ class UserNew extends React.Component<any, any> {
   changeSelect = (value) => {
     let setClient = set(lensProp("role"), value.value)
     this.setState({ user: setClient(this.state.user) })
+  }
+
+  changeSelectTerritory = (value) => {
+    let setClient = set(lensProp("territory"), value.id)
+
+    this.setState({ user: setClient(this.state.user) })
+  }
+
+  handleOnKeyPress = (target: any) => {
+    if (target.charCode === 13) {
+      this.handleCreate()
+    }
   }
 
   handleCreate = async (e?: any) => {
@@ -90,33 +115,36 @@ class UserNew extends React.Component<any, any> {
 
     try {
       await this.props.createUserQuery(options)
-      Notification.success("create user")
 
       this.setState({
         user: {
-          full_name: null,
-          login: null,
-          password: null,
-          email: null,
+          full_name: "",
+          login: "",
+          password: "",
+          email: "",
           role: "manager",
-          phone: null,
-          territory: null,
+          phone: "",
+          territory: "",
         }
       })
 
+      Notification.success("create user")
     } catch (err) {
       Notification.error(err.message)
     }
   }
 
-  handleOnKeyPress = (target: any) => {
-    if (target.charCode === 13) {
-      this.handleCreate()
-    }
-  }
-
   render() {
     let { user, roles } = this.state
+    let { territories, loading, error } = this.props.territoriesQuery
+
+    if (loading) {
+      return <Spinner />
+    }
+
+    if (error) {
+      return <Page500 />
+    }
 
     return (
       <div className="animated fadeIn">
@@ -127,7 +155,7 @@ class UserNew extends React.Component<any, any> {
             <div className="card">
 
               <div className="card-header">
-                <i className="fa fa-align-justify" /> Simple Table
+                <i className="fa fa-align-justify" /> New User
               </div>
 
               <div className="card-block">
@@ -142,6 +170,7 @@ class UserNew extends React.Component<any, any> {
                           placeholder="full_name"
                           onChange={this.handleSetState}
                           onKeyPress={this.handleOnKeyPress}
+                          value={user.full_name}
                         />
                       </div>
                     </div>
@@ -156,6 +185,7 @@ class UserNew extends React.Component<any, any> {
                           placeholder="email"
                           onChange={this.handleSetState}
                           onKeyPress={this.handleOnKeyPress}
+                          value={user.email}
                         />
                       </div>
                     </div>
@@ -170,6 +200,7 @@ class UserNew extends React.Component<any, any> {
                           placeholder="login"
                           onChange={this.handleSetState}
                           onKeyPress={this.handleOnKeyPress}
+                          value={user.login}
                         />
                       </div>
                     </div>
@@ -184,6 +215,7 @@ class UserNew extends React.Component<any, any> {
                           placeholder="password"
                           onChange={this.handleSetState}
                           onKeyPress={this.handleOnKeyPress}
+                          value={user.password}
                         />
                       </div>
                     </div>
@@ -198,6 +230,7 @@ class UserNew extends React.Component<any, any> {
                           placeholder="phone"
                           onChange={this.handleSetState}
                           onKeyPress={this.handleOnKeyPress}
+                          value={user.phone}
                         />
                       </div>
                     </div>
@@ -216,6 +249,23 @@ class UserNew extends React.Component<any, any> {
                             value={user.role}
                             onChange={this.changeSelect}
                           />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <div className="col-md-12">
+                      <div className="input-group">
+                        <span className="input-group-addon">Territory</span>
+                        <Select
+                          name="role"
+                          labelKey="rate"
+                          valueKey="id"
+                          className="form-control"
+                          options={territories}
+                          value={user.territory}
+                          onChange={this.changeSelectTerritory}
+                        />
                       </div>
                     </div>
                   </div>
@@ -251,6 +301,15 @@ class UserNew extends React.Component<any, any> {
 
 }
 
-export default graphql<any, any, any>(
-  createUserQuery, { name: "createUserQuery" }
+export default compose (
+  graphql<any, any, any>(
+    createUserQuery, {
+      name: "createUserQuery"
+    }
+  ),
+  graphql<any, any, any>(
+    territoriesQuery, {
+      name: "territoriesQuery" ,
+    }
+  ),
 )(UserNew)
