@@ -1,5 +1,6 @@
 import * as React from "react"
 import gql from "graphql-tag"
+import Select from 'react-select'
 import { compose, graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
 import { Input, Label } from 'reactstrap'
@@ -24,6 +25,7 @@ const clientQuery = gql`
       total_sum_loans
 
       territory {
+        id
         name
         rate
       }
@@ -72,6 +74,17 @@ const clientsQuery = gql`
   }
 `
 
+const territoriesQuery = gql`
+  query {
+    territories {
+      id
+
+      name
+      rate
+    }
+  }
+`
+
 class ShowClient extends React.Component<any, any> {
 
   state = {
@@ -84,6 +97,7 @@ class ShowClient extends React.Component<any, any> {
       total_sum_loans: null,
       mark_as_deleted: false,
       territory: {
+        id: "",
         name: "",
         rate: "",
       },
@@ -97,7 +111,6 @@ class ShowClient extends React.Component<any, any> {
   componentWillReceiveProps(props: any) {
     this.setState({ client: props.clientQuery.client })
   }
-
 
   handleUpdate = async (e?: any) => {
     if (e) { e.preventDefault() }
@@ -113,6 +126,7 @@ class ShowClient extends React.Component<any, any> {
           passport: client.passport,
           phone: client.phone,
           mark_as_deleted: client.mark_as_deleted,
+          territory: client.territory.id,
         }
       },
       refetchQueries: [{
@@ -177,6 +191,12 @@ class ShowClient extends React.Component<any, any> {
     this.setState({ client: setClient(this.state.client) })
   }
 
+  changeSelectTerritory = (value) => {
+    let setClient = set(lensProp("territory"), value)
+
+    this.setState({ client: setClient(this.state.client) })
+  }
+
   handleOnKeyPress = (target: any) => {
     if (target.charCode === 13) {
       this.handleUpdate()
@@ -184,14 +204,15 @@ class ShowClient extends React.Component<any, any> {
   }
 
   render() {
-    let { loading, error } = this.props.clientQuery
     let { client } = this.state
+    let { territories } = this.props.territoriesQuery
+    let { loading, error } = this.props.clientQuery
 
-    if (loading) {
+    if (loading || this.props.territoriesQuery.loading) {
       return <Spinner />
     }
 
-    if (error || !client) {
+    if (error || !client || this.props.territoriesQuery.error) {
       return <Page500 />
     }
 
@@ -204,7 +225,7 @@ class ShowClient extends React.Component<any, any> {
             <div className="card">
 
               <div className="card-header">
-                <i className="fa fa-align-justify" /> Client
+                <i className="fa fa-align-justify" /> Update Client
               </div>
 
               <div className="card-block">
@@ -296,23 +317,50 @@ class ShowClient extends React.Component<any, any> {
                     </div>
                   </div>
 
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">territory name</span>
-                        {client.territory.name}
-                      </div>
-                    </div>
-                  </div>
+                  {
+                    AuthProvider.isAdmin() ?
 
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">territory rate</span>
-                        {client.territory.rate}
+                      <div className="form-group row">
+                        <div className="col-md-12">
+                          <div className="input-group">
+                            <span className="input-group-addon">Territory</span>
+                            <Select
+                              name="role"
+                              labelKey="rate"
+                              valueKey="id"
+                              className="form-control"
+                              options={territories}
+                              value={client.territory}
+                              onChange={this.changeSelectTerritory}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+
+
+                    :
+                    <div>
+                      <div className="form-group row">
+                        <div className="col-md-12">
+                          <div className="input-group">
+                            <span className="input-group-addon">territory name</span>
+                            {client.territory.name}
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div className="form-group row">
+                        <div className="col-md-12">
+                          <div className="input-group">
+                            <span className="input-group-addon">territory rate</span>
+                            {client.territory.rate}
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  }
 
                   <div className="form-actions">
                     <button
@@ -326,16 +374,12 @@ class ShowClient extends React.Component<any, any> {
 
                     {
                       AuthProvider.isAdmin() ?
-                        <div>
-                          {" "}
-
-                          <button
-                            className="btn btn-primary"
-                            onClick={this.handleDelete}
-                          >
-                            Delete
-                          </button>
-                        </div>
+                        <button
+                          className="btn btn-primary"
+                          onClick={this.handleDelete}
+                        >
+                          Delete
+                        </button>
                       : null
                     }
 
@@ -390,6 +434,11 @@ export default compose(
   graphql<any, any, any>(
     deleteClientQuery, {
       name: "deleteClientQuery"
+    }
+  ),
+  graphql<any, any, any>(
+    territoriesQuery, {
+      name: "territoriesQuery" ,
     }
   ),
 )(ShowClient)

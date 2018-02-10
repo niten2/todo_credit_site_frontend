@@ -6,8 +6,8 @@ import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
 
 const usersQuery = gql`
-  query {
-    users {
+  query users($input: UsersInput) {
+    users(input: $input) {
       id
 
       email
@@ -15,6 +15,7 @@ const usersQuery = gql`
       role
     }
   }
+
 `
 
 interface P {
@@ -86,5 +87,14 @@ class UserList extends React.Component<P, S> {
 }
 
 export default graphql<any, any, any>(
-  usersQuery, {name: "usersQuery"}
+  usersQuery, {
+    name: "usersQuery",
+    options: (props) => ({
+      variables: {
+        input: {
+          role: "manager",
+        }
+      }
+    })
+  }
 )(UserList)

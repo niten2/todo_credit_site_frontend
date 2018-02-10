@@ -3,7 +3,7 @@ import gql from "graphql-tag"
 import Select from 'react-select'
 import { compose, graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
-import { Input } from 'reactstrap'
+import { Input, Label } from 'reactstrap'
 import { set, lensProp } from 'ramda'
 
 import Notification from 'src/config/notification'
@@ -62,6 +62,7 @@ const usersQuery = gql`
     }
   }
 `
+
 const territoriesQuery = gql`
   query {
     territories {
@@ -90,10 +91,6 @@ class ShowUser extends React.Component<any, any> {
       {value: "manager"},
       {value: "admin"}
     ],
-    blockedOptions: [
-      {label: "true", value: true},
-      {label: "false", value: false},
-    ]
   }
 
   componentWillReceiveProps(props: any) {
@@ -156,9 +153,8 @@ class ShowUser extends React.Component<any, any> {
 
     try {
       await this.props.deleteUserQuery(options)
-      this.props.history.push("/users")
-
       Notification.success("user delete")
+      this.props.history.push("/users")
     } catch (err) {
       Notification.error(err.message)
     }
@@ -175,10 +171,14 @@ class ShowUser extends React.Component<any, any> {
     this.setState({ user: setClient(this.state.user) })
   }
 
-  changeSelectBlocked = (value) => {
-    let setClient = set(lensProp("blocked"), value.value)
-
-    this.setState({ user: setClient(this.state.user) })
+  handleSetStateCheckbox = (e) => {
+    this.setState({
+      user: set(
+        lensProp("blocked"),
+        !this.state.user.blocked,
+        this.state.user
+      )
+    })
   }
 
   handleOnKeyPress = (target: any) => {
@@ -200,7 +200,7 @@ class ShowUser extends React.Component<any, any> {
       return <Page500 />
     }
 
-    let { user, roles, blockedOptions } = this.state
+    let { user, roles } = this.state
 
     return (
       <div className="animated fadeIn">
@@ -315,15 +315,15 @@ class ShowUser extends React.Component<any, any> {
                     <div className="col-md-12">
                       <div className="input-group">
                         <span className="input-group-addon">Blocked</span>
-                        <Select
-                          name="blocked"
-                          labelKey="label"
-                          valueKey="value"
-                          className="form-control"
-                          options={blockedOptions}
-                          value={user.blocked}
-                          onChange={this.changeSelectBlocked}
-                        />
+                        <Label check={true}>
+                          <Input
+                            name="mark_as_deleted"
+                            placeholder="mark_as_deleted"
+                            type="checkbox"
+                            onChange={this.handleSetStateCheckbox}
+                            checked={user.blocked}
+                          />
+                        </Label>
                       </div>
                     </div>
                   </div>

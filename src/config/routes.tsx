@@ -1,7 +1,9 @@
 import * as React from 'react'
 import { ApolloProvider } from 'react-apollo'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { Router, Switch, Route } from 'react-router-dom'
+
 import { client } from 'src/config/apollo_client'
+import history from 'src/config/history'
 
 import { PrivateLayout, PrivateLayoutAdmin, PrivateLayoutManager } from 'src/components/shared/layout'
 import Page404 from 'src/components/shared/page404'
@@ -24,7 +26,7 @@ import EditLoanClient from 'src/components/clients/loans/edit'
 export default () => {
   return (
     <ApolloProvider client={client}>
-      <Router>
+      <Router history={history}>
         <Switch>
           <Route exact={true} path="/login" component={Login}/>
           <PrivateLayout exact={true} path="/profile" component={Profile}/>

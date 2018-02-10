@@ -1,6 +1,6 @@
 import * as React from 'react'
 import gql from "graphql-tag"
-import { graphql } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 
 import AuthProvider from 'src/config/auth_provider'
 import Spinner from 'src/components/shared/spinner'
@@ -19,16 +19,29 @@ const loansQuery = gql`
   }
 `
 
+const clientQuery = gql`
+  query client($id: ID!) {
+    client(id: $id) {
+      id
+      full_name
+    }
+  }
+`
+
 class ListLoan extends React.Component<any, any> {
 
   render() {
     let { loans, loading, error } = this.props.loansQuery
 
-    if (loading) {
+    let loadingClient = this.props.clientQuery.loading
+    let errorClient = this.props.clientQuery.error
+    let client = this.props.clientQuery.client
+
+    if (loading || loadingClient) {
       return <Spinner />
     }
 
-    if (error) {
+    if (error || errorClient) {
       return <Page500 />
     }
 
@@ -36,7 +49,7 @@ class ListLoan extends React.Component<any, any> {
       <div className="card">
 
         <div className="card-header">
-          <i className="fa fa-align-justify" /> Loans
+          <i className="fa fa-align-justify" /> Loans, client full name = {client.full_name}
         </div>
 
         <div className="card-block">
@@ -52,13 +65,14 @@ class ListLoan extends React.Component<any, any> {
                     {AuthProvider.isAdmin() ? <th className="text-center">Edit</th> : null}
                   </tr>
                 </thead>
+
                 <tbody>
                   {
                     loans.map((loan, index) =>
                       <ViewLoan
                         key={index}
                         loan={loan}
-                        clientId={this.props.match.params.id}
+                        clientId={client.id}
                       />
                     )
                   }
@@ -75,15 +89,27 @@ class ListLoan extends React.Component<any, any> {
 
 }
 
-export default graphql<any, any, any>(
-  loansQuery, {
-    name: "loansQuery" ,
-    options: (props) => ({
-      variables: {
-        input: {
-          client: props.match.params.id
+export default compose (
+  graphql<any, any, any>(
+    loansQuery, {
+      name: "loansQuery" ,
+      options: (props) => ({
+        variables: {
+          input: {
+            client: props.match.params.id
+          }
         }
-      }
-    })
-  }
+      })
+    },
+  ),
+  graphql<any, any, any>(
+    clientQuery, {
+      name: "clientQuery" ,
+      options: (props) => ({
+        variables: {
+          id: props.match.params.id
+        }
+      })
+    },
+  ),
 )(ListLoan)
