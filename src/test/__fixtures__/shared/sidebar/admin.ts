@@ -1,7 +1,5 @@
 import Sidebar from "src/components/shared/sidebar"
 
-// const auth_session_storage_key = process.env.REACT_APP_AUTH_SESSION_STORAGE_KEY
-
 export default {
   component: Sidebar,
   url: "/sidebar",

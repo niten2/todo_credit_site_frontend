@@ -7,9 +7,26 @@ describe("dashboard", () => {
 
   beforeEach(mount)
 
-  it('renders Description', async () => {
-    expect(getWrapper().text()).toContain("admin")
-    expect(getWrapper().text()).toContain("source code")
+  // it('renders text', async () => {
+  //   expect(getWrapper().text()).toContain("admin")
+  //   expect(getWrapper().text()).toContain("source code")
+  // })
+
+
+  it('renders text', async () => {
+
+   // console.log(getWrapper().text())
+
+   await getWrapper('.btn .btn-primary .px-4').simulate('click');
+
+   // console.log(getWrapper().text())
+
+
+
+
+    // expect(getWrapper().text()).toContain("admin")
+    // expect(getWrapper().text()).toContain("source code")
   })
+
 
 })
