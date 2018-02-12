@@ -1,9 +1,7 @@
-import * as React from 'react'
+import * as React from "react"
 
 class Page404 extends React.Component<{}, {}> {
   render() {
-    console.log(this.props)
-
     return (
       <div className="app flex-row align-items-center">
         <div className="container">

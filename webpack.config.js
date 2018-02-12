@@ -1,29 +1,4 @@
-// const path = require('path');
-
-// console.log(111)
-
-// module.exports = {
-//   entry: './src/index.ts',
-//   module: {
-//     rules: [
-//       {
-//         test: /\.tsx?$/,
-//         use: 'ts-loader',
-//         exclude: /node_modules/
-//       }
-//     ]
-//   },
-//   resolve: {
-//     extensions: [ '.tsx', '.ts', '.js' ]
-//   },
-//   output: {
-//     filename: 'bundle.js',
-//     path: path.resolve(__dirname, 'dist')
-//   }
-// };
-
-
-
+// NOTE need for cosmos
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -33,6 +8,7 @@ const lib = path.join(__dirname, 'lib');
 const nodeModules = path.join(__dirname, '../../node_modules');
 
 const env = process.env.NODE_ENV || 'development';
+
 const plugins = [
   new webpack.DefinePlugin({
     'process.env': {
@@ -42,7 +18,7 @@ const plugins = [
 ];
 
 if (env === 'production') {
-  // Used when creating build
+  // NOTE Used when creating build
   plugins.push(
     new webpack.optimize.UglifyJsPlugin({
       compress: true,
@@ -51,32 +27,37 @@ if (env === 'production') {
     })
   );
 } else {
-  // Used by Cosmos config (when loading Playground inside Playground)
+  // NOTE Used by Cosmos config (when loading Playground inside Playground)
   plugins.push(
     new HtmlWebpackPlugin({
       title: 'React Cosmos'
     })
-  );
+  )
 }
 
 module.exports = {
 
-  // Besides other advantages, cheap-module-source-map is compatible with
-  // React.componentDidCatch https://github.com/facebook/react/issues/10441
   devtool: 'cheap-module-source-map',
+
   entry: src,
+
   output: {
     libraryTarget: 'umd',
     library: 'mountPlayground',
     path: lib,
     filename: 'index.js'
   },
+
   resolve: {
-   // alias:{
-   //    root: path.resolve(__dirname)
-   //  },
-    extensions: [ '.tsx', '.ts', '.js', ".jsx" ]
+    modules: [__dirname, "node_modules"],
+    extensions: ['.tsx', '.ts', '.js', ".jsx"],
+    alias: {
+      // NOTE need for error Schema must be an instance of GraphQLSchema.
+      react: path.resolve('./node_modules/react'),
+      graphql: path.resolve('./node_modules/graphql'),
+    },
   },
+
   module: {
     rules: [
       {
@@ -114,5 +95,6 @@ module.exports = {
       }
     ]
   },
-  plugins
-};
+
+  plugins,
+}
