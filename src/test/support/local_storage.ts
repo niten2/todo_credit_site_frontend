@@ -1,29 +1,31 @@
 export default class LocalStorageMock {
-  constructor() {
-    this.store = {}
-  }
+  // store: any
 
-  clear() {
-    this.store = {}
-  }
+  // constructor() {
+  //   this.store = {}
+  // }
 
-  getItem(key) {
-    return this.store[key] || null
-  }
+  // clear() {
+  //   this.store = {}
+  // }
 
-  setItem(key, value) {
-    this.store[key] = value.toString()
-  }
+  // getItem(key) {
+  //   return this.store[key] || null
+  // }
 
-  removeItem(key) {
-    delete this.store[key]
-  }
+  // setItem(key, value) {
+  //   this.store[key] = value.toString()
+  // }
 
-  setToken(value) {
-    this.store[settings.auth_session_storage_key] = value.toString()
-  }
+  // removeItem(key) {
+  //   delete this.store[key]
+  // }
 
-  getToken() {
-    return this.store[settings.auth_session_storage_key]
-  }
+  // setToken(value) {
+  //   this.store[settings.auth_session_storage_key] = value.toString()
+  // }
+
+  // getToken() {
+  //   return this.store[settings.auth_session_storage_key]
+  // }
 }

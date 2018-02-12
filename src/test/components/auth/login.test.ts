@@ -1,11 +1,11 @@
-import * as createTestContext from "react-cosmos-test/enzyme"
-import fixture from "src/test/__fixtures__/auth/login"
+// import * as createTestContext from "react-cosmos-test/enzyme"
+// import fixture from "src/test/__fixtures__/auth/login"
 
-const { mount, getWrapper } = createTestContext({ fixture })
+// const { mount, getWrapper } = createTestContext({ fixture })
 
 describe("dashboard", () => {
 
-  beforeEach(mount)
+  // beforeEach(mount)
 
   // it('renders text', async () => {
   //   expect(getWrapper().text()).toContain("admin")
@@ -17,7 +17,8 @@ describe("dashboard", () => {
 
    // console.log(getWrapper().text())
 
-   await getWrapper('.btn .btn-primary .px-4').simulate('click');
+    console.log(111)
+   // await getWrapper('.btn .btn-primary .px-4').simulate('click')
 
    // console.log(getWrapper().text())
 
