@@ -71,9 +71,7 @@ const Mutation = {
 
   createToken: (_: any, args: any): any => {
     return {
-      user: {
-        role: "admin",
-      },
+      user: fakeUser,
       token: "token",
     }
   },
@@ -124,8 +122,8 @@ const Mutation = {
   //   return loan
   // }),
 
-  updateLoan: async (root: any, args: any, ctx: any) => {
-  },
+  // updateLoan: async (root: any, args: any, ctx: any) => {
+  // },
 
   calculateLoan: async (root: any, args: any, ctx: any) => {
     return {
