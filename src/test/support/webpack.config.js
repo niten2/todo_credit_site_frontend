@@ -1,7 +1,7 @@
 // NOTE need for cosmos
 const path = require('path')
 const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+// const HtmlWebpackPlugin = require('html-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 
 const env = process.env.NODE_ENV || 'development'
@@ -9,7 +9,7 @@ const env = process.env.NODE_ENV || 'development'
 const main = path.join(__dirname, "../../..")
 const src = path.join(__dirname, "src")
 const lib = path.join(__dirname, "lib")
-// const nodeModules = path.join(__dirname, '../../node_modules')
+const nodeModules = path.join(main, 'node_modules')
 const envTest = path.join(main, ".env.test")
 
 const plugins = [
@@ -23,9 +23,9 @@ const plugins = [
     path: envTest,
   }),
 
-  new HtmlWebpackPlugin({
-    title: 'React Cosmos'
-  })
+  // new HtmlWebpackPlugin({
+  //   title: 'React Cosmos'
+  // })
 
 ]
 
@@ -44,7 +44,7 @@ module.exports = {
   },
 
   resolve: {
-    modules: [main, "node_modules"],
+    modules: [main, nodeModules],
     extensions: ['.tsx', '.ts', '.js', ".jsx"],
 
     // NOTE need for error Schema must be an instance of GraphQLSchema.
