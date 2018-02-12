@@ -1,36 +1,36 @@
-// import { fakeLoan, fakeTerritory, fakeUser, fakeClient } from "../fixtures"
+import { fakeLoan, fakeTerritory, fakeUser, fakeClient } from "../fixtures"
 
 const Query = {
   users: (root: any, args: any, ctx: any) => {
-    // return [fakeUser]
+    return [fakeUser]
   },
 
   user: (root: any, args: any, ctx: any) => {
-    // return fakeUser
+    return fakeUser
   },
 
   me: (_: any, args: any, ctx: any) => {
-    // return fakeUser
+    return fakeUser
   },
 
   clients: (root: any, args: any, ctx: any) => {
-    // return [fakeClient]
+    return [fakeClient]
   },
 
   client: (root: any, args: any, ctx: any) => {
-    // return fakeClient
+    return fakeClient
   },
 
   territories: (root: any, args: any, ctx: any) => {
-    // return fakeTerritory
+    return fakeTerritory
   },
 
   loan: (root: any, args: any, ctx: any) => {
-    // return fakeLoan
+    return fakeLoan
   },
 
   loans: (root: any, args: any, ctx: any) => {
-    // return [fakeLoan]
+    return [fakeLoan]
   },
 }
 
