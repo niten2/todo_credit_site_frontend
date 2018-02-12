@@ -1,7 +1,7 @@
 // NOTE need for cosmos
 const path = require('path')
 const webpack = require('webpack')
-// const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 
 const env = process.env.NODE_ENV || 'development'
@@ -23,10 +23,9 @@ const plugins = [
     path: envTest,
   }),
 
-  // new HtmlWebpackPlugin({
-  //   title: 'React Cosmos'
-  // })
-
+  new HtmlWebpackPlugin({
+    title: 'React Cosmos'
+  })
 ]
 
 module.exports = {
@@ -75,11 +74,11 @@ module.exports = {
           'less-loader'
         ]
       },
-      // {
-      //   test: /\.css$/,
-      //   include: nodeModules,
-      //   use: ['style-loader', 'css-loader']
-      // },
+      {
+        test: /\.css$/,
+        include: nodeModules,
+        use: ['style-loader', 'css-loader']
+      },
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']

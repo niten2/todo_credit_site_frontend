@@ -1,37 +1,40 @@
-import { fakeLoan, fakeTerritory, fakeUser, fakeClient } from "../fixtures"
+// import { fakeLoan, fakeTerritory, fakeUser, fakeClient } from "../fixtures"
 
 const Query = {
-  users: (root: any, args: any, ctx: any) => {
-    return [fakeUser]
-  },
+  // users: (root: any, args: any, ctx: any) => {
+  //   return [fakeUser]
+  // },
 
-  user: (root: any, args: any, ctx: any) => {
-    return fakeUser
-  },
+  // user: (root: any, args: any, ctx: any) => {
+  //   return fakeUser
+  // },
 
   me: (_: any, args: any, ctx: any) => {
-    return fakeUser
+    // return fakeUser
+    return {
+      role: "admin",
+    }
   },
 
-  clients: (root: any, args: any, ctx: any) => {
-    return [fakeClient]
-  },
+  // clients: (root: any, args: any, ctx: any) => {
+  //   return [fakeClient]
+  // },
 
-  client: (root: any, args: any, ctx: any) => {
-    return fakeClient
-  },
+  // client: (root: any, args: any, ctx: any) => {
+  //   return fakeClient
+  // },
 
-  territories: (root: any, args: any, ctx: any) => {
-    return fakeTerritory
-  },
+  // territories: (root: any, args: any, ctx: any) => {
+  //   return fakeTerritory
+  // },
 
-  loan: (root: any, args: any, ctx: any) => {
-    return fakeLoan
-  },
+  // loan: (root: any, args: any, ctx: any) => {
+  //   return fakeLoan
+  // },
 
-  loans: (root: any, args: any, ctx: any) => {
-    return [fakeLoan]
-  },
+  // loans: (root: any, args: any, ctx: any) => {
+  //   return [fakeLoan]
+  // },
 }
 
 const Mutation = {
