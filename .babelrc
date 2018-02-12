@@ -1,0 +1,10 @@
+{
+  "presets": [
+    "env",
+    "react"
+  ],
+  "plugins": [
+    ["babel-polyfill"],
+    ["resolver", { "resolveDirs": ["./"] }]
+  ]
+}
