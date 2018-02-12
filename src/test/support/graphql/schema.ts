@@ -194,28 +194,4 @@ const inputs = `
 
 const typeDefs = query + mutation + models + inputs
 
-// const typeDefs = `
-//   type Query {
-//     hello(who: String): String
-//     me: User
-
-//   }
-
-//   type User {
-//     id: ID
-
-//     full_name: String
-//     email: String
-//     login: String
-//     password: String
-//     role: String
-//     phone: String
-//     territory: String
-//     blocked: Boolean
-
-//     createdAt: String
-//     updatedAt: String
-//   }
-// `
-
 export default typeDefs

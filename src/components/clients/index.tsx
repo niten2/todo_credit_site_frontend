@@ -21,7 +21,7 @@ const NewClientLink = () => {
   }
 }
 
-class Clients extends React.Component<any, any> {
+class ClientIndex extends React.Component<any, any> {
   render() {
     return (
       <div className="animated fadeIn">
@@ -33,4 +33,4 @@ class Clients extends React.Component<any, any> {
   }
 }
 
-export default Clients
+export default ClientIndex

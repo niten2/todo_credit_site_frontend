@@ -218,6 +218,10 @@ class Profile extends React.Component<P, S> {
 }
 
 export default compose(
-  graphql<any, any, any>(meQuery, {name: "meQuery"}),
-  graphql<any, any, any>(updateMeQuery, {name: "updateMeQuery"}),
+  graphql<any, any, any>(meQuery, {
+    name: "meQuery"
+  }),
+  graphql<any, any, any>(updateMeQuery, {
+    name: "updateMeQuery"
+  }),
 )(Profile)

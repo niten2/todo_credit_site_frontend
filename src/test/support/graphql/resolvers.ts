@@ -1,91 +1,37 @@
-// export default {
-//   Query: () => ({
-//     me: (_, args) => {
-//       return {
-//         login: "login",
-//         role: "role",
-//       }
-//     },
-//   })
-
-
-// }
-
+// import { fakeLoan, fakeTerritory, fakeUser, fakeClient } from "../fixtures"
 
 const Query = {
-  // users: authenticated(async (root: any, args: any, ctx: any) => {
-  //   ctx.ability.throwUnlessCan('read', User)
-
-  //   let options: any = { _id: { $ne: ctx.user.id } }
-
-  //   if (args.input && args.input.role) {
-  //     options.role = args.input.role
-  //   }
-
-  //   const users = await User.find(options)
-
-  //   return users
-  // }),
-
-  // user: authenticated(async (root: any, args: any, ctx: any) => {
-  //   ctx.ability.throwUnlessCan('read', ctx.user)
-
-  //   const user = await User.findById(args.id)
-  //   return user
-  // }),
-
-  me: (_: any, args: any, ctx: any) => {
-    return {
-      role: "admin",
-
-
-    }
+  users: (root: any, args: any, ctx: any) => {
+    // return [fakeUser]
   },
 
-  // clients: authenticated(async (root: any, args: any, ctx: any) => {
-  //   ctx.ability.throwUnlessCan('read', Client)
+  user: (root: any, args: any, ctx: any) => {
+    // return fakeUser
+  },
 
-  //   const clients = await Client.find()
+  me: (_: any, args: any, ctx: any) => {
+    // return fakeUser
+  },
 
-  //   await Territory.populate(clients, { path: "territory" })
+  clients: (root: any, args: any, ctx: any) => {
+    // return [fakeClient]
+  },
 
-  //   return clients
-  // }),
+  client: (root: any, args: any, ctx: any) => {
+    // return fakeClient
+  },
 
-  // client: authenticated(async (root: any, args: any, ctx: any) => {
-  //   ctx.ability.throwUnlessCan('read', Client)
+  territories: (root: any, args: any, ctx: any) => {
+    // return fakeTerritory
+  },
 
-  //   const client = await Client.findById(args.id)
+  loan: (root: any, args: any, ctx: any) => {
+    // return fakeLoan
+  },
 
-  //   await Loan.populate(client, { path: "loans" })
-  //   await Territory.populate(client, { path: "territory" })
-
-  //   return client
-  // }),
-
-  // territories: authenticated(async (root: any, args: any, ctx: any) => {
-  //   const territories = await Territory.find()
-  //   return territories
-  // }),
-
-  // loan: authenticated(async (root: any, args: any, ctx: any) => {
-  //   ctx.ability.throwUnlessCan('read', Loan)
-
-  //   const loan = await Loan.findById(args.id)
-
-  //   await Client.populate(loan, { path: "client" })
-  //   await Territory.populate(loan.client, { path: "territory" })
-
-  //   return loan
-  // }),
-
-  // loans: authenticated(async (root: any, args: any, ctx: any) => {
-  //   const options = args.input && args.input.client ? { "client": args.input.client } : null
-  //   let loans = await Loan.find(options)
-
-  //   return loans
-  // }),
-
+  loans: (root: any, args: any, ctx: any) => {
+    // return [fakeLoan]
+  },
 }
 
 const Mutation = {
@@ -184,7 +130,6 @@ const Mutation = {
 
   // calculateLoan: async (root: any, args: any, ctx: any) => {
   // },
-
 }
 
 export default {
