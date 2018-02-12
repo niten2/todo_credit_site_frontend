@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
 
-class UserView extends React.Component<any, any> {
+class ViewUser extends React.Component<any, any> {
 
   state = {
     object: {},
@@ -42,4 +42,4 @@ class UserView extends React.Component<any, any> {
 
 }
 
-export default UserView
+export default ViewUser
