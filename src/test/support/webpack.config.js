@@ -1,21 +1,30 @@
 // NOTE need for cosmos
-const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path')
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const Dotenv = require('dotenv-webpack')
 
-const src = path.join(__dirname, 'src');
-const lib = path.join(__dirname, 'lib');
-const nodeModules = path.join(__dirname, '../../node_modules');
+const env = process.env.NODE_ENV || 'development'
 
-const env = process.env.NODE_ENV || 'development';
+const main = path.join(__dirname, "../../..")
+const src = path.join(__dirname, 'src')
+const lib = path.join(__dirname, 'lib')
+const nodeModules = path.join(__dirname, '../../node_modules')
+const envTest = path.join(main, '.env.test')
 
 const plugins = [
   new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify(env)
     }
+  }),
+
+  new Dotenv({
+    path: envTest,
+    // '.env.test', // Path to .env file (this is the default)
+    // safe: true // load .env.example (defaults to "false" which does not use dotenv-safe)
   })
-];
+]
 
 if (env === 'production') {
   // NOTE Used when creating build
@@ -39,6 +48,7 @@ module.exports = {
 
   devtool: 'cheap-module-source-map',
 
+  context: main,
   entry: src,
 
   output: {
@@ -49,7 +59,7 @@ module.exports = {
   },
 
   resolve: {
-    modules: [__dirname, "node_modules"],
+    modules: [main, "node_modules"],
     extensions: ['.tsx', '.ts', '.js', ".jsx"],
     alias: {
       // NOTE need for error Schema must be an instance of GraphQLSchema.
