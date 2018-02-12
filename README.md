@@ -8,9 +8,13 @@ backend app [todo_credit_site_backend](https://github.com/niten2/todo_credit_sit
 - npm install
 
 ### Tests
-- fixtures: npm run cosmos
-- tests: npm run tests
 
+##### fixtures
+  - npm run cosmos
+  - open http://localhost:8989
+
+##### tests
+  - npm run tests
 
 # Техническое задание.
 

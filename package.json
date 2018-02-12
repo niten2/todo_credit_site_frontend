@@ -5,12 +5,14 @@
   "scripts": {
     "start": "react-app-rewired start --scripts-version react-scripts-ts",
     "build": "react-app-rewired build --scripts-version react-scripts-ts",
-    "tests": "react-app-rewired test --scripts-version react-scripts-ts --env=jsdom",
+    "tests": "react-app-rewired test --scripts-version react-scripts-ts --env=jsdom src/test",
+    "test": "react-app-rewired test --scripts-version react-scripts-ts --env=jsdom",
     "cosmos": "cosmos"
   },
   "jest": {
     "moduleNameMapper": {
-      "src/(.*)": "<rootDir>/src/$1"
+      "src/(.*)": "<rootDir>/src/$1",
+      "public/(.*)": "<rootDir>/public/$1"
     },
     "moduleDirectories": [
       "node_modules",
@@ -76,6 +78,7 @@
     "@types/webpack-env": "^1.13.5",
     "dotenv-webpack": "^1.5.4",
     "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "esnext": "^3.2.1",
     "faker": "^4.1.0",
     "jest-enzyme": "^4.1.1",
@@ -88,6 +91,7 @@
     "react-cosmos-redux-proxy": "^3.1.1",
     "react-cosmos-router-proxy": "^3.5.0",
     "react-cosmos-test": "^3.4.0",
+    "react-test-renderer": "^16.2.0",
     "typescript": "^2.7.1"
   }
 }
