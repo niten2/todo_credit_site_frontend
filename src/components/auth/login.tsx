@@ -58,9 +58,6 @@ class Login extends React.Component<P, S> {
   }
 
   handleLogin = async () => {
-
-
-
     const { login, password } = this.state
 
     const options = {
@@ -80,8 +77,6 @@ class Login extends React.Component<P, S> {
 
       AuthProvider.saveToken(token)
       AuthProvider.saveRole(role)
-
-      // console.log(AuthProvider.saveToken.mock.calls)
 
       this.props.history.push('/dashboard')
 

@@ -120,7 +120,7 @@ class Profile extends React.Component<P, S> {
     let { loading, error } = this.props.meQuery
     let { me } = this.state
 
-    if (loading ) {
+    if (loading) {
       return <Spinner />
     }
 
