@@ -76,11 +76,6 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.js/,
-        include: src,
-        use: 'babel-loader'
-      },
-      {
         test: /\.jsx?$/,
         include: src,
         use: 'babel-loader'
@@ -93,6 +88,11 @@ module.exports = {
           'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
           'less-loader'
         ]
+      },
+      {
+        test: /\.css$/,
+        include: nodeModules,
+        use: ['style-loader', 'css-loader']
       },
       {
         test: /\.css$/,

@@ -70,17 +70,13 @@ class Login extends React.Component<P, S> {
     }
 
     try {
-      // console.log(1111, this.props)
-      // console.log(1111222)
-
       console.log(this.props.createToken(options))
 
-
       let response = await this.props.createToken(options)
-      // console.log(1111222)
-      // console.log(1111, response)
 
-      // console.log(response.data.createToken)
+      console.log(888888888, response.data.createToken)
+
+
 
       const token = response.data.createToken.token
       const role = response.data.createToken.user.role

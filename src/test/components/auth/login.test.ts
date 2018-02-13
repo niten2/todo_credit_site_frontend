@@ -17,10 +17,9 @@ describe("dashboard", () => {
 
    // console.log(getWrapper().text())
 
-   await getWrapper('.btn .btn-primary .px-4').simulate('click')
-   console.log(99)
+   await getWrapper('.btn .btn-primary .px-4').simulate('click');
 
-   // console.log(getWrapper().text())
+   console.log(getWrapper().text())
 
 
 
