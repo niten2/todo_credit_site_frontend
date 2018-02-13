@@ -6,10 +6,10 @@ import 'public/css/style.css'
 import { typeDefs, mocks }  from 'src/test/support/graphql'
 
 export default [
-  createRouterProxy(),
-  createLocalStorageProxy(),
   createApolloProxy({
     typeDefs,
     mocks,
-  })
+  }),
+  createRouterProxy(),
+  createLocalStorageProxy(),
 ]
