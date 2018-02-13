@@ -4,15 +4,9 @@ import { onError } from 'apollo-link-error'
 import { createHttpLink } from "apollo-link-http"
 import { InMemoryCache } from "apollo-cache-inmemory"
 
-// import AuthProvider from "src/config/auth_provider"
-// import settings from "src/config/settings"
-// import history from 'src/config/history'
-
-import AuthProvider from "./auth_provider"
-import settings from "./settings"
-import history from './history'
-
-
+import AuthProvider from "src/config/auth_provider"
+import settings from "src/config/settings"
+import history from 'src/config/history'
 
 const httpLink = createHttpLink({
   uri: settings.backend_url,

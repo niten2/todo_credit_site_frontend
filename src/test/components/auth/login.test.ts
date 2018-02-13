@@ -15,17 +15,12 @@ describe("dashboard", () => {
 
   it('renders text', async () => {
 
-   // console.log(getWrapper().text())
-
    await getWrapper('.btn .btn-primary .px-4').simulate('click');
 
+   console.log(11)
    console.log(getWrapper().text())
+   console.log(11)
 
-
-
-
-    // expect(getWrapper().text()).toContain("admin")
-    // expect(getWrapper().text()).toContain("source code")
   })
 
 
