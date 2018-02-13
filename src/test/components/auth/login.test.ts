@@ -1,11 +1,12 @@
 import * as createTestContext from "react-cosmos-test/enzyme"
 import fixture from "src/test/__fixtures__/auth/login"
 
-const { mount, getWrapper } = createTestContext({ fixture })
+// import AuthProvider from "src/config/auth_provider"
 
-describe("dashboard", () => {
 
-  beforeEach(mount)
+describe("login", async () => {
+
+  // beforeEach(async () => await mount())
 
   // it('renders text', async () => {
   //   expect(getWrapper().text()).toContain("admin")
@@ -15,11 +16,39 @@ describe("dashboard", () => {
 
   it('renders text', async () => {
 
-   await getWrapper('.btn .btn-primary .px-4').simulate('click');
+    await jest.mock('src/config/auth_provider', () => ({
+      default: {
+        saveToken: jest.fn(),
+        saveRole: jest.fn(),
+      }
+    }))
 
-   console.log(11)
-   console.log(getWrapper().text())
-   console.log(11)
+    const { mount, getWrapper } = createTestContext({ fixture })
+
+    await mount()
+
+    // const p = Promise.resolve('success')
+
+
+    // console.log(createTestContext({ fixture }))
+
+    // console.log(getWrapper())
+
+
+    // await mount()
+
+    await getWrapper('.btn .btn-primary .px-4').simulate('click')
+
+    // await p
+
+    // await mount()
+
+    const AuthProvider = require("src/config/auth_provider").default
+
+    // console.log(AuthProvider)
+
+    console.log(AuthProvider.saveToken.mock.calls)
+
 
   })
 

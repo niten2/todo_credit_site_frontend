@@ -10,7 +10,7 @@
 
 //   const schema = makeExecutableSchema({ typeDefs })
 
-//   addMockFunctionsToSchema({
+//   let z = addMockFunctionsToSchema({
 //     schema,
 //     mocks,
 //     preserveResolvers: true
