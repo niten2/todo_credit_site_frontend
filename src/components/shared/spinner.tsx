@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Spinner from "react-spinkit"
+import * as Spinner from "react-spinkit"
 
 class Loading extends React.Component<any, any> {
 
@@ -11,8 +11,8 @@ class Loading extends React.Component<any, any> {
 
             <Spinner
               name="ball-grid-pulse"
-              noFadeIn={false}
-              color="red"
+              fadeIn="none"
+              color="black"
             />
 
           </div>

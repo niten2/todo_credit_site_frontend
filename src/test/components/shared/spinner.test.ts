@@ -3,14 +3,12 @@ import fixture from "src/test/__fixtures__/shared/spinner"
 
 const { mount, getWrapper } = createTestContext({ fixture })
 
-describe("", () => {
+describe("text", () => {
 
   beforeEach(mount)
 
-  it('should have users', async () => {
-    console.log(getWrapper().text())
-
-    // expect(getWrapper().text()).toContain("Users")
+  it('should be valid', async () => {
+    expect(getWrapper().length).toEqual(1)
   })
 
 })

@@ -59,11 +59,6 @@ module.exports = {
   resolve: {
     modules: [main, "node_modules"],
     extensions: ['.tsx', '.ts', '.js', ".jsx"],
-    // alias: {
-    //   // NOTE need for error Schema must be an instance of GraphQLSchema.
-    //   react: path.resolve('./node_modules/react'),
-    //   graphql: path.resolve('./node_modules/graphql'),
-    // },
   },
 
   module: {
