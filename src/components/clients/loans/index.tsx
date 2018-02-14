@@ -1,9 +1,8 @@
 import * as React from "react"
 
-import ListLoans from 'src/components/clients/loans/list'
-import NewLoan from 'src/components/clients/loans/new'
-
 import AuthProvider from 'src/config/auth_provider'
+import NewLoan from 'src/components/clients/loans/new'
+import ListLoans from 'src/components/clients/loans/list'
 
 class IndexLoan extends React.Component<any, any> {
 

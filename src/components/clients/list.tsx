@@ -1,25 +1,15 @@
 import * as React from 'react'
-import gql from "graphql-tag"
-import { graphql } from "react-apollo"
-import ViewClient from './view'
+
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
+import ViewClient from 'src/components/clients/list/view'
+import { withData } from 'src/components/clients/list/queries'
 
-const clientsQuery = gql`
-  query {
-    clients {
-      id
+interface P {
+  clientsQuery: any
+}
 
-      full_name
-      email
-      passport
-      phone
-      total_sum_loans
-    }
-  }
-`
-
-class ListClient extends React.Component<any, any> {
+class ListClient extends React.Component<P, {}> {
 
   render() {
     let { clients, loading, error } = this.props.clientsQuery
@@ -76,6 +66,4 @@ class ListClient extends React.Component<any, any> {
   }
 }
 
-export default graphql<any, any, any>(
-  clientsQuery, {name: "clientsQuery"}
-)(ListClient)
+export default withData(ListClient)

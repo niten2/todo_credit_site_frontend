@@ -21,7 +21,7 @@ const NewClientLink = () => {
   }
 }
 
-class IndexClient extends React.Component<any, any> {
+class IndexClient extends React.Component<{}, {}> {
   render() {
     return (
       <div className="animated fadeIn">
