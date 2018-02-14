@@ -5,7 +5,7 @@ import NewLoan from 'src/components/clients/loans/new'
 
 import AuthProvider from 'src/config/auth_provider'
 
-class LoanClient extends React.Component<any, any> {
+class ListLoan extends React.Component<any, any> {
 
   render() {
     return (
@@ -25,4 +25,4 @@ class LoanClient extends React.Component<any, any> {
 
 }
 
-export default LoanClient
+export default ListLoan

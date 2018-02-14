@@ -1,8 +1,8 @@
-import * as React from 'react'
+import * as React from "react"
 import gql from "graphql-tag"
 import { withApollo, graphql } from "react-apollo"
-import Spinner from 'src/components/shared/spinner'
-import { withRouter } from 'react-router'
+import Spinner from "src/components/shared/spinner"
+import { withRouter } from "react-router"
 import AuthProvider from "src/config/auth_provider"
 
 const meQuery = gql`

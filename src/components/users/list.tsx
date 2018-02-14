@@ -29,7 +29,7 @@ interface P {
 interface S {
 }
 
-class UserList extends React.Component<P, S> {
+class ListUser extends React.Component<P, S> {
 
   render() {
     let { users, loading, error } = this.props.usersQuery
@@ -97,4 +97,4 @@ export default graphql<any, any, any>(
       }
     })
   }
-)(UserList)
+)(ListUser)

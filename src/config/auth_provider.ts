@@ -1,50 +1,38 @@
 import settings from "src/config/settings"
 
 class AuthProvider  {
-  public storage: any
-
-  constructor() {
-    this.storage = localStorage
-    // TODO
-    // this.storage = this.supportsHtml5Storage() ? localStorage : null
-  }
-
-  // TODO
-  // supportsHtml5Storage(): any {
-  //   try {
-  //     return 'localStorage' in window && window['localStorage'] !== null
-  //   } catch (e) {
-  //     return null
-  //   }
-  // }
-
   fetchToken(): string {
-    const token = this.storage && this.storage.getItem(settings.auth_session_storage_key)
+    const token = localStorage.getItem(settings.auth_session_storage_key)
+
+    if (!token) { throw new Error("token not found") }
+
     return `Bearer ${token}`
   }
 
   token(): string {
-    const token = this.storage.getItem(settings.auth_session_storage_key)
+    const token = localStorage.getItem(settings.auth_session_storage_key)
+
+    if (!token) { throw new Error("token not found") }
+
     return token
   }
 
   saveToken(token: string): boolean {
-    if (!this.storage) { return false }
+    localStorage.setItem(settings.auth_session_storage_key, token)
 
-    this.storage.setItem(settings.auth_session_storage_key, token)
     return true
   }
 
   saveRole(role: string): boolean {
-    this.storage.setItem(settings.auth_session_storage_key_role, role)
+    localStorage.setItem(settings.auth_session_storage_key_role, role)
+
     return true
   }
 
   removeToken(): boolean {
-    if (!this.storage) { return false }
+    localStorage.removeItem(settings.auth_session_storage_key)
+    localStorage.removeItem(settings.auth_session_storage_key_role)
 
-    this.storage.removeItem(settings.auth_session_storage_key)
-    this.storage.removeItem(settings.auth_session_storage_key_role)
     return true
   }
 
@@ -53,10 +41,10 @@ class AuthProvider  {
   }
 
   isAdmin(): boolean {
-    const role = this.storage.getItem(settings.auth_session_storage_key_role)
+    const role = localStorage.getItem(settings.auth_session_storage_key_role)
+
     return role === "admin"
   }
-
 }
 
 export default new AuthProvider()

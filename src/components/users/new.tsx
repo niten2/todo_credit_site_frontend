@@ -49,7 +49,7 @@ const territoriesQuery = gql`
   }
 `
 
-class UserNew extends React.Component<any, any> {
+class NewUser extends React.Component<any, any> {
 
   state = {
     user: {
@@ -312,4 +312,4 @@ export default compose (
       name: "territoriesQuery" ,
     }
   ),
-)(UserNew)
+)(NewUser)

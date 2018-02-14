@@ -53,7 +53,7 @@ const calculateLoanQuery = gql`
   }
 `
 
-class LendClient extends React.Component<any, any> {
+class NewLoan extends React.Component<any, any> {
 
   state = {
     loan: {
@@ -123,7 +123,7 @@ class LendClient extends React.Component<any, any> {
     let { client } = this.props.clientQuery
     let loanRes
 
-    if (loan.sum === 0 || loan.sum === undefined || loan.sum === "") {
+    if (loan.sum === 0 || loan.sum === undefined || loan.sum === "" || loan.sum === null) {
       loanRes = set(lensProp("total"), 0, loan)
       return loanRes
     }
@@ -185,7 +185,7 @@ class LendClient extends React.Component<any, any> {
     }
 
     let rate = client.territory ? client.territory.rate : "territory not found"
-    let total = loan.total === 0 || loan.total === undefined ? "total not calculate" : loan.total
+    let total = loan.total ? loan.total : "total not calculate"
 
     return (
       <div className="card">
@@ -306,4 +306,4 @@ export default compose(
       name: "calculateLoanQuery"
     }
   ),
-)(LendClient)
+)(NewLoan)

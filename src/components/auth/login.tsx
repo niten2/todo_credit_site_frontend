@@ -2,7 +2,7 @@ import * as React from "react"
 import gql from "graphql-tag"
 import { graphql } from "react-apollo"
 
-import authProvider from "src/config/auth_provider"
+import AuthProvider from "src/config/auth_provider"
 
 interface P {
   createToken: (options: object) => Promise<any>
@@ -49,16 +49,10 @@ class Login extends React.Component<P, S> {
     error: null,
   }
 
-  handleOnKeyPress = (target: any) => {
-    if (target.charCode === 13) {
-      this.handleLogin()
-    }
-  }
-
   handleSetState = (e) => {
     const { name, value } = e.target
-
     let variable = {}
+
     variable[name] = value
 
     this.setState(variable)
@@ -82,13 +76,19 @@ class Login extends React.Component<P, S> {
       const token = response.data.createToken.token
       const role = response.data.createToken.user.role
 
-      authProvider.saveToken(token)
-      authProvider.saveRole(role)
+      AuthProvider.saveToken(token)
+      AuthProvider.saveRole(role)
 
       this.props.history.push('/dashboard')
 
     } catch (err) {
       this.setState({ error: err.message })
+    }
+  }
+
+  handleOnKeyPress = (target: any) => {
+    if (target.charCode === 13) {
+      this.handleLogin()
     }
   }
 

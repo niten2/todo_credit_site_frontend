@@ -3,6 +3,19 @@
 
 backend app [todo_credit_site_backend](https://github.com/niten2/todo_credit_site_backend)
 
+### Setup
+
+- npm install
+
+### Tests
+
+##### fixtures
+  - npm run cosmos
+  - open http://localhost:8989
+
+##### tests
+  - npm run tests
+
 # Техническое задание.
 
 1. Приложение должно поддерживать аутентификацию по паре логин и пароль.

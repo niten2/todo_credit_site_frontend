@@ -423,7 +423,9 @@ export default compose(
     clientQuery, {
       name: "clientQuery" ,
       options: (props) => ({
-        variables: {id: props.match.params.id}
+        variables: {
+          id: props.match.params.id
+        }
       })
     }
   ),

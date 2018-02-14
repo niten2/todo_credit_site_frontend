@@ -120,7 +120,7 @@ class Profile extends React.Component<P, S> {
     let { loading, error } = this.props.meQuery
     let { me } = this.state
 
-    if (loading ) {
+    if (loading) {
       return <Spinner />
     }
 
@@ -218,6 +218,10 @@ class Profile extends React.Component<P, S> {
 }
 
 export default compose(
-  graphql<any, any, any>(meQuery, {name: "meQuery"}),
-  graphql<any, any, any>(updateMeQuery, {name: "updateMeQuery"}),
+  graphql<any, any, any>(meQuery, {
+    name: "meQuery"
+  }),
+  graphql<any, any, any>(updateMeQuery, {
+    name: "updateMeQuery"
+  }),
 )(Profile)

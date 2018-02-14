@@ -25,6 +25,7 @@ const errorLink = onError(({ networkError, graphQLErrors, response }) => {
 
   if (networkError) {
     console.log(`[Network error]: ${networkError}`)
+    history.push("/login")
   }
 })
 

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 class ViewClient extends React.Component<any, any> {
 
   state = {
-    object: {},
     attributes: [
       "full_name",
       "email",

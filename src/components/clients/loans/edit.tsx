@@ -66,7 +66,7 @@ const calculateLoanQuery = gql`
   }
 `
 
-class EditLoanClient extends React.Component<any, any> {
+class EditLoan extends React.Component<any, any> {
 
   state = {
     loan: {
@@ -334,4 +334,4 @@ export default compose(
       name: "calculateLoanQuery"
     }
   ),
-)(EditLoanClient)
+)(EditLoan)
