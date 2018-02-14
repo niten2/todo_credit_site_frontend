@@ -23,44 +23,46 @@ class ListClient extends React.Component<P, {}> {
     }
 
     return (
-      <div className="animated fadeIn">
+      <div className="container-fluid">
+        <div className="animated fadeIn">
 
-        <div className="row">
-          <div className="col-lg-12">
-            <div className="card">
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="card">
 
-              <div className="card-header">
-                <i className="fa fa-align-justify" /> Clients
+                <div className="card-header">
+                  <i className="fa fa-align-justify" /> Clients
+                </div>
+
+                <div className="card-block">
+                  <table className="table text-center">
+                    <thead>
+                      <tr>
+                        <th className="text-center">Id</th>
+                        <th className="text-center">Email</th>
+                        <th className="text-center">Passport</th>
+                        <th className="text-center">Phone</th>
+                        <th className="text-center">Edit</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      { clients.map((object, index) =>
+                        <ViewClient
+                          key={index}
+                          object={object}
+                        />
+                      )}
+
+                    </tbody>
+                  </table>
+                </div>
+
               </div>
-
-              <div className="card-block">
-                <table className="table text-center">
-                  <thead>
-                    <tr>
-                      <th className="text-center">Id</th>
-                      <th className="text-center">Email</th>
-                      <th className="text-center">Passport</th>
-                      <th className="text-center">Phone</th>
-                      <th className="text-center">Edit</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-
-                    { clients.map((object, index) =>
-                      <ViewClient
-                        key={index}
-                        object={object}
-                      />
-                    )}
-
-                  </tbody>
-                </table>
-              </div>
-
             </div>
           </div>
-        </div>
 
+        </div>
       </div>
     )
   }

@@ -1,9 +1,11 @@
 import * as React from "react"
 import gql from "graphql-tag"
-import { withApollo, graphql } from "react-apollo"
-import Spinner from "src/components/shared/spinner"
 import { withRouter } from "react-router"
+import { withApollo, graphql } from "react-apollo"
+
 import AuthProvider from "src/config/auth_provider"
+import Spinner from 'src/components/shared/spinner'
+import Page500 from 'src/components/shared/page500'
 
 const meQuery = gql`
   query {
@@ -13,6 +15,12 @@ const meQuery = gql`
     }
   }
 `
+
+const withData = graphql<any, any, any>(
+  meQuery, {
+    name: "meQuery"
+  }
+)
 
 class Header extends React.Component<any, any> {
 
@@ -51,10 +59,14 @@ class Header extends React.Component<any, any> {
   }
 
   render() {
-    let { me, loading } = this.props.meQuery
+    let { me, loading, error } = this.props.meQuery
 
     if (loading ) {
       return <Spinner />
+    }
+
+    if (error) {
+      return <Page500 />
     }
 
     return (
@@ -71,27 +83,39 @@ class Header extends React.Component<any, any> {
 
         <ul className="nav navbar-nav d-md-down-none">
           <li className="nav-item">
-            <button className="nav-link navbar-toggler sidebar-toggler" type="button" onClick={this.sidebarToggle}>
+            <button
+              className="nav-link navbar-toggler sidebar-toggler"
+              type="button"
+              onClick={this.sidebarToggle}
+            >
               &#9776;
             </button>
           </li>
+
         </ul>
 
         <ul className="nav navbar-nav ml-auto">
-          <li className="nav-item">
-            {me && me.login} &nbsp;
+          <li className="d-md-down-none nav-item">
+            <button className="btn btn-secondary">
+              {me.login}
+            </button>
+            &nbsp;
           </li>
 
-          <li className="nav-item">
-            {me && me.role} &nbsp;
+          <li className="d-md-down-none nav-item">
+            <button className="btn btn-secondary">
+              {me.role}
+            </button>
+            &nbsp;
           </li>
 
           <li onClick={this.handleLogout} className="nav-item pointer">
-            Logout &nbsp;&nbsp;
+            <button className="btn btn-info">
+              Logout
+            </button>
+            &nbsp;&nbsp;
           </li>
-
         </ul>
-
       </header>
     )
   }
@@ -99,8 +123,6 @@ class Header extends React.Component<any, any> {
 
 export default withRouter(
   withApollo(
-    graphql<any, any, any>(
-      meQuery, {name: "meQuery"}
-    )(Header)
+    withData(Header)
   )
 )

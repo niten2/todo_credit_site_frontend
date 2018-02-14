@@ -129,86 +129,88 @@ class Profile extends React.Component<P, S> {
     }
 
     return (
-      <div className="animated fadeIn">
-        <div className="row">
-          <div className="col-md-12">
-            <div className="card">
-              <div className="card-header">
-                <strong>Profile</strong>
+      <div className="container-fluid">
+        <div className="animated fadeIn">
+          <div className="row">
+            <div className="col-md-12">
+              <div className="card">
+                <div className="card-header">
+                  <strong>Profile</strong>
+                </div>
+
+                <div className="card-block">
+                  <form action="" method="post" encType="multipart/form-data" className="form-horizontal">
+
+                    <div className="form-group row">
+                      <label className="col-md-3 form-control-label">Full name</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="full_name"
+                          placeholder="full_name"
+                          value={me.full_name || ""}
+                          onChange={this.handleSetState}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label className="col-md-3 form-control-label">Login</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="login"
+                          placeholder="login"
+                          value={me.login || ""}
+                          onChange={this.handleSetState}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label className="col-md-3 form-control-label">Email</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="email"
+                          placeholder="Email"
+                          value={me.email || ""}
+                          onChange={this.handleSetState}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label className="col-md-3 form-control-label">Phone</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="phone"
+                          placeholder="phone"
+                          value={me.phone || ""}
+                          onChange={this.handleSetState}
+                        />
+                      </div>
+                    </div>
+
+                  </form>
+                </div>
+
+                <div className="card-footer">
+                  <button
+                    onClick={this.updateUser}
+                    type="button"
+                    className="btn btn-sm btn-primary"
+                  >
+                    <i className="fa fa-dot-circle-o" /> Save Changes
+                  </button>
+                </div>
+
               </div>
-
-              <div className="card-block">
-                <form action="" method="post" encType="multipart/form-data" className="form-horizontal">
-
-                  <div className="form-group row">
-                    <label className="col-md-3 form-control-label">Full name</label>
-                    <div className="col-md-9">
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="full_name"
-                        placeholder="full_name"
-                        value={me.full_name || ""}
-                        onChange={this.handleSetState}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <label className="col-md-3 form-control-label">Login</label>
-                    <div className="col-md-9">
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="login"
-                        placeholder="login"
-                        value={me.login || ""}
-                        onChange={this.handleSetState}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <label className="col-md-3 form-control-label">Email</label>
-                    <div className="col-md-9">
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="email"
-                        placeholder="Email"
-                        value={me.email || ""}
-                        onChange={this.handleSetState}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <label className="col-md-3 form-control-label">Phone</label>
-                    <div className="col-md-9">
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="phone"
-                        placeholder="phone"
-                        value={me.phone || ""}
-                        onChange={this.handleSetState}
-                      />
-                    </div>
-                  </div>
-
-                </form>
-              </div>
-
-              <div className="card-footer">
-                <button
-                  onClick={this.updateUser}
-                  type="button"
-                  className="btn btn-sm btn-primary"
-                >
-                  <i className="fa fa-dot-circle-o" /> Save Changes
-                </button>
-              </div>
-
             </div>
           </div>
         </div>
