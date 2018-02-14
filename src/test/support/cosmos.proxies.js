@@ -14,7 +14,6 @@
 //   createLocalStorageProxy(),
 // ]
 
-// 'use strict';
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -30,8 +29,6 @@ var _reactCosmosLocalstorageProxy2 = _interopRequireDefault(_reactCosmosLocalsto
 var _react_cosmos_apollo_proxy = require('./react_cosmos_apollo_proxy');
 
 var _react_cosmos_apollo_proxy2 = _interopRequireDefault(_react_cosmos_apollo_proxy);
-
-require('public/css/style.css');
 
 var _graphql = require('src/test/support/graphql');
 

@@ -1,32 +1,34 @@
-// import React from "react"
+// import * as React from "react"
 // import { ApolloClient } from "apollo-client"
 // import { ApolloProvider } from "react-apollo"
 // import { InMemoryCache } from "apollo-cache-inmemory"
 // import { SchemaLink } from "apollo-link-schema"
 // import { makeExecutableSchema, addMockFunctionsToSchema } from "graphql-tools"
 
-// export default function createApolloProxy(options) {
+// const globalAny: any = global
+
+// export default function createApolloProxy(options: any): any {
 //   const { typeDefs, mocks } = options
 
 //   const schema = makeExecutableSchema({ typeDefs })
 
-//   let z = addMockFunctionsToSchema({
+//   addMockFunctionsToSchema({
 //     schema,
 //     mocks,
 //     preserveResolvers: true
 //   })
 
-//   const apolloCache = new InMemoryCache(global.__APOLLO_STATE__)
+//   const apolloCache = new InMemoryCache(globalAny.__APOLLO_STATE__)
 
 //   const client = new ApolloClient({
 //     cache: apolloCache,
 //     link: new SchemaLink({ schema })
 //   })
 
-//   class ApolloProxy extends React.Component {
+//   class ApolloProxy extends React.Component<any, any> {
 
 //     render() {
-//       const { value: NextProxy, next } = this.props.nextProxy;
+//       const { value: NextProxy, next } = this.props.nextProxy
 
 //       return (
 //         <ApolloProvider client={client}>
@@ -54,7 +56,7 @@ exports.default = createApolloProxy;
 
 var _react = require("react");
 
-var _react2 = _interopRequireDefault(_react);
+var React = _interopRequireWildcard(_react);
 
 var _apolloClient = require("apollo-client");
 
@@ -66,13 +68,15 @@ var _apolloLinkSchema = require("apollo-link-schema");
 
 var _graphqlTools = require("graphql-tools");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var globalAny = global;
 
 function createApolloProxy(options) {
   var typeDefs = options.typeDefs,
@@ -87,7 +91,7 @@ function createApolloProxy(options) {
     preserveResolvers: true
   });
 
-  var apolloCache = new _apolloCacheInmemory.InMemoryCache(global.__APOLLO_STATE__);
+  var apolloCache = new _apolloCacheInmemory.InMemoryCache(globalAny.__APOLLO_STATE__);
 
   var client = new _apolloClient.ApolloClient({
     cache: apolloCache,
@@ -111,16 +115,16 @@ function createApolloProxy(options) {
             next = _props$nextProxy.next;
 
 
-        return _react2.default.createElement(
+        return React.createElement(
           _reactApollo.ApolloProvider,
           { client: client },
-          _react2.default.createElement(NextProxy, _extends({}, this.props, { nextProxy: next() }))
+          React.createElement(NextProxy, _extends({}, this.props, { nextProxy: next() }))
         );
       }
     }]);
 
     return ApolloProxy;
-  }(_react2.default.Component);
+  }(React.Component);
 
   return ApolloProxy;
 }
