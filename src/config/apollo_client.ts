@@ -18,6 +18,7 @@ const errorLink = onError(({ networkError, graphQLErrors, response }) => {
       console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
 
       if (message === "user not found") {
+        AuthProvider.removeToken()
         history.push("/login")
       }
     })
@@ -25,6 +26,7 @@ const errorLink = onError(({ networkError, graphQLErrors, response }) => {
 
   if (networkError) {
     console.log(`[Network error]: ${networkError}`)
+    AuthProvider.removeToken()
     history.push("/login")
   }
 })

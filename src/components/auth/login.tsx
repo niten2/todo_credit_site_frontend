@@ -1,9 +1,8 @@
 import * as React from "react"
-import gql from "graphql-tag"
-import { graphql } from "react-apollo"
 
 import AuthProvider from "src/config/auth_provider"
 import { Info, ErrorMessage } from "src/components/auth/components"
+import { withData } from "src/components/auth/queries"
 
 interface P {
   createToken: (options: object) => Promise<any>
@@ -15,23 +14,6 @@ interface S {
   password: string
   error: string | null
 }
-
-const createToken = gql`
-  mutation createToken($input: TokenCreateInput!) {
-    createToken(input: $input) {
-      token
-      user {
-        role
-      }
-    }
-  }
-`
-
-const withData = graphql<any, any, any>(
-  createToken, {
-    name: "createToken"
-  }
-)
 
 class Login extends React.Component<P, S> {
 
@@ -51,6 +33,7 @@ class Login extends React.Component<P, S> {
   }
 
   handleLogin = async () => {
+    console.log(3333)
     const { login, password } = this.state
 
     const options = {
@@ -64,6 +47,7 @@ class Login extends React.Component<P, S> {
 
     try {
       let response = await this.props.createToken(options)
+      console.log(response)
 
       const token = response.data.createToken.token
       const role = response.data.createToken.user.role
@@ -74,6 +58,8 @@ class Login extends React.Component<P, S> {
       this.props.history.push('/dashboard')
 
     } catch (err) {
+      console.log(999)
+      console.log(err)
       this.setState({ error: err.message })
     }
   }

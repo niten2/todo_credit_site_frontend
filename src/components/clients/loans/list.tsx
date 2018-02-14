@@ -1,61 +1,26 @@
 import * as React from 'react'
-import gql from "graphql-tag"
-import { compose, graphql } from 'react-apollo'
 
 import AuthProvider from 'src/config/auth_provider'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
-
 import ViewLoan from "src/components/clients/loans/list/view"
 import { ClientInfo } from "src/components/clients/loans/list/components"
+import { withData } from "src/components/clients/loans/list/queries"
 
-const loansQuery = gql`
-  query loans($input: LoansInput) {
-    loans(input: $input) {
-      id
-      sum
-      date_start
-      date_end
-      total
-    }
+interface P {
+  loansQuery: {
+    loading: boolean
+    error: any
+    loans: any
   }
-`
-
-const clientQuery = gql`
-  query client($id: ID!) {
-    client(id: $id) {
-      id
-      full_name
-    }
+  clientQuery: {
+    loading: boolean
+    error: any
+    client: any
   }
-`
+}
 
-const withData = compose(
-  graphql<any, any, any>(
-    loansQuery, {
-      name: "loansQuery" ,
-      options: (props) => ({
-        variables: {
-          input: {
-            client: props.match.params.id
-          }
-        }
-      })
-    },
-  ),
-  graphql<any, any, any>(
-    clientQuery, {
-      name: "clientQuery" ,
-      options: (props) => ({
-        variables: {
-          id: props.match.params.id
-        }
-      })
-    },
-  ),
-)
-
-class ListLoan extends React.Component<any, any> {
+class ListLoan extends React.Component<P, {}> {
 
   render() {
     let loansResponse = this.props.loansQuery

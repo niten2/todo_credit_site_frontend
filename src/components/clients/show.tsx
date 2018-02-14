@@ -1,7 +1,5 @@
 import * as React from "react"
-import gql from "graphql-tag"
 import Select from 'react-select'
-import { compose, graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
 import { Input, Label } from 'reactstrap'
 import { set, lensProp } from 'ramda'
@@ -10,81 +8,7 @@ import AuthProvider from 'src/config/auth_provider'
 import Notification from 'src/config/notification'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
-
-const clientQuery = gql`
-  query client($id: ID!) {
-    client(id: $id) {
-      id
-
-      full_name
-      email
-      passport
-      phone
-      user
-      mark_as_deleted
-      total_sum_loans
-
-      territory {
-        id
-
-        name
-        rate
-      }
-
-      loans {
-        id
-
-        date_start
-        date_end
-
-      }
-    }
-  }
-`
-
-const updateClientQuery = gql`
-  mutation updateClient($input: ClientUpdateInput!) {
-    updateClient(input: $input) {
-      id
-      full_name
-      email
-      passport
-      phone
-    }
-  }
-`
-
-const deleteClientQuery = gql`
-  mutation deleteClient($input: IdInput!) {
-    deleteClient(input: $input) {
-      id
-    }
-  }
-`
-
-const clientsQuery = gql`
-  query {
-    clients {
-      id
-
-      full_name
-      email
-      passport
-      phone
-    }
-  }
-`
-
-const territoriesQuery = gql`
-  query {
-    territories {
-      id
-
-      name
-      rate
-    }
-  }
-`
+import { withData } from 'src/components/clients/show/queries'
 
 class ShowClient extends React.Component<any, any> {
 
@@ -131,7 +55,7 @@ class ShowClient extends React.Component<any, any> {
         }
       },
       refetchQueries: [{
-        query: clientsQuery,
+        query: this.props.clientsQuery,
       }],
     }
 
@@ -156,7 +80,7 @@ class ShowClient extends React.Component<any, any> {
         }
       },
       refetchQueries: [{
-        query: clientsQuery,
+        query: this.props.clientsQuery,
       }],
     }
 
@@ -418,30 +342,4 @@ class ShowClient extends React.Component<any, any> {
 
 }
 
-export default compose(
-  graphql<any, any, any>(
-    clientQuery, {
-      name: "clientQuery" ,
-      options: (props) => ({
-        variables: {
-          id: props.match.params.id
-        }
-      })
-    }
-  ),
-  graphql<any, any, any>(
-    updateClientQuery, {
-      name: "updateClientQuery"
-    }
-  ),
-  graphql<any, any, any>(
-    deleteClientQuery, {
-      name: "deleteClientQuery"
-    }
-  ),
-  graphql<any, any, any>(
-    territoriesQuery, {
-      name: "territoriesQuery" ,
-    }
-  ),
-)(ShowClient)
+export default withData(ShowClient)
