@@ -6,15 +6,11 @@ import { Link } from 'react-router-dom'
 
 const EditLoanLink = (props) => (
   <td>
-    <div className="card">
-      <div className="card-block">
-        <Link to={`/clients/${props.clientId}/loans/${props.loan.id}`}>
-          <button type="button" className="btn btn-primary">
-            edit
-          </button>
-        </Link>
-      </div>
-    </div>
+    <Link to={`/clients/${props.clientId}/loans/${props.loan.id}`}>
+      <button className="btn btn-primary">
+        Edit
+      </button>
+    </Link>
   </td>
 )
 

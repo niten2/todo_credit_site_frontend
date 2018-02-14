@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as moment from "moment"
 import DatePicker from "react-datepicker"
-// import "react-datepicker/dist/react-datepicker.css"
+import "react-datepicker/dist/react-datepicker.css"
 
 import gql from "graphql-tag"
 import { compose, graphql } from 'react-apollo'
@@ -201,14 +201,14 @@ class EditLoan extends React.Component<any, any> {
       return <Page500 />
     }
 
-    let rate = client.territory ? client.territory.rate : "territory not found"
-    let total = loan.total === 0 || loan.total === undefined ? "total not calculate" : loan.total
+    let rate = client && client.territory ? client.territory.rate : "territory not found"
+    let total = loan && loan.total === 0 || loan.total === undefined ? "total not calculate" : loan.total
 
     return (
       <div className="card">
 
         <div className="card-header">
-          <i className="fa fa-align-justify" /> Loan
+          <i className="fa fa-align-justify" /> Edit Loan
         </div>
 
         <div className="card-block">
@@ -235,7 +235,7 @@ class EditLoan extends React.Component<any, any> {
                 <div className="input-group">
                   <span className="input-group-addon">Date start</span>
                   <DatePicker
-                    className="form-control width100 zindex10"
+                    className="form-control width100"
                     selected={loan.date_start}
                     onChange={this.handleDatePickerDateStart}
                   />
@@ -248,7 +248,7 @@ class EditLoan extends React.Component<any, any> {
                 <div className="input-group">
                   <span className="input-group-addon">Date end</span>
                     <DatePicker
-                      className="form-control width100 zindex10"
+                      className="form-control width100"
                       selected={loan.date_end}
                       onChange={this.handleDatePickerDateEnd}
                     />

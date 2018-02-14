@@ -53,6 +53,29 @@ const calculateLoanQuery = gql`
   }
 `
 
+const withData = compose(
+  graphql<any, any, any>(
+    clientQuery, {
+      name: "clientQuery" ,
+      options: (props) => ({
+        variables: {
+          id: props.match.params.id
+        }
+      })
+    },
+  ),
+  graphql<any, any, any>(
+    createLoanQuery, {
+      name: "createLoanQuery"
+    }
+  ),
+  graphql<any, any, any>(
+    calculateLoanQuery, {
+      name: "calculateLoanQuery"
+    }
+  ),
+)
+
 class NewLoan extends React.Component<any, any> {
 
   state = {
@@ -172,7 +195,6 @@ class NewLoan extends React.Component<any, any> {
   }
 
   render() {
-
     let { client, loading, error } = this.props.clientQuery
     let { loan } = this.state
 
@@ -184,14 +206,15 @@ class NewLoan extends React.Component<any, any> {
       return <Page500 />
     }
 
-    let rate = client.territory ? client.territory.rate : "territory not found"
-    let total = loan.total ? loan.total : "total not calculate"
+    let rate = client && client.territory ? client.territory.rate : "territory not found"
+    let total = loan && loan.total ? loan.total : "total not calculate"
 
     return (
       <div className="card">
 
         <div className="card-header">
-          <i className="fa fa-align-justify" /> Create Loan
+          <i className="fa fa-align-justify" />
+          Create Loan
         </div>
 
         <div className="card-block">
@@ -200,7 +223,7 @@ class NewLoan extends React.Component<any, any> {
             <div className="form-group row">
               <div className="col-md-12">
                 <div className="input-group">
-                  <span className="input-group-addon">sum</span>
+                  <span className="input-group-addon">Sum</span>
                   <Input
                     name="sum"
                     placeholder="sum"
@@ -216,8 +239,9 @@ class NewLoan extends React.Component<any, any> {
             <div className="form-group row">
               <div className="col-md-12">
                 <div className="input-group">
-                  <span className="input-group-addon">date_start</span>
+                  <span className="input-group-addon">Date start</span>
                   <DatePicker
+                    className="form-control width100"
                     selected={loan.date_start}
                     onChange={this.handleDatePickerDateStart}
                   />
@@ -225,20 +249,13 @@ class NewLoan extends React.Component<any, any> {
               </div>
             </div>
 
-            <div className="form-group row">
-              <div className="col-md-12">
-                <div className="input-group">
-                  <span className="input-group-addon">territory</span>
-                  {rate}
-                </div>
-              </div>
-            </div>
 
             <div className="form-group row">
               <div className="col-md-12">
                 <div className="input-group">
-                  <span className="input-group-addon">date end</span>
+                  <span className="input-group-addon">Date end</span>
                   <DatePicker
+                    className="form-control width100"
                     selected={loan.date_end}
                     onChange={this.handleDatePickerDateEnd}
                   />
@@ -249,12 +266,24 @@ class NewLoan extends React.Component<any, any> {
             <div className="form-group row">
               <div className="col-md-12">
                 <div className="input-group">
-                  <span className="input-group-addon">summary</span>
-                  {total}
+                  <span className="input-group-addon">Territory</span>
+                  <div className="form-control">
+                    {rate}
+                  </div>
                 </div>
               </div>
             </div>
 
+            <div className="form-group row">
+              <div className="col-md-12">
+                <div className="input-group">
+                  <span className="input-group-addon">Summary</span>
+                  <div className="form-control">
+                    {total}
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <div className="form-actions">
               <button
@@ -273,7 +302,6 @@ class NewLoan extends React.Component<any, any> {
                   Cancel
                 </button>
               </Link>
-
             </div>
 
           </form>
@@ -285,25 +313,4 @@ class NewLoan extends React.Component<any, any> {
 
 }
 
-export default compose(
-  graphql<any, any, any>(
-    clientQuery, {
-      name: "clientQuery" ,
-      options: (props) => ({
-        variables: {
-          id: props.match.params.id
-        }
-      })
-    },
-  ),
-  graphql<any, any, any>(
-    createLoanQuery, {
-      name: "createLoanQuery"
-    }
-  ),
-  graphql<any, any, any>(
-    calculateLoanQuery, {
-      name: "calculateLoanQuery"
-    }
-  ),
-)(NewLoan)
+export default withData(NewLoan)
