@@ -1,4 +1,6 @@
-import * as React from 'react'
+import * as React from "react"
+import * as ReactMarkdown from "react-markdown"
+import description from "./description"
 
 class Dashboard extends React.Component {
 
@@ -16,7 +18,7 @@ class Dashboard extends React.Component {
               </div>
 
               <div className="card-block">
-                Description
+                <ReactMarkdown source={description} />
               </div>
 
             </div>
