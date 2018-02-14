@@ -2,6 +2,7 @@ import Component from 'src/components/clients/new'
 
 export default {
   component: Component,
+  url: '/header',
 
   props: {
     history: {
@@ -12,5 +13,4 @@ export default {
     },
   },
 
-  url: '/header',
 }

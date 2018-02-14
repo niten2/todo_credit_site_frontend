@@ -9,13 +9,6 @@ export default {
         id: "507f1f77bcf86cd799439011",
       }
     },
-    // history: {
-    //   push: (arg) => {
-    //     console.log("history push", arg)
-    //     return arg
-    //   }
-    // },
   },
 
-  url: '/header',
 }

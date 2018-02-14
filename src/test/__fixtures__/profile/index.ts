@@ -2,6 +2,7 @@ import Profile from 'src/components/profile'
 
 export default {
   component: Profile,
+  url: '/header',
 
   props: {
     history: {
@@ -11,6 +12,4 @@ export default {
       }
     },
   },
-
-  url: '/header',
 }

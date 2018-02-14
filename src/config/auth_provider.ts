@@ -1,24 +1,6 @@
-// import settings from "src/config/settings"
-import settings from "./settings"
+import settings from "src/config/settings"
 
 class AuthProvider  {
-  // public storage: any
-
-  // constructor() {
-    // this.storage = localStorage
-    // TODO
-    // this.storage = this.supportsHtml5Storage() ? localStorage : null
-  // }
-
-  // TODO
-  // supportsHtml5Storage(): any {
-  //   try {
-  //     return 'localStorage' in window && window['localStorage'] !== null
-  //   } catch (e) {
-  //     return null
-  //   }
-  // }
-
   fetchToken(): string {
     const token = localStorage.getItem(settings.auth_session_storage_key)
 
@@ -63,7 +45,6 @@ class AuthProvider  {
 
     return role === "admin"
   }
-
 }
 
 export default new AuthProvider()

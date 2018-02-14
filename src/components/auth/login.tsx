@@ -1,6 +1,7 @@
 import * as React from "react"
 import gql from "graphql-tag"
 import { graphql } from "react-apollo"
+
 import AuthProvider from "src/config/auth_provider"
 
 interface P {

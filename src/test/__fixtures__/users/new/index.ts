@@ -2,6 +2,7 @@ import Component from 'src/components/users/new'
 
 export default {
   component: Component,
+  url: '/header',
 
   props: {
     match: {
@@ -10,6 +11,4 @@ export default {
       }
     },
   },
-
-  url: '/header',
 }

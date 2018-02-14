@@ -2,6 +2,7 @@ import Component from 'src/components/clients/show'
 
 export default {
   component: Component,
+  url: '/header',
 
   props: {
     match: {
@@ -16,6 +17,4 @@ export default {
       }
     },
   },
-
-  url: '/header',
 }

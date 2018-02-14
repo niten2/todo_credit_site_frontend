@@ -3,6 +3,7 @@ import { fakeLoan } from "src/test/support/seed"
 
 export default {
   component: Component,
+  url: '/header',
 
   props: {
     loan: fakeLoan,
@@ -16,5 +17,4 @@ export default {
     },
   },
 
-  url: '/header',
 }

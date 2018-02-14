@@ -3,7 +3,7 @@ import fixture from "src/test/__fixtures__/shared/sidebar/admin"
 
 const { mount, getWrapper } = createTestContext({ fixture })
 
-describe("", () => {
+describe("text", () => {
 
   beforeEach(mount)
 

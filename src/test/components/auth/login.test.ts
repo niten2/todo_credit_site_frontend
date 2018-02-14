@@ -14,6 +14,7 @@ describe("login", async () => {
     expect(getWrapper().text()).toContain("source code")
   })
 
+  // TODO
   // it("handleLogin", async () => {
 
   //   await jest.mock('src/config/auth_provider', () => ({

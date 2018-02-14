@@ -3,7 +3,7 @@ import fixture from "src/test/__fixtures__/dashboard"
 
 const { mount, getWrapper } = createTestContext({ fixture })
 
-describe("dashboard", () => {
+describe("text", () => {
 
   beforeEach(mount)
 
