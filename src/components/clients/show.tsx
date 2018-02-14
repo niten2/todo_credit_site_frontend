@@ -1,7 +1,7 @@
 import * as React from "react"
 import Select from 'react-select'
 import { Link } from 'react-router-dom'
-import { Input, Label } from 'reactstrap'
+import { Input } from 'reactstrap'
 import { set, lensProp } from 'ramda'
 
 import AuthProvider from 'src/config/auth_provider'
@@ -129,17 +129,19 @@ class ShowClient extends React.Component<any, any> {
   }
 
   render() {
+    let territoriesResponse = this.props.territoriesQuery
+    let clientResponse = this.props.clientQuery
     let { client } = this.state
-    let { territories } = this.props.territoriesQuery
-    let { loading, error } = this.props.clientQuery
 
-    if (loading || this.props.territoriesQuery.loading) {
+    if (territoriesResponse.loading || clientResponse.loading) {
       return <Spinner />
     }
 
-    if (error || !client || this.props.territoriesQuery.error) {
+    if (territoriesResponse.error || clientResponse.error || !client) {
       return <Page500 />
     }
+
+    let territories = territoriesResponse.territories
 
     return (
       <div className="animated fadeIn">
@@ -150,7 +152,7 @@ class ShowClient extends React.Component<any, any> {
             <div className="card">
 
               <div className="card-header">
-                <i className="fa fa-align-justify" /> Update Client
+                <i className="fa fa-align-justify" /> Client
               </div>
 
               <div className="card-block">
@@ -159,7 +161,7 @@ class ShowClient extends React.Component<any, any> {
                   <div className="form-group row">
                     <div className="col-md-12">
                       <div className="input-group">
-                        <span className="input-group-addon">full_name</span>
+                        <span className="input-group-addon">Full name</span>
                         <Input
                           name="full_name"
                           placeholder="full_name"
@@ -174,7 +176,7 @@ class ShowClient extends React.Component<any, any> {
                   <div className="form-group row">
                     <div className="col-md-12">
                       <div className="input-group">
-                        <span className="input-group-addon">email</span>
+                        <span className="input-group-addon">Email</span>
                         <Input
                           name="email"
                           placeholder="email"
@@ -189,7 +191,7 @@ class ShowClient extends React.Component<any, any> {
                   <div className="form-group row">
                     <div className="col-md-12">
                       <div className="input-group">
-                        <span className="input-group-addon">passport</span>
+                        <span className="input-group-addon">Passport</span>
                         <Input
                           name="passport"
                           placeholder="passport"
@@ -204,7 +206,7 @@ class ShowClient extends React.Component<any, any> {
                   <div className="form-group row">
                     <div className="col-md-12">
                       <div className="input-group">
-                        <span className="input-group-addon">phone</span>
+                        <span className="input-group-addon">Phone</span>
                         <Input
                           name="phone"
                           placeholder="phone"
@@ -219,16 +221,17 @@ class ShowClient extends React.Component<any, any> {
                   <div className="form-group row">
                     <div className="col-md-12">
                       <div className="input-group">
-                        <span className="input-group-addon">mark_as_deleted</span>
-                        <Label check={true}>
+                        <span className="input-group-addon">Mark as deleted</span>
+                        <div className="form-control">
                           <Input
+                            className="checkbox-offset"
                             name="mark_as_deleted"
                             placeholder="mark_as_deleted"
                             type="checkbox"
                             onChange={this.handleSetStateCheckbox}
                             checked={client.mark_as_deleted}
                           />
-                        </Label>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -236,8 +239,10 @@ class ShowClient extends React.Component<any, any> {
                   <div className="form-group row">
                     <div className="col-md-12">
                       <div className="input-group">
-                        <span className="input-group-addon">total_sum_loans</span>
-                        {client.total_sum_loans}
+                        <span className="input-group-addon">Total sum loans</span>
+                        <div className="form-control">
+                          {client.total_sum_loans}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -253,7 +258,7 @@ class ShowClient extends React.Component<any, any> {
                               name="role"
                               labelKey="rate"
                               valueKey="id"
-                              className="form-control"
+                              className="form-control none-padding none-border"
                               options={territories}
                               value={client.territory}
                               onChange={this.changeSelectTerritory}
@@ -262,15 +267,15 @@ class ShowClient extends React.Component<any, any> {
                         </div>
                       </div>
 
-
-
                     :
                     <div>
                       <div className="form-group row">
                         <div className="col-md-12">
                           <div className="input-group">
-                            <span className="input-group-addon">territory name</span>
-                            {client.territory.name}
+                            <span className="input-group-addon">Territory name</span>
+                            <div className="form-control">
+                              {client.territory.name}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -279,8 +284,10 @@ class ShowClient extends React.Component<any, any> {
                       <div className="form-group row">
                         <div className="col-md-12">
                           <div className="input-group">
-                            <span className="input-group-addon">territory rate</span>
-                            {client.territory.rate}
+                            <span className="input-group-addon">Territory rate</span>
+                            <div className="form-control">
+                              {client.territory.rate}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -312,7 +319,7 @@ class ShowClient extends React.Component<any, any> {
 
                     <Link to={`/clients/${client.id}/loans`}>
                       <button
-                        className="btn btn-default"
+                        className="btn btn-primary"
                       >
                         loans
                       </button>
