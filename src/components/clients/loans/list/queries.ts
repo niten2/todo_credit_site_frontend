@@ -24,6 +24,17 @@ const clientQuery = gql`
 
 export const withData = compose(
   graphql<any, any, any>(
+    clientQuery, {
+      name: "clientQuery" ,
+      options: (props) => ({
+        variables: {
+          id: props.match.params.id
+        },
+        fetchPolicy: "network-only",
+      })
+    },
+  ),
+  graphql<any, any, any>(
     loansQuery, {
       name: "loansQuery" ,
       options: (props) => ({
@@ -31,16 +42,6 @@ export const withData = compose(
           input: {
             client: props.match.params.id
           }
-        }
-      })
-    },
-  ),
-  graphql<any, any, any>(
-    clientQuery, {
-      name: "clientQuery" ,
-      options: (props) => ({
-        variables: {
-          id: props.match.params.id
         }
       })
     },

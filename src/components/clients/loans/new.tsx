@@ -3,8 +3,6 @@ import * as moment from "moment"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 
-import gql from "graphql-tag"
-import { compose, graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
 import { Input } from 'reactstrap'
 import { set, lensProp } from 'ramda'
@@ -12,69 +10,7 @@ import { set, lensProp } from 'ramda'
 import Notification from 'src/config/notification'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
-
-const clientQuery = gql`
-  query client($id: ID!) {
-    client(id: $id) {
-      id
-
-      territory {
-        name
-        rate
-      }
-    }
-  }
-`
-const loansQuery = gql`
-  query loans($input: LoansInput) {
-    loans(input: $input) {
-      id
-      sum
-      date_start
-      date_end
-      total
-    }
-  }
-`
-
-const createLoanQuery = gql`
-  mutation createLoan($input: LoanCreateInput!) {
-    createLoan(input: $input) {
-      id
-    }
-  }
-`
-
-const calculateLoanQuery = gql`
-  mutation calculateLoan($input: LoanCalculateInput!) {
-    calculateLoan(input: $input) {
-      total
-    }
-  }
-`
-
-const withData = compose(
-  graphql<any, any, any>(
-    clientQuery, {
-      name: "clientQuery" ,
-      options: (props) => ({
-        variables: {
-          id: props.match.params.id
-        }
-      })
-    },
-  ),
-  graphql<any, any, any>(
-    createLoanQuery, {
-      name: "createLoanQuery"
-    }
-  ),
-  graphql<any, any, any>(
-    calculateLoanQuery, {
-      name: "calculateLoanQuery"
-    }
-  ),
-)
+import { withData } from 'src/components/clients/loans/new/queries'
 
 class NewLoan extends React.Component<any, any> {
 
@@ -113,7 +49,7 @@ class NewLoan extends React.Component<any, any> {
         }
       },
       refetchQueries: [{
-        query: loansQuery,
+        query: this.props.loansQuery,
         variables: {
           input: {
             client: client.id,

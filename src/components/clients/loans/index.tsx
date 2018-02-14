@@ -1,10 +1,10 @@
 import * as React from "react"
 
 import AuthProvider from 'src/config/auth_provider'
-import NewLoan from 'src/components/clients/loans/new'
 import ListLoans from 'src/components/clients/loans/list'
+import NewLoan from 'src/components/clients/loans/new'
 
-class IndexLoan extends React.Component<any, any> {
+class IndexLoan extends React.Component<{}, {}> {
 
   render() {
     return (

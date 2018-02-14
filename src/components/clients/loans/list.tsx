@@ -25,17 +25,16 @@ class ListLoan extends React.Component<P, {}> {
   render() {
     let loansResponse = this.props.loansQuery
     let clientResponse = this.props.clientQuery
+    const loans = loansResponse.loans
+    const client = clientResponse.client
 
     if (loansResponse.loading || clientResponse.loading) {
       return <Spinner />
     }
 
-    if (loansResponse.error || clientResponse.error) {
+    if (loansResponse.error || clientResponse.error || !loans || !client) {
       return <Page500 />
     }
-
-    const loans = loansResponse.loans
-    const client = clientResponse.client
 
     return (
       <div className="container-fluid">
