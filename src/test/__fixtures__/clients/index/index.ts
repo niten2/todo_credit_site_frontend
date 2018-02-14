@@ -1,7 +1,7 @@
-import Clients from 'src/components/clients'
+import Component from 'src/components/clients'
 
 export default {
-  component: Clients,
+  component: Component,
   url: '/header',
 
   props: {

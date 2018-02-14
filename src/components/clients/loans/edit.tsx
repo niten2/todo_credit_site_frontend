@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as moment from "moment"
 import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
+// import "react-datepicker/dist/react-datepicker.css"
 
 import gql from "graphql-tag"
 import { compose, graphql } from 'react-apollo'
@@ -217,7 +217,7 @@ class EditLoan extends React.Component<any, any> {
             <div className="form-group row">
               <div className="col-md-12">
                 <div className="input-group">
-                  <span className="input-group-addon">sum</span>
+                  <span className="input-group-addon">Sum</span>
                   <Input
                     name="sum"
                     placeholder="sum"
@@ -233,8 +233,9 @@ class EditLoan extends React.Component<any, any> {
             <div className="form-group row">
               <div className="col-md-12">
                 <div className="input-group">
-                  <span className="input-group-addon">date_start</span>
+                  <span className="input-group-addon">Date start</span>
                   <DatePicker
+                    className="form-control width100 zindex10"
                     selected={loan.date_start}
                     onChange={this.handleDatePickerDateStart}
                   />
@@ -245,8 +246,12 @@ class EditLoan extends React.Component<any, any> {
             <div className="form-group row">
               <div className="col-md-12">
                 <div className="input-group">
-                  <span className="input-group-addon">territory</span>
-                  {rate}
+                  <span className="input-group-addon">Date end</span>
+                    <DatePicker
+                      className="form-control width100 zindex10"
+                      selected={loan.date_end}
+                      onChange={this.handleDatePickerDateEnd}
+                    />
                 </div>
               </div>
             </div>
@@ -254,25 +259,24 @@ class EditLoan extends React.Component<any, any> {
             <div className="form-group row">
               <div className="col-md-12">
                 <div className="input-group">
-                  <span className="input-group-addon">date end</span>
-                  <DatePicker
-                    selected={loan.date_end}
-                    onChange={this.handleDatePickerDateEnd}
-                  />
+                  <span className="input-group-addon">Territory</span>
+                  <div className="form-control">
+                    {rate}
+                  </div>
                 </div>
               </div>
             </div>
-
 
             <div className="form-group row">
               <div className="col-md-12">
                 <div className="input-group">
-                  <span className="input-group-addon">summary</span>
-                  {total}
+                  <span className="input-group-addon">Summary</span>
+                  <div className="form-control">
+                    {total}
+                  </div>
                 </div>
               </div>
             </div>
-
 
             <div className="form-actions">
               <button
