@@ -1,41 +1,10 @@
 import * as React from 'react'
-import gql from "graphql-tag"
-import { graphql, compose } from "react-apollo"
 import { set, lensProp } from 'ramda'
 
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
 import Notification from 'src/config/notification'
-
-const meQuery = gql`
-  query {
-    me {
-      id
-      full_name
-      email
-      login
-      password
-      role
-      phone
-      territory
-    }
-  }
-`
-
-const updateMeQuery = gql`
-  mutation updateMe($input: MeUpdateInput!) {
-    updateMe(input: $input) {
-      id
-      full_name
-      email
-      login
-      password
-      role
-      phone
-      territory
-    }
-  }
-`
+import { withData } from 'src/components/profile/queries'
 
 interface P {
   meQuery: {
@@ -86,9 +55,7 @@ class Profile extends React.Component<P, S> {
 
   handleSetState = (e) => {
     const { name, value } = e.target
-    this.setState({
-      me: set(lensProp(name), value, this.state.me)
-    })
+    this.setState({ me: set(lensProp(name), value, this.state.me) })
   }
 
   updateUser = async () => {
@@ -125,6 +92,7 @@ class Profile extends React.Component<P, S> {
     }
 
     if (error) {
+      Notification.error(error.message)
       return <Page500 />
     }
 
@@ -219,11 +187,4 @@ class Profile extends React.Component<P, S> {
   }
 }
 
-export default compose(
-  graphql<any, any, any>(meQuery, {
-    name: "meQuery"
-  }),
-  graphql<any, any, any>(updateMeQuery, {
-    name: "updateMeQuery"
-  }),
-)(Profile)
+export default withData(Profile)
