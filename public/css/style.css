@@ -9306,3 +9306,8 @@ a {
 .none-border {
   border: 0px !important;
 }
+
+.margin-bottom-15em {
+  margin-bottom: 1.5rem;
+}
+

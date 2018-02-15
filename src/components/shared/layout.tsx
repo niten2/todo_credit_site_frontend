@@ -23,11 +23,10 @@ class LayoutComponent extends React.Component<any, any> {
           <Sidebar {...this.props}/>
 
           <main className="main">
-            <div className="container-fluid">
+            <div className="margin-bottom-15em" />
 
-              {this.props.children}
+            {this.props.children}
 
-            </div>
           </main>
         </div>
 
