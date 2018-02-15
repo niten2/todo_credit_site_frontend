@@ -1,22 +1,8 @@
 import * as React from 'react'
-import gql from "graphql-tag"
-import { graphql } from "react-apollo"
-import UserView from './view'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
-
-const usersQuery = gql`
-  query users($input: UsersInput) {
-    users(input: $input) {
-      id
-
-      email
-      login
-      role
-    }
-  }
-
-`
+import UserView from 'src/components/users/list/view'
+import { withData } from 'src/components/users/list/queries'
 
 interface P {
   usersQuery: {
@@ -26,10 +12,7 @@ interface P {
   }
 }
 
-interface S {
-}
-
-class ListUser extends React.Component<P, S> {
+class ListUser extends React.Component<P, {}> {
 
   render() {
     let { users, loading, error } = this.props.usersQuery
@@ -86,15 +69,4 @@ class ListUser extends React.Component<P, S> {
   }
 }
 
-export default graphql<any, any, any>(
-  usersQuery, {
-    name: "usersQuery",
-    options: (props) => ({
-      variables: {
-        input: {
-          role: "manager",
-        }
-      }
-    })
-  }
-)(ListUser)
+export default withData(ListUser)

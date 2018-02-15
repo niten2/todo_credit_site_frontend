@@ -1,7 +1,5 @@
 import * as React from "react"
-import gql from "graphql-tag"
 import Select from 'react-select'
-import { compose, graphql } from "react-apollo"
 import { Link } from 'react-router-dom'
 import { Input } from 'reactstrap'
 import { set, lensProp } from 'ramda'
@@ -9,47 +7,19 @@ import { set, lensProp } from 'ramda'
 import Notification from 'src/config/notification'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
+import { withData } from 'src/components/users/new/queries'
 
-const createUserQuery = gql`
-  mutation createUser($input: UserCreateInput!) {
-    createUser(input: $input) {
-      id
-
-      full_name
-      email
-      login
-      password
-      role
-      phone
-      territory
-    }
+interface P {
+  createUserQuery: { }
+  territoriesQuery: {
+    territories: [object]
+    loading: any
+    error: any
   }
-`
+}
 
-const usersQuery = gql`
-  query {
-    users {
-      id
 
-      email
-      login
-      role
-    }
-  }
-`
-
-const territoriesQuery = gql`
-  query {
-    territories {
-      id
-
-      name
-      rate
-    }
-  }
-`
-
-class NewUser extends React.Component<any, any> {
+class NewUser extends React.Component<P, any> {
 
   state = {
     user: {
@@ -301,15 +271,4 @@ class NewUser extends React.Component<any, any> {
 
 }
 
-export default compose (
-  graphql<any, any, any>(
-    createUserQuery, {
-      name: "createUserQuery"
-    }
-  ),
-  graphql<any, any, any>(
-    territoriesQuery, {
-      name: "territoriesQuery" ,
-    }
-  ),
-)(NewUser)
+export default withData(NewUser)

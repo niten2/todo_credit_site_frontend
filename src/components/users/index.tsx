@@ -1,6 +1,6 @@
 import * as React from 'react'
-import UserList from './list'
 import { Link } from 'react-router-dom'
+import UserList from 'src/components/users/list'
 
 const NewUserLink = () => (
   <div className="card">
@@ -14,15 +14,17 @@ const NewUserLink = () => (
   </div>
 )
 
-class Users extends React.Component<any, any> {
+class IndexUser extends React.Component<{}, {}> {
   render() {
     return (
-      <div className="animated fadeIn">
-        <NewUserLink />
-        <UserList />
+      <div className="container-fluid">
+        <div className="animated fadeIn">
+          <NewUserLink />
+          <UserList />
+        </div>
       </div>
     )
   }
 }
 
-export default Users
+export default IndexUser

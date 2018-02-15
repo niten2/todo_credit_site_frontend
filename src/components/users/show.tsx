@@ -1,7 +1,5 @@
 import * as React from "react"
-import gql from "graphql-tag"
 import Select from 'react-select'
-import { compose, graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
 import { Input, Label } from 'reactstrap'
 import { set, lensProp } from 'ramda'
@@ -11,70 +9,23 @@ import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
 import ChangePasswordUser from 'src/components/users/show/change_password'
 
-const userQuery = gql`
-  query user($id: ID!) {
-    user(id: $id) {
-      id
-
-      full_name
-      email
-      login
-      phone
-      role
-      territory
-      blocked
-    }
+interface P {
+  userQuery: {
+    user: object
+    loading: any
+    error: any
   }
-`
-
-const updateUserQuery = gql`
-  mutation updateUser($input: UserUpdateInput!) {
-    updateUser(input: $input) {
-      id
-      full_name
-      email
-      login
-      password
-      role
-      phone
-      territory
-      blocked
-    }
+  territoriesQuery: {
+    territories: object
+    loading: any
+    error: any
   }
-`
+  usersQuery: {}
+  updateUserQuery: {}
+  deleteUserQuery: {}
+}
 
-const deleteUserQuery = gql`
-  mutation deleteUser($input: IdInput!) {
-    deleteUser(input: $input) {
-      id
-    }
-  }
-`
-
-const usersQuery = gql`
-  query {
-    users {
-      id
-
-      email
-      login
-      role
-    }
-  }
-`
-
-const territoriesQuery = gql`
-  query {
-    territories {
-      id
-
-      name
-      rate
-    }
-  }
-`
-
-class ShowUser extends React.Component<any, any> {
+class ShowUser extends React.Component<P, any> {
 
   state = {
     user: {
@@ -99,9 +50,7 @@ class ShowUser extends React.Component<any, any> {
 
   handleSetState = (e) => {
     const { name, value } = e.target
-    this.setState({
-      user: set(lensProp(name), value, this.state.user)
-    })
+    this.setState({ user: set(lensProp(name), value, this.state.user) })
   }
 
   handleUpdate = async (e?: any) => {
@@ -123,7 +72,7 @@ class ShowUser extends React.Component<any, any> {
         }
       },
       refetchQueries: [{
-        query: usersQuery,
+        query: this.props.usersQuery,
       }],
     }
 
@@ -147,7 +96,7 @@ class ShowUser extends React.Component<any, any> {
         }
       },
       refetchQueries: [{
-        query: usersQuery,
+        query: this.props.usersQuery,
       }],
     }
 
@@ -188,19 +137,19 @@ class ShowUser extends React.Component<any, any> {
   }
 
   render() {
-    let { loading, error } = this.props.userQuery
-    let { territories } = this.props.territoriesQuery
+    let userResponse = this.props.userQuery
+    let territoriesResponse = this.props.territoriesQuery
 
-
-    if (loading || this.props.territoriesQuery.loading) {
+    if (userResponse.loading || territoriesResponse.loading) {
       return <Spinner />
     }
 
-    if (error || this.props.territoriesQuery.error) {
+    if (userResponse.error || territoriesResponse.error) {
       return <Page500 />
     }
 
     let { user, roles } = this.state
+    let territories = this.props.territoriesResponse.territories
 
     return (
       <div className="animated fadeIn">
@@ -371,31 +320,4 @@ class ShowUser extends React.Component<any, any> {
 
 }
 
-export default compose(
-  graphql<any, any, any>(
-    userQuery, {
-      name: "userQuery" ,
-      options: (props) => ({
-        variables: {id: props.match.params.id}
-      })
-    }
-  ),
-  graphql<any, any, any>(
-    territoriesQuery, {
-      name: "territoriesQuery" ,
-      options: (props) => ({
-        variables: {id: props.match.params.id}
-      })
-    }
-  ),
-  graphql<any, any, any>(
-    updateUserQuery, {
-      name: "updateUserQuery"
-    }
-  ),
-  graphql<any, any, any>(
-    deleteUserQuery, {
-      name: "deleteUserQuery"
-    }
-  ),
-)(ShowUser)
+export default withData(ShowUser)

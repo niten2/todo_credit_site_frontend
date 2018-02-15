@@ -22,6 +22,14 @@ const updateUserQuery = gql`
   }
 `
 
+const withData = compose(
+  graphql<any, any, any>(
+    updateUserQuery, {
+      name: "updateUserQuery"
+    }
+  ),
+)
+
 const ErrorMessage = (props: { error: string | null }): any => {
   if (props.error || props.error !== "") {
     return(
@@ -169,10 +177,4 @@ class ChangePasswordUser extends React.Component<any, any> {
 
 }
 
-export default compose(
-  graphql<any, any, any>(
-    updateUserQuery, {
-      name: "updateUserQuery"
-    }
-  ),
-)(ChangePasswordUser)
+export default withData(ChangePasswordUser)
