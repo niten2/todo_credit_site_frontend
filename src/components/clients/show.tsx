@@ -54,10 +54,15 @@ class ShowClient extends React.Component<any, any> {
           territory: client.territory.id,
         }
       },
-      refetchQueries: [{
-        query: this.props.clientsQuery,
-      }],
+      // refetchQueries: [{
+      //   query: this.props.clientsQuery.refetch(),
+      //   // options: {
+      //   //   skip: false,
+      //   // }
+      // }],
     }
+
+    console.log(this.props.clientsQuery)
 
     try {
       await this.props.updateClientQuery(options)
@@ -79,9 +84,9 @@ class ShowClient extends React.Component<any, any> {
           id: client.id
         }
       },
-      refetchQueries: [{
-        query: this.props.clientsQuery,
-      }],
+      // refetchQueries: [{
+      //   query: this.props.clientsQuery,
+      // }],
     }
 
     try {
@@ -133,6 +138,7 @@ class ShowClient extends React.Component<any, any> {
     }
 
     if (territoriesResponse.error || clientResponse.error || !client) {
+      Notification.error(`${territoriesResponse.error}, ${clientResponse.error}`)
       return <Page500 />
     }
 

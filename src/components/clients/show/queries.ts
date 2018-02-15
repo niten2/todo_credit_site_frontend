@@ -90,17 +90,27 @@ export const withData = compose(
   graphql<any, any, any>(
     clientsQuery, {
       name: "clientsQuery" ,
-      skip: true,
+      // skip: true,
     }
   ),
   graphql<any, any, any>(
     updateClientQuery, {
-      name: "updateClientQuery"
+      options: {
+        refetchQueries: [
+          "clientsQuery"
+        ],
+      },
+      name: "updateClientQuery",
     }
   ),
   graphql<any, any, any>(
     deleteClientQuery, {
-      name: "deleteClientQuery"
+      name: "deleteClientQuery",
+      options: {
+        refetchQueries: [
+          "clientsQuery"
+        ],
+      },
     }
   ),
   graphql<any, any, any>(

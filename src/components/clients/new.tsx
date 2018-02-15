@@ -1,35 +1,9 @@
 import * as React from "react"
-import gql from "graphql-tag"
-import { graphql } from "react-apollo"
-import { Link } from 'react-router-dom'
-import { Input } from 'reactstrap'
-import Notification from 'src/config/notification'
+import { Link } from "react-router-dom"
+import { Input } from "reactstrap"
 
-const createClientQuery = gql`
-  mutation createClient($input: ClientCreateInput!) {
-    createClient(input: $input) {
-      id
-
-      full_name
-      email
-      passport
-      phone
-    }
-  }
-`
-
-const clientsQuery = gql`
-  query {
-    clients {
-      id
-
-      full_name
-      email
-      passport
-      phone
-    }
-  }
-`
+import Notification from "src/config/notification"
+import { withData } from "src/components/cliens/new/queries"
 
 class NewClient extends React.Component<any, any> {
 
@@ -67,9 +41,9 @@ class NewClient extends React.Component<any, any> {
           phone: client.phone,
         }
       },
-      refetchQueries: [{
-        query: clientsQuery,
-      }],
+      // refetchQueries: [{
+      //   query: clientsQuery,
+      // }],
     }
 
     try {
@@ -200,8 +174,4 @@ class NewClient extends React.Component<any, any> {
 
 }
 
-export default graphql<any, any, any>(
-  createClientQuery, {
-    name: "createClientQuery"
-  }
-)(NewClient)
+export default withData(NewClient)
