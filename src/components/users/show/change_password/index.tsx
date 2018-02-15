@@ -1,65 +1,29 @@
 import * as React from "react"
-import gql from "graphql-tag"
-import { compose, graphql } from 'react-apollo'
 import { Input } from 'reactstrap'
 import { set, lensProp } from 'ramda'
 
 import Notification from 'src/config/notification'
+import { ErrorMessage } from './components'
+import { withData } from './queries'
 
-const updateUserQuery = gql`
-  mutation updateUser($input: UserUpdateInput!) {
-    updateUser(input: $input) {
-      id
-      full_name
-      email
-      login
-      password
-      role
-      phone
-      territory
-      blocked
-    }
-  }
-`
-
-const withData = compose(
-  graphql<any, any, any>(
-    updateUserQuery, {
-      name: "updateUserQuery"
-    }
-  ),
-)
-
-const ErrorMessage = (props: { error: string | null }): any => {
-  if (props.error || props.error !== "") {
-    return(
-      <div>
-        <div className="text-danger text-center">
-          {props.error}
-        </div>
-        <br />
-      </div>
-    )
-  } else {
-    return <div />
-  }
+interface P {
+  userId: string
+  updateUserQuery(options: any): any
 }
 
-class ChangePasswordUser extends React.Component<any, any> {
+class ChangePasswordUser extends React.Component<P, any> {
 
   state = {
     user: {
       password: "",
       confirmPassword: "",
     },
-    error: null,
+    error: "",
   }
 
   handleSetState = (e) => {
     const { name, value } = e.target
-    this.setState({
-      user: set(lensProp(name), value, this.state.user)
-    })
+    this.setState({ user: set(lensProp(name), value, this.state.user) })
   }
 
   handleUpdate = async (e?: any) => {
@@ -90,7 +54,14 @@ class ChangePasswordUser extends React.Component<any, any> {
     try {
       await this.props.updateUserQuery(options)
 
-      this.setState({error: null})
+      this.setState({
+        user: {
+          password: "",
+          confirmPassword: "",
+        },
+        error: "",
+      })
+
       Notification.success("update password")
     } catch (err) {
       Notification.error(err.message)
@@ -104,7 +75,7 @@ class ChangePasswordUser extends React.Component<any, any> {
   }
 
   render() {
-    let { user } = this.state
+    let { user, error } = this.state
 
     return (
       <div className="container-fluid">
@@ -114,7 +85,8 @@ class ChangePasswordUser extends React.Component<any, any> {
             <div className="card">
 
               <div className="card-header">
-                <i className="fa fa-align-justify" /> Change password
+                <i className="fa fa-align-justify" />
+                Change password
               </div>
 
               <div className="card-block">
@@ -123,7 +95,7 @@ class ChangePasswordUser extends React.Component<any, any> {
                   <div className="form-group row">
                     <div className="col-md-12">
                       <div className="input-group">
-                        <span className="input-group-addon">password</span>
+                        <span className="input-group-addon">Password</span>
                         <Input
                           name="password"
                           type="password"
@@ -139,7 +111,7 @@ class ChangePasswordUser extends React.Component<any, any> {
                   <div className="form-group row">
                     <div className="col-md-12">
                       <div className="input-group">
-                        <span className="input-group-addon">confirm password</span>
+                        <span className="input-group-addon">Confirm password</span>
                         <Input
                           name="confirmPassword"
                           type="password"
@@ -152,7 +124,7 @@ class ChangePasswordUser extends React.Component<any, any> {
                     </div>
                   </div>
 
-                  <ErrorMessage error={this.state.error} />
+                  <ErrorMessage message={error} />
 
                   <div className="form-actions">
                     <button
@@ -162,8 +134,8 @@ class ChangePasswordUser extends React.Component<any, any> {
                       Save changes
                     </button>
                   </div>
-                </form>
 
+                </form>
               </div>
 
             </div>

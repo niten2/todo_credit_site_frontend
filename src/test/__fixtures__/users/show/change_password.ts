@@ -5,10 +5,6 @@ export default {
   url: '/url',
 
   props: {
-    match: {
-      params: {
-        userId: "507f1f77bcf86cd799439011"
-      }
-    },
+    userId: "507f1f77bcf86cd799439011"
   },
 }
