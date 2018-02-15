@@ -1,28 +1,37 @@
 import * as React from "react"
 import Select from 'react-select'
 import { Link } from 'react-router-dom'
-import { Input, Label } from 'reactstrap'
+import { Input } from 'reactstrap'
 import { set, lensProp } from 'ramda'
 
 import Notification from 'src/config/notification'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
 import ChangePasswordUser from 'src/components/users/show/change_password'
+import { withData } from 'src/components/users/show/queries'
 
 interface P {
+  match: {
+    params: {
+      id: any
+    }
+  }
+  history: {
+    push(arg: string)
+  }
+  territoriesQuery: {
+    territories: [object]
+    loading: any
+    error: any
+  }
   userQuery: {
     user: object
     loading: any
     error: any
   }
-  territoriesQuery: {
-    territories: object
-    loading: any
-    error: any
-  }
   usersQuery: {}
-  updateUserQuery: {}
-  deleteUserQuery: {}
+  updateUserQuery(options: any): {}
+  deleteUserQuery(options: any): {}
 }
 
 class ShowUser extends React.Component<P, any> {
@@ -149,171 +158,175 @@ class ShowUser extends React.Component<P, any> {
     }
 
     let { user, roles } = this.state
-    let territories = this.props.territoriesResponse.territories
+    let { territories } = this.props.territoriesQuery
 
     return (
-      <div className="animated fadeIn">
+      <div>
+        <div className="container-fluid">
+          <div className="animated fadeIn">
 
-        <div className="row">
-          <div className="col-lg-12">
+            <div className="row">
+              <div className="col-lg-12">
 
-            <div className="card">
+                <div className="card">
 
-              <div className="card-header">
-                <i className="fa fa-align-justify" /> User
+                  <div className="card-header">
+                    <i className="fa fa-align-justify" /> User
+                  </div>
+
+                  <div className="card-block">
+                    <form className="form-2orizontal">
+
+                      <div className="form-group row">
+                        <div className="col-md-12">
+                          <div className="input-group">
+                            <span className="input-group-addon">full_name</span>
+                            <Input
+                              name="full_name"
+                              placeholder="full_name"
+                              onChange={this.handleSetState}
+                              onKeyPress={this.handleOnKeyPress}
+                              value={user.full_name}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="form-group row">
+                        <div className="col-md-12">
+                          <div className="input-group">
+                            <span className="input-group-addon">email</span>
+                            <Input
+                              name="email"
+                              placeholder="email"
+                              onChange={this.handleSetState}
+                              onKeyPress={this.handleOnKeyPress}
+                              value={user.email}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="form-group row">
+                        <div className="col-md-12">
+                          <div className="input-group">
+                            <span className="input-group-addon">login</span>
+                            <Input
+                              name="login"
+                              placeholder="login"
+                              onChange={this.handleSetState}
+                              onKeyPress={this.handleOnKeyPress}
+                              value={user.login}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="form-group row">
+                        <div className="col-md-12">
+                          <div className="input-group">
+                            <span className="input-group-addon">phone</span>
+                            <Input
+                              name="phone"
+                              placeholder="phone"
+                              onChange={this.handleSetState}
+                              onKeyPress={this.handleOnKeyPress}
+                              value={user.phone}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="form-group row">
+                        <div className="col-md-12">
+                          <div className="input-group">
+                            <span className="input-group-addon">Role</span>
+                            <Select
+                              name="role"
+                              labelKey="value"
+                              valueKey="value"
+                              className="form-control none-padding none-border"
+                              options={roles}
+                              value={user.role}
+                              onChange={this.changeSelectRole}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="form-group row">
+                        <div className="col-md-12">
+                          <div className="input-group">
+                            <span className="input-group-addon">Territory</span>
+                            <Select
+                              name="role"
+                              labelKey="rate"
+                              valueKey="id"
+                              className="form-control none-padding none-border"
+                              options={territories}
+                              value={user.territory}
+                              onChange={this.changeSelectTerritory}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="form-group row">
+                        <div className="col-md-12">
+                          <div className="input-group">
+                            <span className="input-group-addon">Blocked</span>
+                            <div className="form-control">
+                              <Input
+                                className="checkbox-offset"
+                                type="checkbox"
+                                onChange={this.handleSetStateCheckbox}
+                                checked={user.blocked}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="form-actions">
+                        <button
+                          className="btn btn-primary"
+                          onClick={this.handleUpdate}
+                        >
+                          Save changes
+                        </button>
+
+                        {" "}
+
+                        <button
+                          className="btn btn-primary"
+                          onClick={this.handleDelete}
+                        >
+                          Delete
+                        </button>
+
+                        {" "}
+
+                        <Link to="/users">
+                          <button
+                            className="btn btn-default"
+                          >
+                            Cancel
+                          </button>
+                        </Link>
+
+                      </div>
+                    </form>
+
+                  </div>
+
+
+                </div>
               </div>
-
-              <div className="card-block">
-                <form className="form-2orizontal">
-
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">full_name</span>
-                        <Input
-                          name="full_name"
-                          placeholder="full_name"
-                          onChange={this.handleSetState}
-                          onKeyPress={this.handleOnKeyPress}
-                          value={user.full_name}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">email</span>
-                        <Input
-                          name="email"
-                          placeholder="email"
-                          onChange={this.handleSetState}
-                          onKeyPress={this.handleOnKeyPress}
-                          value={user.email}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">login</span>
-                        <Input
-                          name="login"
-                          placeholder="login"
-                          onChange={this.handleSetState}
-                          onKeyPress={this.handleOnKeyPress}
-                          value={user.login}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">phone</span>
-                        <Input
-                          name="phone"
-                          placeholder="phone"
-                          onChange={this.handleSetState}
-                          onKeyPress={this.handleOnKeyPress}
-                          value={user.phone}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">Role</span>
-                        <Select
-                          name="role"
-                          labelKey="value"
-                          valueKey="value"
-                          className="form-control"
-                          options={roles}
-                          value={user.role}
-                          onChange={this.changeSelectRole}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">Territory</span>
-                        <Select
-                          name="role"
-                          labelKey="rate"
-                          valueKey="id"
-                          className="form-control"
-                          options={territories}
-                          value={user.territory}
-                          onChange={this.changeSelectTerritory}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">Blocked</span>
-                        <Label check={true}>
-                          <Input
-                            name="mark_as_deleted"
-                            placeholder="mark_as_deleted"
-                            type="checkbox"
-                            onChange={this.handleSetStateCheckbox}
-                            checked={user.blocked}
-                          />
-                        </Label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="form-actions">
-                    <button
-                      className="btn btn-primary"
-                      onClick={this.handleUpdate}
-                    >
-                      Save changes
-                    </button>
-
-                    {" "}
-
-                    <button
-                      className="btn btn-primary"
-                      onClick={this.handleDelete}
-                    >
-                      Delete
-                    </button>
-
-                    {" "}
-
-                    <Link to="/users">
-                      <button
-                        className="btn btn-default"
-                      >
-                        Cancel
-                      </button>
-                    </Link>
-
-                  </div>
-                </form>
-
-              </div>
-
-              <ChangePasswordUser userId={this.props.match.params.id} />
-
             </div>
           </div>
         </div>
+
+        <ChangePasswordUser userId={this.props.match.params.id} />
       </div>
     )
   }

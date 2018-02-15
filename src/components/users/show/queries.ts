@@ -64,7 +64,7 @@ const territoriesQuery = gql`
   }
 `
 
-export withData = compose(
+export const withData = compose(
   graphql<any, any, any>(
     userQuery, {
       name: "userQuery" ,

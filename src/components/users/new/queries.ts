@@ -51,4 +51,10 @@ export const withData = compose (
       name: "territoriesQuery" ,
     }
   ),
-)(NewUser)
+  graphql<any, any, any>(
+    usersQuery, {
+      name: "usersQuery" ,
+      skip: true,
+    }
+  ),
+)

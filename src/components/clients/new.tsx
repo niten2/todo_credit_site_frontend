@@ -3,8 +3,6 @@ import gql from "graphql-tag"
 import { graphql } from "react-apollo"
 import { Link } from 'react-router-dom'
 import { Input } from 'reactstrap'
-import { set, lensProp } from 'ramda'
-
 import Notification from 'src/config/notification'
 
 const createClientQuery = gql`
@@ -54,11 +52,6 @@ class NewClient extends React.Component<any, any> {
 
     client[name] = value
     this.setState({ client })
-  }
-
-  changeSelect = (value) => {
-    let setClient = set(lensProp("role"), value.value)
-    this.setState({ client: setClient(this.state.client) })
   }
 
   handleCreate = async (e?: any) => {
@@ -208,5 +201,7 @@ class NewClient extends React.Component<any, any> {
 }
 
 export default graphql<any, any, any>(
-  createClientQuery, { name: "createClientQuery" }
+  createClientQuery, {
+    name: "createClientQuery"
+  }
 )(NewClient)

@@ -108,8 +108,7 @@ class ChangePasswordUser extends React.Component<any, any> {
     let { user } = this.state
 
     return (
-      <div className="animated fadeIn">
-
+      <div className="container-fluid">
         <div className="row">
           <div className="col-lg-12">
 

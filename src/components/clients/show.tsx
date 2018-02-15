@@ -111,11 +111,6 @@ class ShowClient extends React.Component<any, any> {
     })
   }
 
-  changeSelect = (value) => {
-    let setClient = set(lensProp("role"), value.value)
-    this.setState({ client: setClient(this.state.client) })
-  }
-
   changeSelectTerritory = (value) => {
     let setClient = set(lensProp("territory"), value)
 
