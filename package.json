@@ -1,23 +1,18 @@
 {
   "name": "credit_site_frontend",
   "version": "0.2.0",
-  "private": true,
+  "private": false,
   "scripts": {
-    "start": "react-app-rewired start --scripts-version react-scripts-ts",
-    "build": "react-app-rewired build --scripts-version react-scripts-ts",
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
     "tests": "react-app-rewired test --scripts-version react-scripts-ts --env=jsdom src/test",
     "test": "react-app-rewired test --scripts-version react-scripts-ts --env=jsdom",
     "cosmos": "cosmos"
   },
   "jest": {
     "moduleNameMapper": {
-      "src/(.*)": "<rootDir>/src/$1",
-      "public/(.*)": "<rootDir>/public/$1"
-    },
-    "moduleDirectories": [
-      "node_modules",
-      "src"
-    ]
+      "src/(.*)": "<rootDir>/src/$1"
+    }
   },
   "dependencies": {
     "apollo-client": "^2.2.1",
