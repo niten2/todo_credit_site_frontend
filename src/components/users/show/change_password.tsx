@@ -68,14 +68,13 @@ class ChangePasswordUser extends React.Component<any, any> {
     const { user } = this.state
     const { userId } = this.props
 
-
-    if (user.password !== user.confirmPassword) {
-      this.setState({error: "password and confirm password do not match"})
+    if (user.password === "") {
+      this.setState({error: "password should be present"})
       return
     }
 
-    if (user.password === "") {
-      this.setState({error: "password should be present"})
+    if (user.password !== user.confirmPassword) {
+      this.setState({error: "password and confirm password do not match"})
       return
     }
 
