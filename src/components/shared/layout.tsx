@@ -56,7 +56,7 @@ export const PrivateLayoutAdmin = (options: any) => {
   if (AuthProvider.hasLogin() && AuthProvider.isAdmin()) {
     return Layout(options)
   } else {
-    return <Redirect to='/dashboard' />
+    return <Redirect to={withPublicUrl("/dashboard")} />
   }
 }
 

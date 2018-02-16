@@ -1,18 +1,18 @@
 import * as React from 'react'
-import { NavLink } from 'react-router-dom'
+import Link from "src/config/link"
 import AuthProvider from "src/config/auth_provider"
 
 const LinkUser = () => {
   if (AuthProvider.isAdmin()) {
     return (
       <li className="nav-item">
-        <NavLink
+        <Link
           to={'/users'}
           className="nav-link"
           activeClassName="active"
         >
           <i className="icon-diamond" /> Users
-        </NavLink>
+        </Link>
       </li>
     )
   } else {
@@ -28,34 +28,34 @@ class Sidebar extends React.Component<any, any> {
           <ul className="nav">
 
             <li className="nav-item">
-              <NavLink
+              <Link
                 to={'/dashboard'}
                 className="nav-link"
                 activeClassName="active"
               >
                 <i className="icon-speedometer" />
                 Dashboard
-              </NavLink>
+              </Link>
             </li>
 
             <li className="nav-item">
-              <NavLink
+              <Link
                 to={'/profile'}
                 className="nav-link"
                 activeClassName="active"
               >
                 <i className="icon-diamond" /> Profile
-              </NavLink>
+              </Link>
             </li>
 
             <li className="nav-item">
-              <NavLink
+              <Link
                 to={'/clients'}
                 className="nav-link"
                 activeClassName="active"
               >
                 <i className="icon-diamond" /> Clients
-              </NavLink>
+              </Link>
             </li>
 
             <LinkUser />
