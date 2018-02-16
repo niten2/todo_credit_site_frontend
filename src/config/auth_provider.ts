@@ -1,18 +1,18 @@
 import settings from "src/config/settings"
 
 class AuthProvider  {
-  fetchToken(): string {
+  fetchToken(): string | null {
     const token = localStorage.getItem(settings.auth_session_storage_key)
 
-    if (!token) { throw new Error("token not found") }
-
-    return `Bearer ${token}`
+    if (token) {
+      return `Bearer ${token}`
+    } else {
+      return null
+    }
   }
 
-  token(): string {
+  token(): string | null {
     const token = localStorage.getItem(settings.auth_session_storage_key)
-
-    if (!token) { throw new Error("token not found") }
 
     return token
   }

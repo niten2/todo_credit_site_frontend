@@ -1,22 +1,8 @@
 import * as React from 'react'
-import gql from "graphql-tag"
-import { graphql } from "react-apollo"
-import UserView from './view'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
-
-const usersQuery = gql`
-  query users($input: UsersInput) {
-    users(input: $input) {
-      id
-
-      email
-      login
-      role
-    }
-  }
-
-`
+import UserView from 'src/components/users/list/view'
+import { withData } from 'src/components/users/list/queries'
 
 interface P {
   usersQuery: {
@@ -26,10 +12,7 @@ interface P {
   }
 }
 
-interface S {
-}
-
-class ListUser extends React.Component<P, S> {
+class ListUser extends React.Component<P, {}> {
 
   render() {
     let { users, loading, error } = this.props.usersQuery
@@ -43,58 +26,49 @@ class ListUser extends React.Component<P, S> {
     }
 
     return (
-      <div className="animated fadeIn">
+      <div className="container-fluid">
+        <div className="animated fadeIn">
 
-        <div className="row">
-          <div className="col-lg-12">
-            <div className="card">
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="card">
 
-              <div className="card-header">
-                <i className="fa fa-align-justify" /> Users
+                <div className="card-header">
+                  <i className="fa fa-align-justify" /> Users
+                </div>
+
+                <div className="card-block">
+                  <table className="table text-center">
+                    <thead>
+                      <tr>
+                        <th className="text-center">Id</th>
+                        <th className="text-center">Email</th>
+                        <th className="text-center">Login</th>
+                        <th className="text-center">Role</th>
+                        <th className="text-center">Edit</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      { users.map((object, index) =>
+                        <UserView
+                          key={index}
+                          object={object}
+                        />
+                      )}
+
+                    </tbody>
+                  </table>
+                </div>
+
               </div>
-
-              <div className="card-block">
-                <table className="table text-center">
-                  <thead>
-                    <tr>
-                      <th className="text-center">Id</th>
-                      <th className="text-center">Email</th>
-                      <th className="text-center">Login</th>
-                      <th className="text-center">Role</th>
-                      <th className="text-center">Edit</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-
-                    { users.map((object, index) =>
-                      <UserView
-                        key={index}
-                        object={object}
-                      />
-                    )}
-
-                  </tbody>
-                </table>
-              </div>
-
             </div>
           </div>
-        </div>
 
+        </div>
       </div>
     )
   }
 }
 
-export default graphql<any, any, any>(
-  usersQuery, {
-    name: "usersQuery",
-    options: (props) => ({
-      variables: {
-        input: {
-          role: "manager",
-        }
-      }
-    })
-  }
-)(ListUser)
+export default withData(ListUser)

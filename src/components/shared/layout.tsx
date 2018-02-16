@@ -23,11 +23,10 @@ class LayoutComponent extends React.Component<any, any> {
           <Sidebar {...this.props}/>
 
           <main className="main">
-            <div className="container-fluid">
+            <div className="margin-bottom-15em" />
 
-              {this.props.children}
+            {this.props.children}
 
-            </div>
           </main>
         </div>
 
@@ -44,37 +43,25 @@ export const Layout = ({component: Component, ...rest}) => {
   )
 }
 
-export const PrivateLayout = ({component: Component, ...rest}) => {
+export const PrivateLayout = (options: any) => {
   if (AuthProvider.hasLogin()) {
-    return (
-      <LayoutComponent>
-        <Route {...rest} render={(matchProps) => (<Component {...matchProps} />)} />
-      </LayoutComponent>
-    )
+    return Layout(options)
   } else {
     return <Redirect to='/login' />
   }
 }
 
-export const PrivateLayoutAdmin = ({component: Component, ...rest}) => {
+export const PrivateLayoutAdmin = (options: any) => {
   if (AuthProvider.hasLogin() && AuthProvider.isAdmin()) {
-    return (
-      <LayoutComponent>
-        <Route {...rest} render={(matchProps) => (<Component {...matchProps} />)} />
-      </LayoutComponent>
-    )
+    return Layout(options)
   } else {
     return <Redirect to='/dashboard' />
   }
 }
 
-export const PrivateLayoutManager = ({component: Component, ...rest}) => {
+export const PrivateLayoutManager = (options: any) => {
   if (AuthProvider.hasLogin() && !AuthProvider.isAdmin()) {
-    return (
-      <LayoutComponent>
-        <Route {...rest} render={(matchProps) => (<Component {...matchProps} />)} />
-      </LayoutComponent>
-    )
+    return Layout(options)
   } else {
     return <Redirect to='/dashboard' />
   }

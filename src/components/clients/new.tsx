@@ -1,37 +1,9 @@
 import * as React from "react"
-import gql from "graphql-tag"
-import { graphql } from "react-apollo"
-import { Link } from 'react-router-dom'
-import { Input } from 'reactstrap'
-import { set, lensProp } from 'ramda'
+import { Link } from "react-router-dom"
+import { Input } from "reactstrap"
 
-import Notification from 'src/config/notification'
-
-const createClientQuery = gql`
-  mutation createClient($input: ClientCreateInput!) {
-    createClient(input: $input) {
-      id
-
-      full_name
-      email
-      passport
-      phone
-    }
-  }
-`
-
-const clientsQuery = gql`
-  query {
-    clients {
-      id
-
-      full_name
-      email
-      passport
-      phone
-    }
-  }
-`
+import Notification from "src/config/notification"
+import { withData } from "src/components/clients/new/queries"
 
 class NewClient extends React.Component<any, any> {
 
@@ -56,11 +28,6 @@ class NewClient extends React.Component<any, any> {
     this.setState({ client })
   }
 
-  changeSelect = (value) => {
-    let setClient = set(lensProp("role"), value.value)
-    this.setState({ client: setClient(this.state.client) })
-  }
-
   handleCreate = async (e?: any) => {
     if (e) { e.preventDefault() }
     const { client } = this.state
@@ -74,9 +41,6 @@ class NewClient extends React.Component<any, any> {
           phone: client.phone,
         }
       },
-      refetchQueries: [{
-        query: clientsQuery,
-      }],
     }
 
     try {
@@ -103,99 +67,107 @@ class NewClient extends React.Component<any, any> {
   }
 
   render() {
+    let { client } = this.state
+
     return (
-      <div className="animated fadeIn">
+      <div className="container-fluid">
+        <div className="animated fadeIn">
 
-        <div className="row">
-          <div className="col-lg-12">
+          <div className="row">
+            <div className="col-lg-12">
 
-            <div className="card">
+              <div className="card">
 
-              <div className="card-header">
-                <i className="fa fa-align-justify" /> New Client
-              </div>
+                <div className="card-header">
+                  <i className="fa fa-align-justify" /> New Client
+                </div>
 
-              <div className="card-block">
-                <form className="form-2orizontal">
+                <div className="card-block">
+                  <form className="form-2orizontal">
 
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">full_name</span>
-                        <Input
-                          name="full_name"
-                          placeholder="full_name"
-                          onChange={this.handleSetState}
-                          onKeyPress={this.handleOnKeyPress}
-                        />
+                    <div className="form-group row">
+                      <div className="col-md-12">
+                        <div className="input-group">
+                          <span className="input-group-addon">Full name</span>
+                          <Input
+                            name="full_name"
+                            placeholder="full_name"
+                            onChange={this.handleSetState}
+                            onKeyPress={this.handleOnKeyPress}
+                            value={client.full_name}
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">email</span>
-                        <Input
-                          name="email"
-                          placeholder="email"
-                          onChange={this.handleSetState}
-                          onKeyPress={this.handleOnKeyPress}
-                        />
+                    <div className="form-group row">
+                      <div className="col-md-12">
+                        <div className="input-group">
+                          <span className="input-group-addon">email</span>
+                          <Input
+                            name="email"
+                            placeholder="email"
+                            onChange={this.handleSetState}
+                            onKeyPress={this.handleOnKeyPress}
+                            value={client.email}
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">passport</span>
-                        <Input
-                          name="passport"
-                          placeholder="passport"
-                          onChange={this.handleSetState}
-                          onKeyPress={this.handleOnKeyPress}
-                        />
+                    <div className="form-group row">
+                      <div className="col-md-12">
+                        <div className="input-group">
+                          <span className="input-group-addon">passport</span>
+                          <Input
+                            name="passport"
+                            placeholder="passport"
+                            onChange={this.handleSetState}
+                            onKeyPress={this.handleOnKeyPress}
+                            value={client.passport}
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">phone</span>
-                        <Input
-                          name="phone"
-                          placeholder="phone"
-                          onChange={this.handleSetState}
-                          onKeyPress={this.handleOnKeyPress}
-                        />
+                    <div className="form-group row">
+                      <div className="col-md-12">
+                        <div className="input-group">
+                          <span className="input-group-addon">phone</span>
+                          <Input
+                            name="phone"
+                            placeholder="phone"
+                            onChange={this.handleSetState}
+                            onKeyPress={this.handleOnKeyPress}
+                            value={client.phone}
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="form-actions">
-                    <button
-                      className="btn btn-primary"
-                      onClick={this.handleCreate}
-                    >
-                      Save changes
-                    </button>
-
-                    &nbsp;
-
-                    <Link to="/clients">
+                    <div className="form-actions">
                       <button
-                        className="btn btn-default"
+                        className="btn btn-primary"
+                        onClick={this.handleCreate}
                       >
-                        Cancel
+                        Save changes
                       </button>
-                    </Link>
-                  </div>
-                </form>
+
+                      &nbsp;
+
+                      <Link to="/clients">
+                        <button
+                          className="btn btn-default"
+                        >
+                          Cancel
+                        </button>
+                      </Link>
+                    </div>
+
+                  </form>
+                </div>
 
               </div>
-
             </div>
           </div>
         </div>
@@ -205,6 +177,4 @@ class NewClient extends React.Component<any, any> {
 
 }
 
-export default graphql<any, any, any>(
-  createClientQuery, { name: "createClientQuery" }
-)(NewClient)
+export default withData(NewClient)

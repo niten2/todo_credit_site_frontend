@@ -1,90 +1,14 @@
 import * as React from "react"
-import gql from "graphql-tag"
 import Select from 'react-select'
-import { compose, graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
-import { Input, Label } from 'reactstrap'
+import { Input } from 'reactstrap'
 import { set, lensProp } from 'ramda'
 
 import AuthProvider from 'src/config/auth_provider'
 import Notification from 'src/config/notification'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
-
-const clientQuery = gql`
-  query client($id: ID!) {
-    client(id: $id) {
-      id
-
-      full_name
-      email
-      passport
-      phone
-      user
-      mark_as_deleted
-      total_sum_loans
-
-      territory {
-        id
-
-        name
-        rate
-      }
-
-      loans {
-        id
-
-        date_start
-        date_end
-
-      }
-    }
-  }
-`
-
-const updateClientQuery = gql`
-  mutation updateClient($input: ClientUpdateInput!) {
-    updateClient(input: $input) {
-      id
-      full_name
-      email
-      passport
-      phone
-    }
-  }
-`
-
-const deleteClientQuery = gql`
-  mutation deleteClient($input: IdInput!) {
-    deleteClient(input: $input) {
-      id
-    }
-  }
-`
-
-const clientsQuery = gql`
-  query {
-    clients {
-      id
-
-      full_name
-      email
-      passport
-      phone
-    }
-  }
-`
-
-const territoriesQuery = gql`
-  query {
-    territories {
-      id
-
-      name
-      rate
-    }
-  }
-`
+import { withData } from 'src/components/clients/show/queries'
 
 class ShowClient extends React.Component<any, any> {
 
@@ -118,7 +42,7 @@ class ShowClient extends React.Component<any, any> {
 
     const { client } = this.state
 
-    const options = {
+    let options: any = {
       variables: {
         input: {
           id: client.id,
@@ -127,12 +51,12 @@ class ShowClient extends React.Component<any, any> {
           passport: client.passport,
           phone: client.phone,
           mark_as_deleted: client.mark_as_deleted,
-          territory: client.territory.id,
         }
       },
-      refetchQueries: [{
-        query: clientsQuery,
-      }],
+    }
+
+    if (AuthProvider.isAdmin()) {
+      options.variables.input.territory = client.territory.id
     }
 
     try {
@@ -155,16 +79,13 @@ class ShowClient extends React.Component<any, any> {
           id: client.id
         }
       },
-      refetchQueries: [{
-        query: clientsQuery,
-      }],
     }
 
     try {
       await this.props.deleteClientQuery(options)
-      this.props.history.push("/clients")
-
       Notification.success("delete client")
+
+      this.props.history.push("/clients")
     } catch (err) {
       Notification.error(err.message)
     }
@@ -172,9 +93,7 @@ class ShowClient extends React.Component<any, any> {
 
   handleSetState = (e) => {
     const { name, value } = e.target
-    this.setState({
-      client: set(lensProp(name), value, this.state.client)
-    })
+    this.setState({ client: set(lensProp(name), value, this.state.client) })
   }
 
   handleSetStateCheckbox = (e) => {
@@ -187,15 +106,8 @@ class ShowClient extends React.Component<any, any> {
     })
   }
 
-  changeSelect = (value) => {
-    let setClient = set(lensProp("role"), value.value)
-    this.setState({ client: setClient(this.state.client) })
-  }
-
   changeSelectTerritory = (value) => {
-    let setClient = set(lensProp("territory"), value)
-
-    this.setState({ client: setClient(this.state.client) })
+    this.setState({ client: set(lensProp("territory"), value, this.state.client) })
   }
 
   handleOnKeyPress = (target: any) => {
@@ -205,210 +117,220 @@ class ShowClient extends React.Component<any, any> {
   }
 
   render() {
+    let territoriesResponse = this.props.territoriesQuery
+    let clientResponse = this.props.clientQuery
     let { client } = this.state
-    let { territories } = this.props.territoriesQuery
-    let { loading, error } = this.props.clientQuery
 
-    if (loading || this.props.territoriesQuery.loading) {
+    if (territoriesResponse.loading || clientResponse.loading) {
       return <Spinner />
     }
 
-    if (error || !client || this.props.territoriesQuery.error) {
+    if (territoriesResponse.error || clientResponse.error || !client) {
+      Notification.error(`${territoriesResponse.error}, ${clientResponse.error}`)
       return <Page500 />
     }
 
+    let territories = territoriesResponse.territories
+
     return (
-      <div className="animated fadeIn">
+      <div className="container-fluid">
+        <div className="animated fadeIn">
 
-        <div className="row">
-          <div className="col-lg-12">
+          <div className="row">
+            <div className="col-lg-12">
 
-            <div className="card">
+              <div className="card">
 
-              <div className="card-header">
-                <i className="fa fa-align-justify" /> Update Client
-              </div>
+                <div className="card-header">
+                  <i className="fa fa-align-justify" /> Client
+                </div>
 
-              <div className="card-block">
-                <form className="form-2orizontal">
+                <div className="card-block">
+                  <form className="form-2orizontal">
 
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">full_name</span>
-                        <Input
-                          name="full_name"
-                          placeholder="full_name"
-                          onChange={this.handleSetState}
-                          onKeyPress={this.handleOnKeyPress}
-                          value={client.full_name}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">email</span>
-                        <Input
-                          name="email"
-                          placeholder="email"
-                          onChange={this.handleSetState}
-                          onKeyPress={this.handleOnKeyPress}
-                          value={client.email}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">passport</span>
-                        <Input
-                          name="passport"
-                          placeholder="passport"
-                          onChange={this.handleSetState}
-                          onKeyPress={this.handleOnKeyPress}
-                          value={client.passport}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">phone</span>
-                        <Input
-                          name="phone"
-                          placeholder="phone"
-                          onChange={this.handleSetState}
-                          onKeyPress={this.handleOnKeyPress}
-                          value={client.phone}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">mark_as_deleted</span>
-                        <Label check={true}>
+                    <div className="form-group row">
+                      <div className="col-md-12">
+                        <div className="input-group">
+                          <span className="input-group-addon">Full name</span>
                           <Input
-                            name="mark_as_deleted"
-                            placeholder="mark_as_deleted"
-                            type="checkbox"
-                            onChange={this.handleSetStateCheckbox}
-                            checked={client.mark_as_deleted}
+                            name="full_name"
+                            placeholder="full_name"
+                            onChange={this.handleSetState}
+                            onKeyPress={this.handleOnKeyPress}
+                            value={client.full_name}
                           />
-                        </Label>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="form-group row">
-                    <div className="col-md-12">
-                      <div className="input-group">
-                        <span className="input-group-addon">total_sum_loans</span>
-                        {client.total_sum_loans}
+                    <div className="form-group row">
+                      <div className="col-md-12">
+                        <div className="input-group">
+                          <span className="input-group-addon">Email</span>
+                          <Input
+                            name="email"
+                            placeholder="email"
+                            onChange={this.handleSetState}
+                            onKeyPress={this.handleOnKeyPress}
+                            value={client.email}
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {
-                    AuthProvider.isAdmin() ?
+                    <div className="form-group row">
+                      <div className="col-md-12">
+                        <div className="input-group">
+                          <span className="input-group-addon">Passport</span>
+                          <Input
+                            name="passport"
+                            placeholder="passport"
+                            onChange={this.handleSetState}
+                            onKeyPress={this.handleOnKeyPress}
+                            value={client.passport}
+                          />
+                        </div>
+                      </div>
+                    </div>
 
-                      <div className="form-group row">
-                        <div className="col-md-12">
-                          <div className="input-group">
-                            <span className="input-group-addon">Territory</span>
-                            <Select
-                              name="role"
-                              labelKey="rate"
-                              valueKey="id"
-                              className="form-control"
-                              options={territories}
-                              value={client.territory}
-                              onChange={this.changeSelectTerritory}
+                    <div className="form-group row">
+                      <div className="col-md-12">
+                        <div className="input-group">
+                          <span className="input-group-addon">Phone</span>
+                          <Input
+                            name="phone"
+                            placeholder="phone"
+                            onChange={this.handleSetState}
+                            onKeyPress={this.handleOnKeyPress}
+                            value={client.phone}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <div className="col-md-12">
+                        <div className="input-group">
+                          <span className="input-group-addon">Mark as deleted</span>
+                          <div className="form-control">
+                            <Input
+                              className="checkbox-offset"
+                              name="mark_as_deleted"
+                              placeholder="mark_as_deleted"
+                              type="checkbox"
+                              onChange={this.handleSetStateCheckbox}
+                              checked={client.mark_as_deleted}
                             />
                           </div>
                         </div>
                       </div>
+                    </div>
 
-
-
-                    :
-                    <div>
-                      <div className="form-group row">
-                        <div className="col-md-12">
-                          <div className="input-group">
-                            <span className="input-group-addon">territory name</span>
-                            {client.territory.name}
-                          </div>
-                        </div>
-                      </div>
-
-
-                      <div className="form-group row">
-                        <div className="col-md-12">
-                          <div className="input-group">
-                            <span className="input-group-addon">territory rate</span>
-                            {client.territory.rate}
+                    <div className="form-group row">
+                      <div className="col-md-12">
+                        <div className="input-group">
+                          <span className="input-group-addon">Total sum loans</span>
+                          <div className="form-control">
+                            {client.total_sum_loans}
                           </div>
                         </div>
                       </div>
                     </div>
-                  }
-
-                  <div className="form-actions">
-                    <button
-                      className="btn btn-primary"
-                      onClick={this.handleUpdate}
-                    >
-                      Save changes
-                    </button>
-
-                    {" "}
 
                     {
                       AuthProvider.isAdmin() ?
-                        <button
-                          className="btn btn-primary"
-                          onClick={this.handleDelete}
-                        >
-                          Delete
-                        </button>
-                      : null
+
+                        <div className="form-group row">
+                          <div className="col-md-12">
+                            <div className="input-group">
+                              <span className="input-group-addon">Territory</span>
+                              <Select
+                                name="role"
+                                labelKey="rate"
+                                valueKey="id"
+                                className="form-control none-padding none-border"
+                                options={territories}
+                                value={client.territory}
+                                onChange={this.changeSelectTerritory}
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                      :
+                      <div>
+                        <div className="form-group row">
+                          <div className="col-md-12">
+                            <div className="input-group">
+                              <span className="input-group-addon">Territory name</span>
+                              <div className="form-control">
+                                {client.territory.name}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+                        <div className="form-group row">
+                          <div className="col-md-12">
+                            <div className="input-group">
+                              <span className="input-group-addon">Territory rate</span>
+                              <div className="form-control">
+                                {client.territory.rate}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     }
 
-                    {" "}
-
-                    <Link to={`/clients/${client.id}/loans`}>
+                    <div className="form-actions">
                       <button
-                        className="btn btn-default"
+                        className="btn btn-primary"
+                        onClick={this.handleUpdate}
                       >
-                        loans
+                        Save changes
                       </button>
-                    </Link>
 
-                    {" "}
+                      {" "}
 
-                    <Link to="/clients">
-                      <button
-                        className="btn btn-default"
-                      >
-                        Cancel
-                      </button>
-                    </Link>
+                      {
+                        AuthProvider.isAdmin() ?
+                          <button
+                            className="btn btn-primary"
+                            onClick={this.handleDelete}
+                          >
+                            Delete
+                          </button>
+                        : null
+                      }
 
-                  </div>
-                </form>
+                      {" "}
+
+                      <Link to={`/clients/${client.id}/loans`}>
+                        <button
+                          className="btn btn-primary"
+                        >
+                          loans
+                        </button>
+                      </Link>
+
+                      {" "}
+
+                      <Link to="/clients">
+                        <button
+                          className="btn btn-default"
+                        >
+                          Cancel
+                        </button>
+                      </Link>
+
+                    </div>
+                  </form>
+
+                </div>
 
               </div>
-
             </div>
           </div>
         </div>
@@ -418,30 +340,4 @@ class ShowClient extends React.Component<any, any> {
 
 }
 
-export default compose(
-  graphql<any, any, any>(
-    clientQuery, {
-      name: "clientQuery" ,
-      options: (props) => ({
-        variables: {
-          id: props.match.params.id
-        }
-      })
-    }
-  ),
-  graphql<any, any, any>(
-    updateClientQuery, {
-      name: "updateClientQuery"
-    }
-  ),
-  graphql<any, any, any>(
-    deleteClientQuery, {
-      name: "deleteClientQuery"
-    }
-  ),
-  graphql<any, any, any>(
-    territoriesQuery, {
-      name: "territoriesQuery" ,
-    }
-  ),
-)(ShowClient)
+export default withData(ShowClient)

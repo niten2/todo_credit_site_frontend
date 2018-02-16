@@ -14,6 +14,7 @@
 //   createLocalStorageProxy(),
 // ]
 
+// NOTE for use cosmos and jest
 Object.defineProperty(exports, "__esModule", {
   value: true
 });

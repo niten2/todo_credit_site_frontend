@@ -9284,3 +9284,30 @@ a {
 @-webkit-keyframes Select-animation-spin {
   to {
     -webkit-transform: rotate(1turn); } }
+
+
+/* CUSTOM STYLES */
+.width100 {
+  width: 100% !important;
+}
+
+.react-datepicker-popper {
+  z-index: 10 !important;
+}
+
+.checkbox-offset {
+  margin-left: -0.25rem;
+}
+
+.none-padding {
+  padding: 0 0 0 0 !important;
+}
+
+.none-border {
+  border: 0px !important;
+}
+
+.margin-bottom-15em {
+  margin-bottom: 1.5rem;
+}
+

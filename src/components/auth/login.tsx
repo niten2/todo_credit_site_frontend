@@ -1,8 +1,8 @@
 import * as React from "react"
-import gql from "graphql-tag"
-import { graphql } from "react-apollo"
 
 import AuthProvider from "src/config/auth_provider"
+import { Info, ErrorMessage } from "src/components/auth/components"
+import { withData } from "src/components/auth/queries"
 
 interface P {
   createToken: (options: object) => Promise<any>
@@ -13,32 +13,6 @@ interface S {
   login: string
   password: string
   error: string | null
-}
-
-const createToken = gql`
-  mutation createToken($input: TokenCreateInput!) {
-    createToken(input: $input) {
-      token
-      user {
-        role
-      }
-    }
-  }
-`
-
-const ErrorMessage = (props: { error: string | null }): any => {
-  if (props.error) {
-    return(
-      <div>
-        <div className="text-danger text-center">
-          {props.error}
-        </div>
-        <br />
-      </div>
-    )
-  } else {
-    return <div />
-  }
 }
 
 class Login extends React.Component<P, S> {
@@ -96,7 +70,7 @@ class Login extends React.Component<P, S> {
     let { error } = this.state
 
     return (
-      <div className="app flex-row">
+      <div className="app flex-row align-items-center">
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-md-8">
@@ -107,47 +81,11 @@ class Login extends React.Component<P, S> {
                     <h1>Login</h1>
                     <p className="text-muted">Sign In to your account</p>
 
-                    <div className="row text-center">
-                      <div className="col-6">
-                        <p className="text-muted">
-                          default login admin
-                          <br />
-                          login: admin
-                          <br />
-                          password: 12345
-                        </p>
-                      </div>
-
-                      <div className="col-6">
-                        <p className="text-muted">
-                          default login manager
-                          <br />
-                          login: manager
-                          <br />
-                          password: 12345
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="row text-center">
-                      <div className="col-12">
-                        <p className="text-muted">
-                          <a href="https://github.com/niten2/todo_credit_site_backend">
-                            source code backend
-                          </a>
-
-                          <br />
-
-                          <a href="https://github.com/niten2/todo_credit_site_frontend">
-                            source code frontend
-                          </a>
-                        </p>
-                      </div>
-                    </div>
+                    <Info />
 
                     <div className="input-group mb-3">
                       <span className="input-group-addon">
-                        <i className="icon-user" />
+                        <i className="fa fa-user-o" />
                       </span>
 
                       <input
@@ -163,7 +101,7 @@ class Login extends React.Component<P, S> {
 
                     <div className="input-group mb-4">
                       <span className="input-group-addon">
-                        <i className="icon-lock" />
+                        <i className="fa fa-lock" />
                       </span>
                       <input
                         type="password"
@@ -202,6 +140,4 @@ class Login extends React.Component<P, S> {
 
 }
 
-export default graphql<any, any, any>(
-  createToken, { name: "createToken" }
-)(Login)
+export default withData(Login)

@@ -34,12 +34,8 @@ class Sidebar extends React.Component<any, any> {
                 activeClassName="active"
               >
                 <i className="icon-speedometer" />
-                Dashboard <span className="badge badge-info">NEW</span>
+                Dashboard
               </NavLink>
-            </li>
-
-            <li className="nav-title">
-              Services
             </li>
 
             <li className="nav-item">

@@ -201,102 +201,108 @@ class EditLoan extends React.Component<any, any> {
       return <Page500 />
     }
 
-    let rate = client.territory ? client.territory.rate : "territory not found"
-    let total = loan.total === 0 || loan.total === undefined ? "total not calculate" : loan.total
+    let rate = client && client.territory ? client.territory.rate : "territory not found"
+    let total = loan && loan.total === 0 || loan.total === undefined ? "total not calculate" : loan.total
 
     return (
-      <div className="card">
+      <div className="container-fluid">
+        <div className="card">
 
-        <div className="card-header">
-          <i className="fa fa-align-justify" /> Loan
-        </div>
+          <div className="card-header">
+            <i className="fa fa-align-justify" /> Edit Loan
+          </div>
 
-        <div className="card-block">
-          <form className="form-2orizontal">
+          <div className="card-block">
+            <form className="form-2orizontal">
 
-            <div className="form-group row">
-              <div className="col-md-12">
-                <div className="input-group">
-                  <span className="input-group-addon">sum</span>
-                  <Input
-                    name="sum"
-                    placeholder="sum"
-                    type="number"
-                    onChange={this.handleSetState}
-                    onKeyPress={this.handleOnKeyPress}
-                    value={loan.sum}
-                  />
+              <div className="form-group row">
+                <div className="col-md-12">
+                  <div className="input-group">
+                    <span className="input-group-addon">Sum</span>
+                    <Input
+                      name="sum"
+                      placeholder="sum"
+                      type="number"
+                      onChange={this.handleSetState}
+                      onKeyPress={this.handleOnKeyPress}
+                      value={loan.sum}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="form-group row">
-              <div className="col-md-12">
-                <div className="input-group">
-                  <span className="input-group-addon">date_start</span>
-                  <DatePicker
-                    selected={loan.date_start}
-                    onChange={this.handleDatePickerDateStart}
-                  />
+              <div className="form-group row">
+                <div className="col-md-12">
+                  <div className="input-group">
+                    <span className="input-group-addon">Date start</span>
+                    <DatePicker
+                      className="form-control width100"
+                      selected={loan.date_start}
+                      onChange={this.handleDatePickerDateStart}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="form-group row">
-              <div className="col-md-12">
-                <div className="input-group">
-                  <span className="input-group-addon">territory</span>
-                  {rate}
+              <div className="form-group row">
+                <div className="col-md-12">
+                  <div className="input-group">
+                    <span className="input-group-addon">Date end</span>
+                      <DatePicker
+                        className="form-control width100"
+                        selected={loan.date_end}
+                        onChange={this.handleDatePickerDateEnd}
+                      />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="form-group row">
-              <div className="col-md-12">
-                <div className="input-group">
-                  <span className="input-group-addon">date end</span>
-                  <DatePicker
-                    selected={loan.date_end}
-                    onChange={this.handleDatePickerDateEnd}
-                  />
+              <div className="form-group row">
+                <div className="col-md-12">
+                  <div className="input-group">
+                    <span className="input-group-addon">Territory</span>
+                    <div className="form-control">
+                      {rate}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
 
-
-            <div className="form-group row">
-              <div className="col-md-12">
-                <div className="input-group">
-                  <span className="input-group-addon">summary</span>
-                  {total}
+              <div className="form-group row">
+                <div className="col-md-12">
+                  <div className="input-group">
+                    <span className="input-group-addon">Summary</span>
+                    <div className="form-control">
+                      {total}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
 
-
-            <div className="form-actions">
-              <button
-                className="btn btn-primary"
-                onClick={this.handleUpdate}
-              >
-                Save changes
-              </button>
-
-              {" "}
-
-              <Link to={`/clients/${client.id}/loans`}>
+              <div className="form-actions">
                 <button
-                  className="btn btn-default"
+                  className="btn btn-primary"
+                  onClick={this.handleUpdate}
                 >
-                  Cancel
+                  Save changes
                 </button>
-              </Link>
 
-            </div>
+                {" "}
 
-          </form>
+                <Link to={`/clients/${client.id}/loans`}>
+                  <button
+                    className="btn btn-default"
+                  >
+                    Cancel
+                  </button>
+                </Link>
+
+              </div>
+
+            </form>
+          </div>
+
         </div>
-
       </div>
     )
   }

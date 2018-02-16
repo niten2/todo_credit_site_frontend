@@ -1,18 +1,21 @@
 import * as React from 'react'
-import ListClient from './list'
 import { Link } from 'react-router-dom'
+
 import AuthProvider from "src/config/auth_provider"
+import ListClient from './list'
 
 const NewClientLink = () => {
   if (!AuthProvider.isAdmin()) {
     return (
-      <div className="card">
-        <div className="card-block">
-          <Link to={`/clients/new`}>
-            <button type="button" className="btn btn-primary">
-              New Client
-            </button>
-          </Link>
+      <div className="container-fluid">
+        <div className="card">
+          <div className="card-block">
+            <Link to={`/clients/new`}>
+              <button type="button" className="btn btn-primary">
+                New Client
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     )
@@ -21,7 +24,7 @@ const NewClientLink = () => {
   }
 }
 
-class ClientIndex extends React.Component<any, any> {
+class IndexClient extends React.Component<{}, {}> {
   render() {
     return (
       <div className="animated fadeIn">
@@ -33,4 +36,4 @@ class ClientIndex extends React.Component<any, any> {
   }
 }
 
-export default ClientIndex
+export default IndexClient

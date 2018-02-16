@@ -3,7 +3,7 @@ import { extendObservable } from 'mobx'
 let UIStore  = {
   notificationSystem: {
     addNotification: (options: any): any => {
-      console.log(options)
+      console.log("[NOTIFICATION]", options.message)
     }
   },
 }
