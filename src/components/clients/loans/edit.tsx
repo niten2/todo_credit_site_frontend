@@ -1,17 +1,16 @@
 import * as React from 'react'
 import * as moment from "moment"
 import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
-
 import gql from "graphql-tag"
-import { compose, graphql } from 'react-apollo'
-import { set, lensProp } from 'ramda'
-import { Link } from 'react-router-dom'
-import { Input } from 'reactstrap'
-import Notification from 'src/config/notification'
+import "react-datepicker/dist/react-datepicker.css"
 
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
+import Link from "src/config/link"
+import Notification from 'src/config/notification'
+import { compose, graphql } from 'react-apollo'
+import { set, lensProp } from 'ramda'
+import { Input } from 'reactstrap'
 
 const loanQuery = gql`
   query loan($id: ID!) {

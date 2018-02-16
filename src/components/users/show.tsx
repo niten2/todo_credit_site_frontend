@@ -1,6 +1,6 @@
 import * as React from "react"
 import Select from 'react-select'
-import { Link } from 'react-router-dom'
+import Link from "src/config/link"
 import { Input } from 'reactstrap'
 import { set, lensProp } from 'ramda'
 import { withPublicUrl } from "src/config/settings"
