@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { ApolloProvider } from 'react-apollo'
-import { Router, Switch, Route, Redirect } from 'react-router-dom'
+import { HashRouter, Switch, Route, Redirect } from 'react-router-dom'
 
 import { client } from 'src/config/apollo_client'
-import history from 'src/config/history'
+
 import { withPublicUrl } from 'src/config/settings'
 
 import { PrivateLayout, PrivateLayoutAdmin, PrivateLayoutManager } from 'src/components/shared/layout'
@@ -27,7 +27,7 @@ import EditLoanClient from 'src/components/clients/loans/edit'
 export default () => {
   return (
     <ApolloProvider client={client}>
-      <Router history={history}>
+      <HashRouter>
         <Switch>
           <Route exact={true} path={withPublicUrl("/login")} component={Login}/>
           <Route exact={true} path={withPublicUrl("/404")} component={Page404}/>
@@ -55,7 +55,7 @@ export default () => {
 
           <Redirect to={withPublicUrl("/404")} />
         </Switch>
-      </Router>
+      </HashRouter>
     </ApolloProvider>
   )
 }
