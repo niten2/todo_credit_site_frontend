@@ -3,6 +3,7 @@ import * as React from "react"
 import AuthProvider from "src/config/auth_provider"
 import { Info, ErrorMessage } from "src/components/auth/components"
 import { withData } from "src/components/auth/queries"
+import { withPublicUrl } from "src/config/settings"
 
 interface P {
   createToken: (options: object) => Promise<any>
@@ -53,7 +54,7 @@ class Login extends React.Component<P, S> {
       AuthProvider.saveToken(token)
       AuthProvider.saveRole(role)
 
-      this.props.history.push('/dashboard')
+      this.props.history.push(withPublicUrl("/dashboard"))
 
     } catch (err) {
       this.setState({ error: err.message })

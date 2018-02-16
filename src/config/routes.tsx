@@ -1,9 +1,10 @@
 import * as React from 'react'
 import { ApolloProvider } from 'react-apollo'
-import { Router, Switch, Route } from 'react-router-dom'
+import { Router, Switch, Route, Redirect } from 'react-router-dom'
 
 import { client } from 'src/config/apollo_client'
 import history from 'src/config/history'
+import { withPublicUrl } from 'src/config/settings'
 
 import { PrivateLayout, PrivateLayoutAdmin, PrivateLayoutManager } from 'src/components/shared/layout'
 import Page404 from 'src/components/shared/page404'
@@ -28,25 +29,31 @@ export default () => {
     <ApolloProvider client={client}>
       <Router history={history}>
         <Switch>
-          <Route exact={true} path="/login" component={Login}/>
-          <PrivateLayout exact={true} path="/profile" component={Profile}/>
+          <Route exact={true} path={withPublicUrl("/login")} component={Login}/>
+          <Route exact={true} path={withPublicUrl("/404")} component={Page404}/>
 
-          <PrivateLayoutAdmin exact={true} path="/users" component={User}/>
-          <PrivateLayoutAdmin exact={true} path="/users/new" component={NewUser}/>
-          <PrivateLayoutAdmin exact={true} path="/users/:id" component={ShowUser}/>
+          <PrivateLayout exact={true} path={withPublicUrl("/profile")} component={Profile}/>
 
-          <PrivateLayout exact={true} path="/clients" component={Client}/>
-          <PrivateLayoutManager exact={true} path="/clients/new" component={NewClient}/>
-          <PrivateLayout exact={true} path="/clients/:id" component={ShowClient}/>
+          <PrivateLayoutAdmin exact={true} path={withPublicUrl("/users")} component={User}/>
+          <PrivateLayoutAdmin exact={true} path={withPublicUrl("/users/new")} component={NewUser}/>
+          <PrivateLayoutAdmin exact={true} path={withPublicUrl("/users/:id")} component={ShowUser}/>
 
-          <PrivateLayout exact={true} path="/clients/:id/loans" component={IndexLoansClient}/>
+          <PrivateLayout exact={true} path={withPublicUrl("/clients")} component={Client}/>
+          <PrivateLayoutManager exact={true} path={withPublicUrl("/clients/new")} component={NewClient}/>
+          <PrivateLayout exact={true} path={withPublicUrl("/clients/:id")} component={ShowClient}/>
 
-          <PrivateLayoutAdmin exact={true} path="/clients/:id/loans/:loanId" component={EditLoanClient}/>
+          <PrivateLayout exact={true} path={withPublicUrl("/clients/:id/loans")} component={IndexLoansClient}/>
 
-          <PrivateLayout exact={true} path="/" name="Dashboard" component={Dashboard} />
-          <PrivateLayout exact={true} path="/dashboard" name="Dashboard" component={Dashboard}/>
+          <PrivateLayoutAdmin
+            exact={true}
+            path={withPublicUrl("/clients/:id/loans/:loanId")}
+            component={EditLoanClient}
+          />
 
-          <Route path="*" component={Page404}/>
+          <PrivateLayout exact={true} path={withPublicUrl("/")} component={Dashboard} />
+          <PrivateLayout exact={true} path={withPublicUrl("/dashboard")} component={Dashboard}/>
+
+          <Redirect to={withPublicUrl("/404")} />
         </Switch>
       </Router>
     </ApolloProvider>

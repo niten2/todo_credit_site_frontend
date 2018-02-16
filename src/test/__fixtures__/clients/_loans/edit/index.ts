@@ -2,6 +2,7 @@ import Component from 'src/components/clients/loans/edit'
 
 export default {
   component: Component,
+  url: "/url",
 
   props: {
     match: {
@@ -14,10 +15,7 @@ export default {
     history: {
       push: (arg) => {
         console.log("history push", arg)
-        return arg
       }
     },
   },
-
-  url: '/header',
 }

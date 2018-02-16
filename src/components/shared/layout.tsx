@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as NotificationSystem from 'react-notification-system'
 import { Redirect, Route } from 'react-router-dom'
+import { withPublicUrl } from 'src/config/settings'
 
 import UIStore from 'src/store'
 import AuthProvider from "src/config/auth_provider"
@@ -47,7 +48,7 @@ export const PrivateLayout = (options: any) => {
   if (AuthProvider.hasLogin()) {
     return Layout(options)
   } else {
-    return <Redirect to='/login' />
+    return <Redirect to={withPublicUrl("/login")} />
   }
 }
 
@@ -63,6 +64,6 @@ export const PrivateLayoutManager = (options: any) => {
   if (AuthProvider.hasLogin() && !AuthProvider.isAdmin()) {
     return Layout(options)
   } else {
-    return <Redirect to='/dashboard' />
+    return <Redirect to={withPublicUrl("/dashboard")} />
   }
 }

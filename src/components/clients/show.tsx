@@ -9,6 +9,7 @@ import Notification from 'src/config/notification'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
 import { withData } from 'src/components/clients/show/queries'
+import { withPublicUrl } from "src/config/settings"
 
 class ShowClient extends React.Component<any, any> {
 
@@ -85,7 +86,7 @@ class ShowClient extends React.Component<any, any> {
       await this.props.deleteClientQuery(options)
       Notification.success("delete client")
 
-      this.props.history.push("/clients")
+      this.props.history.push(withPublicUrl("/clients"))
     } catch (err) {
       Notification.error(err.message)
     }

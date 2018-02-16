@@ -1,5 +1,5 @@
 # Setup
----
+
 - npm install
 - cp .env.sample .env
 - npm run start
@@ -7,7 +7,7 @@
 - up backend app [todo_credit_site_backend](https://github.com/niten2/todo_credit_site_backend)
 
 # Tests
----
+
 ##### fixtures react-cosmos
   - npm run cosmos
   - open http://localhost:8989
@@ -16,7 +16,6 @@
   - npm run tests
 
 # Техническое задание.
----
 
 1. Приложение должно поддерживать аутентификацию по паре логин и пароль.
 2. Иметь разграничение прав доступа (Администратор, Менеджер)
