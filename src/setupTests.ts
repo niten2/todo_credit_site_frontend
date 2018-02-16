@@ -5,6 +5,4 @@ import LocalStorageMock from "src/test/support/local_storage"
 
 configure({ adapter: new Adapter() })
 
-
-
 global.localStorage = new LocalStorageMock
