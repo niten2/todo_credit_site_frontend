@@ -2,8 +2,7 @@
   "name": "credit_site_frontend",
   "version": "0.2.0",
   "private": false,
-  "start_url": ".",
-  "homepage": "http://mywebsite.com/relativepath",
+  "homepage": "https://niten2.github.io/todo_credit_site_frontend/",
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
