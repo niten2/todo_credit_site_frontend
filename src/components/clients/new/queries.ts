@@ -1,5 +1,5 @@
 import gql from "graphql-tag"
-import { graphql } from "react-apollo"
+import { compose, graphql } from "react-apollo"
 
 const createClientQuery = gql`
   mutation createClient($input: ClientCreateInput!) {
@@ -14,21 +14,10 @@ const createClientQuery = gql`
   }
 `
 
-const clientsQuery = gql`
-  query {
-    clients {
-      id
-
-      full_name
-      email
-      passport
-      phone
-    }
-  }
-`
-
-export const withData = graphql<any, any, any>(
-  createClientQuery, {
-    name: "createClientQuery"
-  }
+export const withData = compose(
+  graphql<any, any, any>(
+    createClientQuery, {
+      name: "createClientQuery",
+    },
+  ),
 )

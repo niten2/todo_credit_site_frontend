@@ -16,7 +16,6 @@ interface P {
     error: any
   }
   createUserQuery(options: any): any
-  usersQuery(args: any): any
 }
 
 class NewUser extends React.Component<P, any> {
@@ -78,9 +77,6 @@ class NewUser extends React.Component<P, any> {
           territory: user.territory,
         }
       },
-      refetchQueries: [{
-        query: this.props.usersQuery,
-      }],
     }
 
     try {
@@ -217,8 +213,8 @@ class NewUser extends React.Component<P, any> {
                               valueKey="value"
                               className="form-control none-padding none-border"
                               options={roles}
-                              value={user.role}
                               onChange={this.changeSelect}
+                              value={user.role}
                             />
                         </div>
                       </div>
@@ -234,8 +230,8 @@ class NewUser extends React.Component<P, any> {
                             valueKey="id"
                             className="form-control none-padding none-border"
                             options={territories}
-                            value={user.territory}
                             onChange={this.changeSelectTerritory}
+                            value={user.territory}
                           />
                         </div>
                       </div>

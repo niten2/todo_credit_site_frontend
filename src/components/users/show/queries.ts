@@ -1,6 +1,17 @@
 import gql from "graphql-tag"
 import { compose, graphql } from 'react-apollo'
 
+const territoriesQuery = gql`
+  query {
+    territories {
+      id
+
+      name
+      rate
+    }
+  }
+`
+
 const userQuery = gql`
   query user($id: ID!) {
     user(id: $id) {
@@ -41,50 +52,25 @@ const deleteUserQuery = gql`
   }
 `
 
-const usersQuery = gql`
-  query {
-    users {
-      id
-
-      email
-      login
-      role
-    }
-  }
-`
-
-const territoriesQuery = gql`
-  query {
-    territories {
-      id
-
-      name
-      rate
-    }
-  }
-`
-
 export const withData = compose(
-  graphql<any, any, any>(
-    userQuery, {
-      name: "userQuery" ,
-      options: (props) => ({
-        variables: {id: props.match.params.id}
-      })
-    }
-  ),
   graphql<any, any, any>(
     territoriesQuery, {
       name: "territoriesQuery" ,
       options: (props) => ({
-        variables: {id: props.match.params.id}
+        variables: {
+          id: props.match.params.id
+        }
       })
     }
   ),
   graphql<any, any, any>(
-    usersQuery, {
-      name: "usersQuery",
-      skip: true,
+    userQuery, {
+      name: "userQuery" ,
+      options: (props) => ({
+        variables: {
+          id: props.match.params.id
+        }
+      })
     }
   ),
   graphql<any, any, any>(
@@ -94,7 +80,7 @@ export const withData = compose(
   ),
   graphql<any, any, any>(
     deleteUserQuery, {
-      name: "deleteUserQuery"
+      name: "deleteUserQuery",
     }
   ),
 )

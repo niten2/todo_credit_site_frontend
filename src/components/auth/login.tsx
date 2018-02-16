@@ -33,7 +33,6 @@ class Login extends React.Component<P, S> {
   }
 
   handleLogin = async () => {
-    console.log(3333)
     const { login, password } = this.state
 
     const options = {
@@ -47,7 +46,6 @@ class Login extends React.Component<P, S> {
 
     try {
       let response = await this.props.createToken(options)
-      console.log(response)
 
       const token = response.data.createToken.token
       const role = response.data.createToken.user.role
@@ -58,8 +56,6 @@ class Login extends React.Component<P, S> {
       this.props.history.push('/dashboard')
 
     } catch (err) {
-      console.log(999)
-      console.log(err)
       this.setState({ error: err.message })
     }
   }

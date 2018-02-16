@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 class ViewUser extends React.Component<any, any> {
 
   state = {
-    object: {},
     attributes: [
       "id",
       "email",

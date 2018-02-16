@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { Input } from "reactstrap"
 
 import Notification from "src/config/notification"
-import { withData } from "src/components/cliens/new/queries"
+import { withData } from "src/components/clients/new/queries"
 
 class NewClient extends React.Component<any, any> {
 
@@ -41,9 +41,6 @@ class NewClient extends React.Component<any, any> {
           phone: client.phone,
         }
       },
-      // refetchQueries: [{
-      //   query: clientsQuery,
-      // }],
     }
 
     try {
@@ -70,6 +67,8 @@ class NewClient extends React.Component<any, any> {
   }
 
   render() {
+    let { client } = this.state
+
     return (
       <div className="container-fluid">
         <div className="animated fadeIn">
@@ -89,12 +88,13 @@ class NewClient extends React.Component<any, any> {
                     <div className="form-group row">
                       <div className="col-md-12">
                         <div className="input-group">
-                          <span className="input-group-addon">full_name</span>
+                          <span className="input-group-addon">Full name</span>
                           <Input
                             name="full_name"
                             placeholder="full_name"
                             onChange={this.handleSetState}
                             onKeyPress={this.handleOnKeyPress}
+                            value={client.full_name}
                           />
                         </div>
                       </div>
@@ -109,6 +109,7 @@ class NewClient extends React.Component<any, any> {
                             placeholder="email"
                             onChange={this.handleSetState}
                             onKeyPress={this.handleOnKeyPress}
+                            value={client.email}
                           />
                         </div>
                       </div>
@@ -123,6 +124,7 @@ class NewClient extends React.Component<any, any> {
                             placeholder="passport"
                             onChange={this.handleSetState}
                             onKeyPress={this.handleOnKeyPress}
+                            value={client.passport}
                           />
                         </div>
                       </div>
@@ -137,6 +139,7 @@ class NewClient extends React.Component<any, any> {
                             placeholder="phone"
                             onChange={this.handleSetState}
                             onKeyPress={this.handleOnKeyPress}
+                            value={client.phone}
                           />
                         </div>
                       </div>
@@ -160,8 +163,8 @@ class NewClient extends React.Component<any, any> {
                         </button>
                       </Link>
                     </div>
-                  </form>
 
+                  </form>
                 </div>
 
               </div>

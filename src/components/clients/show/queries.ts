@@ -26,7 +26,6 @@ const clientQuery = gql`
 
         date_start
         date_end
-
       }
     }
   }
@@ -48,19 +47,6 @@ const deleteClientQuery = gql`
   mutation deleteClient($input: IdInput!) {
     deleteClient(input: $input) {
       id
-    }
-  }
-`
-
-const clientsQuery = gql`
-  query {
-    clients {
-      id
-
-      full_name
-      email
-      passport
-      phone
     }
   }
 `
@@ -88,29 +74,13 @@ export const withData = compose(
     }
   ),
   graphql<any, any, any>(
-    clientsQuery, {
-      name: "clientsQuery" ,
-      // skip: true,
-    }
-  ),
-  graphql<any, any, any>(
     updateClientQuery, {
-      options: {
-        refetchQueries: [
-          "clientsQuery"
-        ],
-      },
       name: "updateClientQuery",
     }
   ),
   graphql<any, any, any>(
     deleteClientQuery, {
       name: "deleteClientQuery",
-      options: {
-        refetchQueries: [
-          "clientsQuery"
-        ],
-      },
     }
   ),
   graphql<any, any, any>(

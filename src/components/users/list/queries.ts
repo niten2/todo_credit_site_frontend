@@ -17,6 +17,7 @@ export const withData = graphql<any, any, any>(
   usersQuery, {
     name: "usersQuery",
     options: (props) => ({
+      fetchPolicy: "network-only",
       variables: {
         input: {
           role: "manager",

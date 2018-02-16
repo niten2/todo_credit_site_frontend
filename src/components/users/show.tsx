@@ -7,6 +7,7 @@ import { set, lensProp } from 'ramda'
 import Notification from 'src/config/notification'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
+import Page404 from 'src/components/shared/page404'
 import ChangePasswordUser from 'src/components/users/show/change_password'
 import { withData } from 'src/components/users/show/queries'
 
@@ -80,9 +81,6 @@ class ShowUser extends React.Component<P, any> {
           blocked: user.blocked,
         }
       },
-      refetchQueries: [{
-        query: this.props.usersQuery,
-      }],
     }
 
     try {
@@ -104,14 +102,12 @@ class ShowUser extends React.Component<P, any> {
           id: user.id
         }
       },
-      refetchQueries: [{
-        query: this.props.usersQuery,
-      }],
     }
 
     try {
       await this.props.deleteUserQuery(options)
       Notification.success("user delete")
+
       this.props.history.push("/users")
     } catch (err) {
       Notification.error(err.message)
@@ -120,6 +116,7 @@ class ShowUser extends React.Component<P, any> {
 
   changeSelectRole = (value) => {
     let setClient = set(lensProp("role"), value.value)
+
     this.setState({ user: setClient(this.state.user) })
   }
 
@@ -159,6 +156,10 @@ class ShowUser extends React.Component<P, any> {
 
     let { user, roles } = this.state
     let { territories } = this.props.territoriesQuery
+
+    if (!user) {
+      return <Page404 />
+    }
 
     return (
       <div>

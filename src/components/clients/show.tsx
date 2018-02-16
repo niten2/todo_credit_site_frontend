@@ -42,7 +42,7 @@ class ShowClient extends React.Component<any, any> {
 
     const { client } = this.state
 
-    const options = {
+    let options: any = {
       variables: {
         input: {
           id: client.id,
@@ -51,18 +51,13 @@ class ShowClient extends React.Component<any, any> {
           passport: client.passport,
           phone: client.phone,
           mark_as_deleted: client.mark_as_deleted,
-          territory: client.territory.id,
         }
       },
-      // refetchQueries: [{
-      //   query: this.props.clientsQuery.refetch(),
-      //   // options: {
-      //   //   skip: false,
-      //   // }
-      // }],
     }
 
-    console.log(this.props.clientsQuery)
+    if (AuthProvider.isAdmin()) {
+      options.variables.input.territory = client.territory.id
+    }
 
     try {
       await this.props.updateClientQuery(options)
@@ -84,16 +79,13 @@ class ShowClient extends React.Component<any, any> {
           id: client.id
         }
       },
-      // refetchQueries: [{
-      //   query: this.props.clientsQuery,
-      // }],
     }
 
     try {
       await this.props.deleteClientQuery(options)
-      this.props.history.push("/clients")
-
       Notification.success("delete client")
+
+      this.props.history.push("/clients")
     } catch (err) {
       Notification.error(err.message)
     }
@@ -101,9 +93,7 @@ class ShowClient extends React.Component<any, any> {
 
   handleSetState = (e) => {
     const { name, value } = e.target
-    this.setState({
-      client: set(lensProp(name), value, this.state.client)
-    })
+    this.setState({ client: set(lensProp(name), value, this.state.client) })
   }
 
   handleSetStateCheckbox = (e) => {
@@ -117,9 +107,7 @@ class ShowClient extends React.Component<any, any> {
   }
 
   changeSelectTerritory = (value) => {
-    let setClient = set(lensProp("territory"), value)
-
-    this.setState({ client: setClient(this.state.client) })
+    this.setState({ client: set(lensProp("territory"), value, this.state.client) })
   }
 
   handleOnKeyPress = (target: any) => {

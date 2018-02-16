@@ -17,6 +17,9 @@ const clientsQuery = gql`
 
 export const withData = graphql<any, any, any>(
   clientsQuery, {
-    name: "clientsQuery"
+    name: "clientsQuery",
+    options: {
+      fetchPolicy: "network-only",
+    }
   }
 )
