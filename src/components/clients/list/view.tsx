@@ -30,7 +30,7 @@ class ViewClient extends React.Component<any, any> {
 
         <td>
           <Link
-            to={`clients/${object.id}`}
+            to={`/clients/${object.id}`}
           >
             <button className="btn btn-primary">
               Edit
