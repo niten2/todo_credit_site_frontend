@@ -1,6 +1,5 @@
 import * as React from "react"
 import Select from 'react-select'
-import { Link } from 'react-router-dom'
 import { Input } from 'reactstrap'
 import { set, lensProp } from 'ramda'
 
@@ -8,6 +7,7 @@ import AuthProvider from 'src/config/auth_provider'
 import Notification from 'src/config/notification'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
+import Link from "src/config/link"
 import { withData } from 'src/components/clients/show/queries'
 import { withPublicUrl } from "src/config/settings"
 

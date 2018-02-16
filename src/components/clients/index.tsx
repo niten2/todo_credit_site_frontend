@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Link } from 'react-router-dom'
+import Link from "src/config/link"
 
 import AuthProvider from "src/config/auth_provider"
 import ListClient from './list'

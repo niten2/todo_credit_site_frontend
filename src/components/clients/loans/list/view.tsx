@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as moment from "moment"
 
 import AuthProvider from 'src/config/auth_provider'
-import { Link } from 'react-router-dom'
+import Link from "src/config/link"
 
 const EditLoanLink = (props) => (
   <td>

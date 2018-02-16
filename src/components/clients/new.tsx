@@ -1,7 +1,7 @@
 import * as React from "react"
-import { Link } from "react-router-dom"
 import { Input } from "reactstrap"
 
+import Link from "src/config/link"
 import Notification from "src/config/notification"
 import { withData } from "src/components/clients/new/queries"
 

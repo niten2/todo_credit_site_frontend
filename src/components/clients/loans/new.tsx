@@ -3,13 +3,12 @@ import * as moment from "moment"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 
-import { Link } from 'react-router-dom'
-import { Input } from 'reactstrap'
-import { set, lensProp } from 'ramda'
-
+import Link from "src/config/link"
 import Notification from 'src/config/notification'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
+import { Input } from 'reactstrap'
+import { set, lensProp } from 'ramda'
 import { withData } from 'src/components/clients/loans/new/queries'
 
 class NewLoan extends React.Component<any, any> {
