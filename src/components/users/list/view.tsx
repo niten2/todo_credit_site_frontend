@@ -30,7 +30,7 @@ class ViewUser extends React.Component<any, any> {
 
         <td>
           <Link
-            to={`users/${object.id}`}
+            to={`/users/${object.id}`}
           >
             <button className="btn btn-primary">
               Edit
