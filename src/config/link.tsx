@@ -1,8 +1,6 @@
 import * as React from 'react'
 import { NavLink } from 'react-router-dom'
 
-import { withPublicUrl } from 'src/config/settings'
-
 interface P {
   to: string
   children: any
@@ -15,7 +13,7 @@ export default (props: P): any => {
 
   return (
     <NavLink
-      to={withPublicUrl(to)}
+      to={to}
       className={className}
       activeClassName={activeClassName}
     >
