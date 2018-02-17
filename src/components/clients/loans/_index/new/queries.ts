@@ -69,12 +69,11 @@ export const withData = compose(
   //   },
   // ),
 
-
   graphql<any, any, any>(
     createLoanQuery, {
       name: "createLoanQuery",
-      options: {
-        refetchQueries: (props) => [{
+      options: (props) => ({
+        refetchQueries: [{
           query: loansQuery,
           variables: {
             input: {
@@ -82,7 +81,7 @@ export const withData = compose(
             }
           },
         }],
-      },
+      }),
     }
   ),
 
