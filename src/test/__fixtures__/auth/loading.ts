@@ -4,8 +4,13 @@ export default {
   component: Login,
   url: "/url",
 
+  // state: {
+  //   loading: true,
+  // },
+
   state: {
-    loading: true,
+    searchQuery: 'Who let the dogs out?',
+    error: "error message",
   },
 
   props: {

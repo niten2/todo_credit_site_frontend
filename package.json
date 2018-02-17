@@ -2,7 +2,7 @@
   "name": "credit_site_frontend",
   "version": "0.2.0",
   "private": false,
-  "homepage" : "http://niten2.github.io/todo_credit_site_frontend",
+  "homepage": "http://niten2.github.io/todo_credit_site_frontend",
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
@@ -91,6 +91,7 @@
     "react-cosmos-localstorage-proxy": "^3.1.1",
     "react-cosmos-redux-proxy": "^3.1.1",
     "react-cosmos-router-proxy": "^3.5.0",
+    "react-cosmos-state-proxy": "^3.6.1",
     "react-cosmos-test": "^3.4.0",
     "react-test-renderer": "^16.2.0",
     "typescript": "^2.7.1"
