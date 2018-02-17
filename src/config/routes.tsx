@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { ApolloProvider } from 'react-apollo'
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom'
-import { client } from 'src/config/apollo_client'
 
+import { client } from 'src/config/apollo_client'
 import { PrivateLayout, PrivateLayoutAdmin, PrivateLayoutManager } from 'src/components/shared/layout'
 import Dashboard from 'src/components/dashboard'
 import Page404 from 'src/components/shared/page404'
