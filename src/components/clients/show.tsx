@@ -153,7 +153,7 @@ class ShowClient extends React.Component<any, any> {
                           <span className="input-group-addon">Full name</span>
                           <Input
                             name="full_name"
-                            placeholder="full_name"
+                            placeholder="full name"
                             onChange={this.handleSetState}
                             onKeyPress={this.handleOnKeyPress}
                             value={client.full_name}
