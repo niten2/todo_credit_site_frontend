@@ -5,7 +5,7 @@ import { createHttpLink } from "apollo-link-http"
 import { InMemoryCache } from "apollo-cache-inmemory"
 
 import AuthProvider from "src/config/auth_provider"
-import settings, { withPublicUrl } from "src/config/settings"
+import settings from "src/config/settings"
 import history from 'src/config/history'
 
 const httpLink = createHttpLink({
@@ -19,7 +19,7 @@ const errorLink = onError(({ networkError, graphQLErrors, response }) => {
 
       if (message === "user not found") {
         AuthProvider.removeToken()
-        history.push(withPublicUrl("/login"))
+        history.push("/login")
       }
     })
   }
