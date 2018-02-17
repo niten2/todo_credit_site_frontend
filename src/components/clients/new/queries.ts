@@ -14,28 +14,10 @@ const createClientQuery = gql`
   }
 `
 
-// const clientsQuery = gql`
-//   query {
-//     clients {
-//       id
-
-//       full_name
-//       email
-//       passport
-//       phone
-//     }
-//   }
-// `
-
 export const withData = compose(
   graphql<any, any, any>(
     createClientQuery, {
       name: "createClientQuery",
-      // options: {
-      //   refetchQueries: [
-      //     clientsQuery
-      //   ],
-      // },
     },
   ),
 )

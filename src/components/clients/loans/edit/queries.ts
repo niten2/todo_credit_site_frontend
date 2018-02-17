@@ -13,18 +13,6 @@ const loanQuery = gql`
   }
 `
 
-// const loansQuery = gql`
-//   query loans($input: LoansInput) {
-//     loans(input: $input) {
-//       id
-//       sum
-//       date_start
-//       date_end
-//       total
-//     }
-//   }
-// `
-
 const clientQuery = gql`
   query client($id: ID!) {
     client(id: $id) {
@@ -37,7 +25,7 @@ const clientQuery = gql`
       total_sum_loans
 
       territory {
-				id
+        id
         name
         rate
       }

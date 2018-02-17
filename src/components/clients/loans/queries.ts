@@ -8,7 +8,7 @@ const clientQuery = gql`
       full_name
 
       territory {
-				id
+        id
         name
         rate
       }

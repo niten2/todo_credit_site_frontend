@@ -32,20 +32,20 @@ export const ClientInfo = (props: P) => {
                   </div>
                 </div>
               </div>
-						</div>
+            </div>
 
-						<div className="form-actions">
-							<Link to={`/clients/${client.id}`}>
-								<button
-									className="btn btn-default"
-								>
-									Cancel
-								</button>
-							</Link>
-						</div>
+            <div className="form-actions">
+              <Link to={`/clients/${client.id}`}>
+                <button
+                  className="btn btn-default"
+                >
+                  Cancel
+                </button>
+              </Link>
+            </div>
 
-					</form>
-				</div>
+          </form>
+        </div>
 
       </div>
     </div>
