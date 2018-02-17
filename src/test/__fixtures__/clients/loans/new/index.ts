@@ -5,9 +5,10 @@ export default {
   url: '/url',
 
   props: {
-    match: {
-      params: {
-        id: "507f1f77bcf86cd799439011"
+    client: {
+      id: "507f1f77bcf86cd799439011",
+      territory: {
+        rate: "9999",
       }
     },
   },

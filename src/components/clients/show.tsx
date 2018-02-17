@@ -131,6 +131,8 @@ class ShowClient extends React.Component<any, any> {
 
     let territories = territoriesResponse.territories
 
+    console.log(AuthProvider.isAdmin())
+
     return (
       <div className="container-fluid">
         <div className="animated fadeIn">

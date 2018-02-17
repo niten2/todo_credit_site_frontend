@@ -11,7 +11,23 @@ import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
 import { withData } from 'src/components/clients/loans/edit/queries'
 
-class EditLoan extends React.Component<any, any> {
+interface P {
+  clientQuery: {
+    client: any,
+    loading: boolean
+    error: any
+  }
+  loanQuery: {
+    loan: any,
+    loading: boolean
+    error: any
+  }
+  updateLoanQuery: any
+  calculateLoanQuery: any
+}
+
+
+class EditLoan extends React.Component<P, any> {
 
   state = {
     loan: {
@@ -46,9 +62,7 @@ class EditLoan extends React.Component<any, any> {
 
   handleUpdate = async (e?: any) => {
     if (e) { e.preventDefault() }
-
     const { loan } = this.state
-    // let { client } = this.props.clientQuery
 
     const options = {
       variables: {
@@ -59,14 +73,6 @@ class EditLoan extends React.Component<any, any> {
           date_end: loan.date_end,
         }
       },
-      // refetchQueries: [{
-      //   query: loansQuery,
-      //   variables: {
-      //     input: {
-      //       client: client.id,
-      //     }
-      //   }
-      // }],
     }
 
     try {

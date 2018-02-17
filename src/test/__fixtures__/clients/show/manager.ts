@@ -4,6 +4,11 @@ export default {
   component: Component,
   url: '/header',
 
+  localStorage: {
+    credit_site_frontend: "foobar-token",
+    credit_site_frontend_role: "manager",
+  },
+
   props: {
     match: {
       params: {

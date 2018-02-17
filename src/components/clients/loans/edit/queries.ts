@@ -69,7 +69,6 @@ export const withData = compose(
         variables: {
           id: props.match.params.id
         },
-        // fetchPolicy: "network-only",
       })
     },
   ),
