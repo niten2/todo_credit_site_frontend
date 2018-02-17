@@ -13,6 +13,7 @@ interface S {
   login: string
   password: string
   error: string | null
+  loading: boolean
 }
 
 class Login extends React.Component<P, S> {
@@ -21,6 +22,7 @@ class Login extends React.Component<P, S> {
     login: 'admin',
     password: '12345',
     error: null,
+    loading: false,
   }
 
   handleSetState = (e) => {
@@ -45,6 +47,7 @@ class Login extends React.Component<P, S> {
     }
 
     try {
+      this.setState({ loading: true })
       let response = await this.props.createToken(options)
 
       const token = response.data.createToken.token
@@ -54,8 +57,8 @@ class Login extends React.Component<P, S> {
       AuthProvider.saveRole(role)
 
       this.props.history.push("dashboard")
-
     } catch (err) {
+      this.setState({ loading: false })
       this.setState({ error: err.message })
     }
   }
@@ -67,7 +70,7 @@ class Login extends React.Component<P, S> {
   }
 
   render () {
-    let { error } = this.state
+    let { error, loading } = this.state
 
     return (
       <div className="app flex-row align-items-center">
@@ -120,9 +123,11 @@ class Login extends React.Component<P, S> {
                       <div className="col-6">
                         <button
                           type="button"
-                          className="btn btn-primary px-4"
+                          className="btn btn-primary"
                           onClick={this.handleLogin}
                         >
+                          {loading ? <i className="fa fa-refresh fa-spin margin-rigth-0-5rem" /> : null}
+
                           Login
                         </button>
                       </div>
