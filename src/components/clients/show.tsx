@@ -126,8 +126,7 @@ class ShowClient extends React.Component<any, any> {
     }
 
     if (territoriesResponse.error || clientResponse.error || !client) {
-      Notification.error(`${territoriesResponse.error}, ${clientResponse.error}`)
-      return <Page500 />
+      return <Page500 message={`${territoriesResponse.error}, ${clientResponse.error}`}/>
     }
 
     let territories = territoriesResponse.territories
