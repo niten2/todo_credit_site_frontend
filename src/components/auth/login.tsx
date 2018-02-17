@@ -71,7 +71,6 @@ class Login extends React.Component<P, S> {
 
   render () {
     let { error, loading } = this.state
-    console.log(this.state)
 
     return (
       <div className="app flex-row align-items-center">
