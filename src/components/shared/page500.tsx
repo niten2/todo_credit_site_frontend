@@ -1,7 +1,13 @@
 import * as React from "react"
 
-class Page500 extends React.Component<{}, {}> {
+interface P {
+  message?: string
+}
+
+class Page500 extends React.Component<P, {}> {
   render() {
+    const { message } = this.props
+
     return (
       <div className="app flex-row align-items-center">
         <div className="container">
@@ -12,6 +18,7 @@ class Page500 extends React.Component<{}, {}> {
                 <h1 className="float-left display-3 mr-4">500</h1>
                 <h4 className="pt-3">Houston, we have a problem!</h4>
                 <p className="text-muted">The page you are looking for is temporarily unavailable.</p>
+                {message ? <p>{message}</p> : null}
               </div>
 
             </div>

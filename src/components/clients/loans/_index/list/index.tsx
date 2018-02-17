@@ -3,9 +3,8 @@ import * as React from 'react'
 import AuthProvider from 'src/config/auth_provider'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
-import ViewLoan from "src/components/clients/loans/list/view"
-import { ClientInfo } from "src/components/clients/loans/list/components"
-import { withData } from "src/components/clients/loans/list/queries"
+import ViewLoan from "src/components/clients/loans/_index/list/view"
+import { withData } from "src/components/clients/loans/_index/list/queries"
 
 interface P {
   loansQuery: {
@@ -13,32 +12,52 @@ interface P {
     error: any
     loans: any
   }
-  clientQuery: {
-    loading: boolean
-    error: any
-    client: any
+  client: {
+    id: string
   }
 }
 
 class ListLoan extends React.Component<P, {}> {
 
   render() {
-    let loansResponse = this.props.loansQuery
-    let clientResponse = this.props.clientQuery
-    const loans = loansResponse.loans
-    const client = clientResponse.client
+    // let loansResponse = this.props.loansQuery
+    // let clientResponse = this.props.clientQuery
+    // const loans = loansResponse.loans
+    // const client = clientResponse.client
 
-    if (loansResponse.loading || clientResponse.loading) {
+    // if (loansResponse.loading || clientResponse.loading) {
+    //   return <Spinner />
+    // }
+
+    // if (loansResponse.error || clientResponse.error || !loans || !client) {
+    //   return <Page500 />
+    // }
+
+    let { loans, loading, error } = this.props.loansQuery
+    let { client } = this.props
+
+    if (loading) {
       return <Spinner />
     }
 
-    if (loansResponse.error || clientResponse.error || !loans || !client) {
+    if (error) {
       return <Page500 />
     }
 
+    // let clientResponse = this.props.clientQuery
+    // const loans = loansResponse.loans
+    // const client = clientResponse.client
+
+    // if (loansResponse.loading || clientResponse.loading) {
+    //   return <Spinner />
+    // }
+
+    // if (loansResponse.error || clientResponse.error || !loans || !client) {
+    //   return <Page500 />
+    // }
+
     return (
       <div className="container-fluid">
-        <ClientInfo client={client}/>
 
         <div className="card">
           <div className="card-header">

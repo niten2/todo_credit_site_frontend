@@ -1,8 +1,8 @@
-import Component from "src/components/clients/loans/new"
+import Component from "src/components/clients/loans/_index/new"
 
 export default {
   component: Component,
-  url: '/header',
+  url: '/url',
 
   props: {
     match: {
@@ -11,5 +11,4 @@ export default {
       }
     },
   },
-
 }
