@@ -2,7 +2,6 @@ import * as React from "react"
 import gql from "graphql-tag"
 import { withRouter } from "react-router"
 import { withApollo, graphql } from "react-apollo"
-import { withPublicUrl } from "src/config/settings"
 
 import AuthProvider from "src/config/auth_provider"
 import Spinner from 'src/components/shared/spinner'
@@ -54,7 +53,7 @@ class Header extends React.Component<any, any> {
     AuthProvider.removeToken()
 
     this.props.client.resetStore()
-    this.props.history.push(withPublicUrl("/login"))
+    this.props.history.push("/login")
 
     console.log("logout")
   }

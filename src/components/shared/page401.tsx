@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-class Page401 extends React.Component<any, any> {
+class Page401 extends React.Component<{}, {}> {
   render() {
     return (
       <div className="app flex-row align-items-center">

@@ -1,71 +1,33 @@
 import * as React from 'react'
 import * as moment from "moment"
 import DatePicker from "react-datepicker"
-import gql from "graphql-tag"
+import { Input } from 'reactstrap'
+import { set, lensProp } from 'ramda'
 import "react-datepicker/dist/react-datepicker.css"
 
-import Spinner from 'src/components/shared/spinner'
-import Page500 from 'src/components/shared/page500'
 import Link from "src/config/link"
 import Notification from 'src/config/notification'
-import { compose, graphql } from 'react-apollo'
-import { set, lensProp } from 'ramda'
-import { Input } from 'reactstrap'
+import Spinner from 'src/components/shared/spinner'
+import Page500 from 'src/components/shared/page500'
+import { withData } from 'src/components/clients/loans/edit/queries'
 
-const loanQuery = gql`
-  query loan($id: ID!) {
-    loan(id: $id) {
-      id
-      sum
-      date_start
-      date_end
-      total
-    }
+interface P {
+  clientQuery: {
+    client: any,
+    loading: boolean
+    error: any
   }
-`
-
-const loansQuery = gql`
-  query loans($input: LoansInput) {
-    loans(input: $input) {
-      id
-      sum
-      date_start
-      date_end
-      total
-    }
+  loanQuery: {
+    loan: any,
+    loading: boolean
+    error: any
   }
-`
+  updateLoanQuery: any
+  calculateLoanQuery: any
+}
 
-const clientQuery = gql`
-  query client($id: ID!) {
-    client(id: $id) {
-      id
 
-      territory {
-        name
-        rate
-      }
-    }
-  }
-`
-
-const updateLoanQuery = gql`
-  mutation updateLoan($input: LoanUpdateInput!) {
-    updateLoan(input: $input) {
-      id
-    }
-  }
-`
-
-const calculateLoanQuery = gql`
-  mutation calculateLoan($input: LoanCalculateInput!) {
-    calculateLoan(input: $input) {
-      total
-    }
-  }
-`
-
-class EditLoan extends React.Component<any, any> {
+class EditLoan extends React.Component<P, any> {
 
   state = {
     loan: {
@@ -100,9 +62,7 @@ class EditLoan extends React.Component<any, any> {
 
   handleUpdate = async (e?: any) => {
     if (e) { e.preventDefault() }
-
     const { loan } = this.state
-    let { client } = this.props.clientQuery
 
     const options = {
       variables: {
@@ -113,14 +73,6 @@ class EditLoan extends React.Component<any, any> {
           date_end: loan.date_end,
         }
       },
-      refetchQueries: [{
-        query: loansQuery,
-        variables: {
-          input: {
-            client: client.id,
-          }
-        }
-      }],
     }
 
     try {
@@ -295,7 +247,6 @@ class EditLoan extends React.Component<any, any> {
                     Cancel
                   </button>
                 </Link>
-
               </div>
 
             </form>
@@ -308,35 +259,4 @@ class EditLoan extends React.Component<any, any> {
 
 }
 
-export default compose(
-  graphql<any, any, any>(
-    clientQuery, {
-      name: "clientQuery" ,
-      options: (props) => ({
-        variables: {
-          id: props.match.params.id
-        }
-      })
-    },
-  ),
-  graphql<any, any, any>(
-    loanQuery, {
-      name: "loanQuery" ,
-      options: (props) => ({
-        variables: {
-          id: props.match.params.loanId
-        }
-      })
-    },
-  ),
-  graphql<any, any, any>(
-    updateLoanQuery, {
-      name: "updateLoanQuery"
-    }
-  ),
-  graphql<any, any, any>(
-    calculateLoanQuery, {
-      name: "calculateLoanQuery"
-    }
-  ),
-)(EditLoan)
+export default withData(EditLoan)

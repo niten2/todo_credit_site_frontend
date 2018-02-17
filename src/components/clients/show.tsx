@@ -9,7 +9,6 @@ import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
 import Link from "src/config/link"
 import { withData } from 'src/components/clients/show/queries'
-import { withPublicUrl } from "src/config/settings"
 
 class ShowClient extends React.Component<any, any> {
 
@@ -86,7 +85,7 @@ class ShowClient extends React.Component<any, any> {
       await this.props.deleteClientQuery(options)
       Notification.success("delete client")
 
-      this.props.history.push(withPublicUrl("/clients"))
+      this.props.history.push("/clients")
     } catch (err) {
       Notification.error(err.message)
     }
@@ -127,8 +126,7 @@ class ShowClient extends React.Component<any, any> {
     }
 
     if (territoriesResponse.error || clientResponse.error || !client) {
-      Notification.error(`${territoriesResponse.error}, ${clientResponse.error}`)
-      return <Page500 />
+      return <Page500 message={`${territoriesResponse.error}, ${clientResponse.error}`}/>
     }
 
     let territories = territoriesResponse.territories
@@ -155,7 +153,7 @@ class ShowClient extends React.Component<any, any> {
                           <span className="input-group-addon">Full name</span>
                           <Input
                             name="full_name"
-                            placeholder="full_name"
+                            placeholder="full name"
                             onChange={this.handleSetState}
                             onKeyPress={this.handleOnKeyPress}
                             value={client.full_name}

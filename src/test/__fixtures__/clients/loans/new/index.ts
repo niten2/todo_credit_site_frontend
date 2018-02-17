@@ -2,14 +2,14 @@ import Component from "src/components/clients/loans/new"
 
 export default {
   component: Component,
-  url: '/header',
+  url: '/url',
 
   props: {
-    match: {
-      params: {
-        id: "507f1f77bcf86cd799439011"
+    client: {
+      id: "507f1f77bcf86cd799439011",
+      territory: {
+        rate: "9999",
       }
     },
   },
-
 }

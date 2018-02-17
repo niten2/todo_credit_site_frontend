@@ -1,17 +1,27 @@
 import * as React from "react"
 import * as moment from "moment"
 import DatePicker from "react-datepicker"
+import { Input } from 'reactstrap'
+import { set, lensProp } from 'ramda'
 import "react-datepicker/dist/react-datepicker.css"
 
 import Link from "src/config/link"
 import Notification from 'src/config/notification'
-import Spinner from 'src/components/shared/spinner'
-import Page500 from 'src/components/shared/page500'
-import { Input } from 'reactstrap'
-import { set, lensProp } from 'ramda'
 import { withData } from 'src/components/clients/loans/new/queries'
 
-class NewLoan extends React.Component<any, any> {
+interface P {
+  client: {
+    id: string
+    territory: {
+      rate: string
+    }
+  }
+  calculateLoanQuery: any
+  createLoanQuery: any
+  loansQuery: any
+}
+
+class NewLoan extends React.Component<P, any> {
 
   state = {
     loan: {
@@ -36,7 +46,7 @@ class NewLoan extends React.Component<any, any> {
     if (e) { e.preventDefault() }
 
     const { loan } = this.state
-    let { client } = this.props.clientQuery
+    let { client } = this.props
 
     const options = {
       variables: {
@@ -47,14 +57,6 @@ class NewLoan extends React.Component<any, any> {
           client: client.id,
         }
       },
-      refetchQueries: [{
-        query: this.props.loansQuery,
-        variables: {
-          input: {
-            client: client.id,
-          }
-        }
-      }],
     }
 
     try {
@@ -78,7 +80,7 @@ class NewLoan extends React.Component<any, any> {
   }
 
   handleCaclulateLoan = async (loan: any) => {
-    let { client } = this.props.clientQuery
+    let { client } = this.props
     let loanRes
 
     if (loan.sum === 0 || loan.sum === undefined || loan.sum === "" || loan.sum === null) {
@@ -109,12 +111,6 @@ class NewLoan extends React.Component<any, any> {
     return loanRes
   }
 
-  handleOnKeyPress = (target: any) => {
-    if (target.charCode === 13) {
-      this.handleCreate()
-    }
-  }
-
   handleDatePickerDateStart = async (value: any) => {
     let loan = set(lensProp("date_start"), value, this.state.loan)
     let calculateLoan = await this.handleCaclulateLoan(loan)
@@ -129,20 +125,18 @@ class NewLoan extends React.Component<any, any> {
     this.setState({ loan: calculateLoan })
   }
 
+  handleOnKeyPress = (target: any) => {
+    if (target.charCode === 13) {
+      this.handleCreate()
+    }
+  }
+
   render() {
-    let { client, loading, error } = this.props.clientQuery
+    let { client } = this.props
     let { loan } = this.state
 
-    if (loading) {
-      return <Spinner />
-    }
-
-    if (error) {
-      return <Page500 />
-    }
-
-    let rate = client && client.territory ? client.territory.rate : "territory not found"
-    let total = loan && loan.total ? loan.total : "total not calculate"
+    let rate = client.territory ? client.territory.rate : "territory not found"
+    let total = loan.total ? loan.total : "total not calculate"
 
     return (
       <div className="container-fluid">
@@ -184,7 +178,6 @@ class NewLoan extends React.Component<any, any> {
                   </div>
                 </div>
               </div>
-
 
               <div className="form-group row">
                 <div className="col-md-12">
@@ -231,7 +224,7 @@ class NewLoan extends React.Component<any, any> {
 
                 &nbsp;
 
-                <Link to="/clients">
+                <Link to={`/clients/${client.id}`}>
                   <button
                     className="btn btn-default"
                   >

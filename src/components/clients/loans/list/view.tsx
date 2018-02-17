@@ -4,9 +4,18 @@ import * as moment from "moment"
 import AuthProvider from 'src/config/auth_provider'
 import Link from "src/config/link"
 
-const EditLoanLink = (props) => (
+interface P {
+  clientId: string
+  loan: any
+}
+
+interface S {
+  attributes: string[]
+}
+
+const EditLoanLink = (props: { clientId: string, loanId: string}): any => (
   <td>
-    <Link to={`/clients/${props.clientId}/loans/${props.loan.id}`}>
+    <Link to={`/clients/${props.clientId}/loans/${props.loanId}`}>
       <button className="btn btn-primary">
         Edit
       </button>
@@ -14,8 +23,7 @@ const EditLoanLink = (props) => (
   </td>
 )
 
-class ViewLoan extends React.Component<any, any> {
-
+class ViewLoan extends React.Component<P, S> {
   state = {
     attributes: [
       "sum",
@@ -52,12 +60,10 @@ class ViewLoan extends React.Component<any, any> {
           })
         }
 
-        {AuthProvider.isAdmin() ? <EditLoanLink loan={loan} clientId={clientId} /> : null}
-
+        {AuthProvider.isAdmin() ? <EditLoanLink loanId={loan.id} clientId={clientId} /> : null}
       </tr>
     )
   }
-
 }
 
 export default ViewLoan

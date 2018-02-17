@@ -3,7 +3,6 @@ import Select from 'react-select'
 import Link from "src/config/link"
 import { Input } from 'reactstrap'
 import { set, lensProp } from 'ramda'
-import { withPublicUrl } from "src/config/settings"
 
 import Notification from 'src/config/notification'
 import Spinner from 'src/components/shared/spinner'
@@ -109,7 +108,7 @@ class ShowUser extends React.Component<P, any> {
       await this.props.deleteUserQuery(options)
       Notification.success("user delete")
 
-      this.props.history.push(withPublicUrl("/users"))
+      this.props.history.push("/users")
     } catch (err) {
       Notification.error(err.message)
     }

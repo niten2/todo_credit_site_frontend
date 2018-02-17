@@ -42,8 +42,6 @@
 // }
 
 // NOTE compile to es5 for compare cosmos and jest
-"use strict";
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });

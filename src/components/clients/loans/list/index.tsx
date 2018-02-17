@@ -4,7 +4,6 @@ import AuthProvider from 'src/config/auth_provider'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
 import ViewLoan from "src/components/clients/loans/list/view"
-import { ClientInfo } from "src/components/clients/loans/list/components"
 import { withData } from "src/components/clients/loans/list/queries"
 
 interface P {
@@ -13,36 +12,31 @@ interface P {
     error: any
     loans: any
   }
-  clientQuery: {
-    loading: boolean
-    error: any
-    client: any
+  client: {
+    id: string
   }
 }
 
 class ListLoan extends React.Component<P, {}> {
 
   render() {
-    let loansResponse = this.props.loansQuery
-    let clientResponse = this.props.clientQuery
-    const loans = loansResponse.loans
-    const client = clientResponse.client
+    let { loans, loading, error } = this.props.loansQuery
+    let { client } = this.props
 
-    if (loansResponse.loading || clientResponse.loading) {
+    if (loading) {
       return <Spinner />
     }
 
-    if (loansResponse.error || clientResponse.error || !loans || !client) {
-      return <Page500 />
+    if (error) {
+      return <Page500 message={error.message}/>
     }
 
     return (
       <div className="container-fluid">
-        <ClientInfo client={client}/>
 
         <div className="card">
           <div className="card-header">
-            <i className="fa fa-align-justify" />
+            <i className="fa fa-align-justify"/>
             List Loans
           </div>
 

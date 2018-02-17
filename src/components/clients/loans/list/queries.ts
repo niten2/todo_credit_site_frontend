@@ -1,5 +1,5 @@
 import gql from "graphql-tag"
-import { compose, graphql } from 'react-apollo'
+import { graphql } from 'react-apollo'
 
 const loansQuery = gql`
   query loans($input: LoansInput) {
@@ -13,37 +13,16 @@ const loansQuery = gql`
   }
 `
 
-const clientQuery = gql`
-  query client($id: ID!) {
-    client(id: $id) {
-      id
-      full_name
-    }
-  }
-`
-
-export const withData = compose(
-  graphql<any, any, any>(
-    clientQuery, {
-      name: "clientQuery" ,
-      options: (props) => ({
-        variables: {
-          id: props.match.params.id
+export const withData = graphql<any, any, any>(
+  loansQuery, {
+    name: "loansQuery" ,
+    options: (props) => ({
+      variables: {
+        input: {
+          client: props.client.id
         },
-        fetchPolicy: "network-only",
-      })
-    },
-  ),
-  graphql<any, any, any>(
-    loansQuery, {
-      name: "loansQuery" ,
-      options: (props) => ({
-        variables: {
-          input: {
-            client: props.match.params.id
-          }
-        }
-      })
-    },
-  ),
+      },
+      fetchPolicy: "network-only",
+    })
+  },
 )

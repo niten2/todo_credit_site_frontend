@@ -31,6 +31,17 @@ const clientQuery = gql`
   }
 `
 
+const territoriesQuery = gql`
+  query {
+    territories {
+      id
+
+      name
+      rate
+    }
+  }
+`
+
 const updateClientQuery = gql`
   mutation updateClient($input: ClientUpdateInput!) {
     updateClient(input: $input) {
@@ -51,26 +62,21 @@ const deleteClientQuery = gql`
   }
 `
 
-const territoriesQuery = gql`
-  query {
-    territories {
-      id
-
-      name
-      rate
-    }
-  }
-`
-
 export const withData = compose(
   graphql<any, any, any>(
     clientQuery, {
       name: "clientQuery" ,
       options: (props) => ({
         variables: {
-          id: props.match.params.id
-        }
+          id: props.match.params.id,
+        },
+        fetchPolicy: "network-only",
       })
+    }
+  ),
+  graphql<any, any, any>(
+    territoriesQuery, {
+      name: "territoriesQuery" ,
     }
   ),
   graphql<any, any, any>(
@@ -81,11 +87,6 @@ export const withData = compose(
   graphql<any, any, any>(
     deleteClientQuery, {
       name: "deleteClientQuery",
-    }
-  ),
-  graphql<any, any, any>(
-    territoriesQuery, {
-      name: "territoriesQuery" ,
     }
   ),
 )

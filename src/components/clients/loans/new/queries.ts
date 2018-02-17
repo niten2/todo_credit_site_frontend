@@ -1,25 +1,9 @@
 import gql from "graphql-tag"
 import { compose, graphql } from 'react-apollo'
 
-const clientQuery = gql`
-  query client($id: ID!) {
-    client(id: $id) {
-      id
-
-      territory {
-        name
-        rate
-      }
-    }
-  }
-`
-const loansQuery = gql`
-  query loans($input: LoansInput) {
-    loans(input: $input) {
-      id
-      sum
-      date_start
-      date_end
+const calculateLoanQuery = gql`
+  mutation calculateLoan($input: LoanCalculateInput!) {
+    calculateLoan(input: $input) {
       total
     }
   }
@@ -33,9 +17,13 @@ const createLoanQuery = gql`
   }
 `
 
-const calculateLoanQuery = gql`
-  mutation calculateLoan($input: LoanCalculateInput!) {
-    calculateLoan(input: $input) {
+const loansQuery = gql`
+  query loans($input: LoansInput) {
+    loans(input: $input) {
+      id
+      sum
+      date_start
+      date_end
       total
     }
   }
@@ -43,30 +31,24 @@ const calculateLoanQuery = gql`
 
 export const withData = compose(
   graphql<any, any, any>(
-    clientQuery, {
-      name: "clientQuery" ,
-      options: (props) => ({
-        variables: {
-          id: props.match.params.id
-        },
-        fetchPolicy: "network-only",
-      })
-    },
-  ),
-  graphql<any, any, any>(
-    createLoanQuery, {
-      name: "createLoanQuery"
-    }
-  ),
-  graphql<any, any, any>(
     calculateLoanQuery, {
       name: "calculateLoanQuery"
     }
   ),
+
   graphql<any, any, any>(
-    loansQuery, {
-      name: "loansQuery",
-      skip: true,
+    createLoanQuery, {
+      name: "createLoanQuery",
+      options: (props) => ({
+        refetchQueries: [{
+          query: loansQuery,
+          variables: {
+            input: {
+              client: props.client.id,
+            }
+          },
+        }],
+      }),
     }
   ),
 )

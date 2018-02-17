@@ -23,6 +23,4 @@ const settings: Settings = {
 
 }
 
-export const withPublicUrl = (value: string): string => { return process.env.PUBLIC_URL + value }
-
 export default settings
