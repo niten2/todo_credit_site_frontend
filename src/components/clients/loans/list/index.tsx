@@ -3,8 +3,8 @@ import * as React from 'react'
 import AuthProvider from 'src/config/auth_provider'
 import Spinner from 'src/components/shared/spinner'
 import Page500 from 'src/components/shared/page500'
-import ViewLoan from "src/components/clients/loans/_index/list/view"
-import { withData } from "src/components/clients/loans/_index/list/queries"
+import ViewLoan from "src/components/clients/loans/list/view"
+import { withData } from "src/components/clients/loans/list/queries"
 
 interface P {
   loansQuery: {
@@ -20,19 +20,6 @@ interface P {
 class ListLoan extends React.Component<P, {}> {
 
   render() {
-    // let loansResponse = this.props.loansQuery
-    // let clientResponse = this.props.clientQuery
-    // const loans = loansResponse.loans
-    // const client = clientResponse.client
-
-    // if (loansResponse.loading || clientResponse.loading) {
-    //   return <Spinner />
-    // }
-
-    // if (loansResponse.error || clientResponse.error || !loans || !client) {
-    //   return <Page500 />
-    // }
-
     let { loans, loading, error } = this.props.loansQuery
     let { client } = this.props
 
@@ -41,27 +28,15 @@ class ListLoan extends React.Component<P, {}> {
     }
 
     if (error) {
-      return <Page500 />
+      return <Page500 message={error.message}/>
     }
-
-    // let clientResponse = this.props.clientQuery
-    // const loans = loansResponse.loans
-    // const client = clientResponse.client
-
-    // if (loansResponse.loading || clientResponse.loading) {
-    //   return <Spinner />
-    // }
-
-    // if (loansResponse.error || clientResponse.error || !loans || !client) {
-    //   return <Page500 />
-    // }
 
     return (
       <div className="container-fluid">
 
         <div className="card">
           <div className="card-header">
-            <i className="fa fa-align-justify" />
+            <i className="fa fa-align-justify"/>
             List Loans
           </div>
 

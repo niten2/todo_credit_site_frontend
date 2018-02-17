@@ -4,11 +4,11 @@ import AuthProvider from "src/config/auth_provider"
 import Spinner from "src/components/shared/spinner"
 import Page500 from "src/components/shared/page500"
 
-import ListLoans from "src/components/clients/loans/_index/list"
-import NewLoan from "src/components/clients/loans/_index/new"
+import ListLoans from "src/components/clients/loans/list"
+import NewLoan from "src/components/clients/loans/new"
 
-import { withData } from "src/components/clients/loans/_index/queries"
-import { ClientInfo } from "src/components/clients/loans/_index/components"
+import { withData } from "src/components/clients/loans/queries"
+import { ClientInfo } from "src/components/clients/loans/components"
 
 interface P {
   clientQuery: {

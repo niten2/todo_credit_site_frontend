@@ -1,4 +1,4 @@
-import Component from "src/components/clients/loans/_index/new"
+import Component from "src/components/clients/loans/new"
 
 export default {
   component: Component,

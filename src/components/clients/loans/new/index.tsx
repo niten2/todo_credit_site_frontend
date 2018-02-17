@@ -1,22 +1,15 @@
 import * as React from "react"
 import * as moment from "moment"
 import DatePicker from "react-datepicker"
+import { Input } from 'reactstrap'
+import { set, lensProp } from 'ramda'
 import "react-datepicker/dist/react-datepicker.css"
 
 import Link from "src/config/link"
 import Notification from 'src/config/notification'
-// import Spinner from 'src/components/shared/spinner'
-// import Page500 from 'src/components/shared/page500'
-import { Input } from 'reactstrap'
-import { set, lensProp } from 'ramda'
-import { withData } from 'src/components/clients/loans/_index/new/queries'
+import { withData } from 'src/components/clients/loans/new/queries'
 
 interface P {
-  // loansQuery: {
-  //   loading: boolean
-  //   error: any
-  //   loans: any
-  // }
   client: {
     id: string
     territory: {
@@ -231,7 +224,7 @@ class NewLoan extends React.Component<P, any> {
 
                 &nbsp;
 
-                <Link to="/clients">
+                <Link to={`/clients/${client.id}`}>
                   <button
                     className="btn btn-default"
                   >

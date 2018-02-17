@@ -29,8 +29,15 @@ const clientQuery = gql`
   query client($id: ID!) {
     client(id: $id) {
       id
+      full_name
+      email
+      passport
+      phone
+      mark_as_deleted
+      total_sum_loans
 
       territory {
+				id
         name
         rate
       }
@@ -61,7 +68,8 @@ export const withData = compose(
       options: (props) => ({
         variables: {
           id: props.match.params.id
-        }
+        },
+        // fetchPolicy: "network-only",
       })
     },
   ),
