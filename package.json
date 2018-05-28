@@ -3,6 +3,9 @@
   "version": "0.2.0",
   "private": false,
   "homepage": "http://niten2.github.io/todo_credit_site_frontend",
+  "engines": {
+    "node": "10.0.0"
+  },
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
