@@ -1,10 +1,12 @@
+# Backend
+  app here [todo_credit_site_backend](https://github.com/niten2/todo_credit_site_backend)
+
 # Setup
 
-- npm install
-- cp .env.sample .env
-- npm run start
-- open http://localhost:3000
-- up backend app [todo_credit_site_backend](https://github.com/niten2/todo_credit_site_backend)
+  - npm install
+  - cp .env.sample .env
+  - npm run start
+  - open http://localhost:3000
 
 # Tests
 
